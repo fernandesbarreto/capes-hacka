@@ -10,7 +10,7 @@ const NetworkViewer = () => {
   };
 
   return (
-    <div>
+    <div style={{marginTop: '10px'}}>
       {/* Botão que alterna a visibilidade do iframe */}
       <button onClick={toggleIframe}>
         {showIframe ? 'Esconder Visualizador' : 'Mostrar Visualizador'}

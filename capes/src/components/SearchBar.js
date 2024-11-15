@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
+import AdvancedSearch from "./AdvancedSearch";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
@@ -58,7 +59,7 @@ const SearchBar = () => {
   return (
     <div style={styles.container}>
 
-      <h2>OpenAlex Scholarly Works Search</h2>
+      <h2>Periódicos CAPES</h2>
       <div style={styles.searchContainer}>
         <input
           type="text"
@@ -77,6 +78,8 @@ const SearchBar = () => {
           Search
         </button>
       </div>
+
+      <AdvancedSearch />
 
       {works.length > 0 && <NetWorkViewer />}
 
@@ -120,7 +123,7 @@ const SearchBar = () => {
 
 const styles = {
   container: {
-    maxWidth: "800px",
+    maxWidth: "1200px",
     margin: "50px auto",
     padding: "20px",
     border: "1px solid #ddd",
