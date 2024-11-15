@@ -1,5 +1,3 @@
-// src/SearchBar.js
-
 import React, { useState } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
@@ -10,12 +8,17 @@ const SimpleSearchBar = () => {
   const [works, setWorks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  let trimmedQuery = "";
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(null);
 
-  const handleSearch = async () => {
-    trimmedQuery = query.trim();
+  const perPage = 10;
+
+  const handleSearch = async (page = 1) => {
+    const trimmedQuery = query.trim();
     if (trimmedQuery === "") {
       setWorks([]);
+      setTotalPages(null);
+      setCurrentPage(1);
       return;
     }
 
@@ -23,26 +26,29 @@ const SimpleSearchBar = () => {
     setError(null);
 
     try {
-      const response = await axios.get(`https://api.openalex.org/works`, {
+      const response = await axios.get("https://api.openalex.org/works", {
         params: {
           search: trimmedQuery,
-          per_page: 10, // Limit results to 10 for better performance
+          per_page: perPage,
+          page: page,
         },
       });
+
       setWorks(response.data.results);
+
+      const totalResults = response.data.meta.count;
+      setTotalPages(Math.ceil(totalResults / perPage));
+      setCurrentPage(page);
     } catch (err) {
       if (err.response) {
-        // Server responded with a status other than 2xx
         if (err.response.status === 429) {
           setError("Rate limit exceeded. Please try again later.");
         } else {
           setError(`Error: ${err.response.status} ${err.response.statusText}`);
         }
       } else if (err.request) {
-        // Request was made but no response received
         setError("No response from server. Please check your network.");
       } else {
-        // Something else caused the error
         setError("An unexpected error occurred.");
       }
     } finally {
@@ -52,7 +58,19 @@ const SimpleSearchBar = () => {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleSearch();
+      handleSearch(1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      handleSearch(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      handleSearch(currentPage + 1);
     }
   };
 
@@ -71,7 +89,7 @@ const SimpleSearchBar = () => {
           aria-label="Search scholarly works"
         />
         <button
-          onClick={handleSearch}
+          onClick={() => handleSearch(1)}
           style={styles.button}
           aria-label="Search"
         >
@@ -114,8 +132,39 @@ const SimpleSearchBar = () => {
           </li>
         ))}
       </ul>
-      {!isLoading && works.length === 0 && trimmedQuery !== "" && !error && (
+      {!isLoading && works.length === 0 && query.trim() !== "" && !error && (
         <p>No results found.</p>
+      )}
+      {totalPages && totalPages > 1 && (
+        <div style={styles.pagination}>
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1 || isLoading}
+            style={{
+              ...styles.paginationButton,
+              ...(currentPage === 1 || isLoading ? styles.disabledButton : {}),
+            }}
+            aria-label="Próxima página"
+          >
+            Anterior
+          </button>
+          <span style={styles.pageInfo}>
+            Página {currentPage} de {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages || isLoading}
+            style={{
+              ...styles.paginationButton,
+              ...(currentPage === totalPages || isLoading
+                ? styles.disabledButton
+                : {}),
+            }}
+            aria-label="Página anterior"
+          >
+            Próxima
+          </button>
+        </div>
       )}
     </div>
   );
@@ -174,6 +223,28 @@ const styles = {
   },
   error: {
     color: "red",
+  },
+  pagination: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: "20px",
+    gap: "10px",
+  },
+  paginationButton: {
+    padding: "8px 16px",
+    fontSize: "14px",
+    borderRadius: "4px",
+    border: "1px solid #ccc",
+    backgroundColor: "#f8f9fa",
+    cursor: "pointer",
+  },
+  disabledButton: {
+    backgroundColor: "#e9ecef",
+    cursor: "not-allowed",
+  },
+  pageInfo: {
+    fontSize: "16px",
   },
 };
 
