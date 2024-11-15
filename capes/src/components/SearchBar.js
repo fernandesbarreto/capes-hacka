@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import axios from "axios";
+import NetWorkViewer from "./NetworkViewer";
 
 const SearchBar = () => {
   const [query, setQuery] = useState("");
@@ -56,6 +57,7 @@ const SearchBar = () => {
 
   return (
     <div style={styles.container}>
+
       <h2>OpenAlex Scholarly Works Search</h2>
       <div style={styles.searchContainer}>
         <input
@@ -75,6 +77,9 @@ const SearchBar = () => {
           Search
         </button>
       </div>
+
+      {works.length > 0 && <NetWorkViewer />}
+
       {isLoading && <p>Loading...</p>}
       {error && <p style={styles.error}>{error}</p>}
       <ul style={styles.list}>
