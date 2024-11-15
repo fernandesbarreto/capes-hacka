@@ -15,18 +15,18 @@ const Menu = ({ itemList }) => {
 
   return (
     <div style={styles.menuContainer}>
-      <button onClick={toggleMenu} style={styles.button}> 
+      <button onClick={toggleMenu} style={styles.button}>
         {menuTitle}
       </button>
       {isOpen && (
         <ul style={styles.menuList}>
           {itemList.map((item) => (
-            <li 
-              key={item} 
-              style={styles.menuItem} 
+            <li
+              key={item}
+              style={styles.menuItem}
               onClick={() => handleItemClick(item)}
             >
-              {item}  {menuTitle === item && '✔ '}
+              {item} {menuTitle === item && '✔ '}
             </li>
           ))}
         </ul>
@@ -35,34 +35,47 @@ const Menu = ({ itemList }) => {
   );
 };
 
-const AdvancedSearchLine = () => {
+const AdvancedSearchLine = ({ isFirst, onRemove }) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-      <Menu itemList={['E', 'OU', 'NÃO']} />
-      <Menu itemList={['Qualquer campo', 'Título', 'Autor', 'Editor']} />
+      {!isFirst && <Menu itemList={['E', 'OU']} />}
+      <Menu itemList={['Qualquer campo', 'Título', 'Autor', 'Assunto', 'Editor']} />
       <Menu itemList={['Contém', 'É']} />
       <input type="text" style={styles.textField} placeholder="Digite aqui..." />
+      {!isFirst && (
+        <button onClick={onRemove} style={styles.removeButton}>
+          X
+        </button>
+      )}
     </div>
   );
 };
 
-
 const AdvancedSearch = () => {
   const [lines, setLines] = useState([1]); // Inicialmente uma linha de pesquisa
 
-  // Função para adicionar uma nova linha
   const addLine = () => {
     setLines([...lines, lines.length + 1]); // Adiciona um número único à lista de linhas
+  };
+
+  const removeLine = (index) => {
+    setLines(lines.filter((_, i) => i !== index)); // Remove a linha específica
   };
 
   return (
     <div>
       {lines.map((_, index) => (
-        <AdvancedSearchLine key={index} />
+        <AdvancedSearchLine
+          key={index}
+          isFirst={index === 0}
+          onRemove={() => removeLine(index)}
+        />
       ))}
 
       <div style={{ marginTop: '10px' }}>
-        <button onClick={addLine} style={styles.addButton}> + Adicionar novo campo</button>
+        <button onClick={addLine} style={styles.addButton}>
+          + Adicionar novo campo
+        </button>
       </div>
     </div>
   );
@@ -70,14 +83,13 @@ const AdvancedSearch = () => {
 
 export default AdvancedSearch;
 
-
 const styles = {
   menuContainer: {
-    display: 'inline-block',  // Faz com que os menus fiquem lado a lado
-    marginRight: '10px',  // Adiciona espaço entre os menus
+    display: 'inline-block',
+    marginRight: '10px',
   },
   button: {
-    width: '150px',  // Tamanho fixo para o botão
+    width: '150px',
     padding: '8px',
     textAlign: 'left',
     border: '1px solid #ccc',
@@ -91,7 +103,7 @@ const styles = {
     position: 'absolute',
     backgroundColor: '#fff',
     border: '1px solid #ccc',
-    width: '150px',  // Tamanho fixo para a lista de itens
+    width: '150px',
     boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
     zIndex: 1,
   },
@@ -101,16 +113,16 @@ const styles = {
     borderBottom: '1px solid #ccc',
   },
   textField: {
-    width: '200px',  // Largura padronizada para o campo de texto
+    width: '200px',
     padding: '8px',
-    marginLeft: '10px',  // Espaço entre o TextField e o menu
-    border: 'none',  // Remove a borda ao redor
-    borderBottom: '2px solid #ccc',  // Adiciona uma linha inferior
-    borderRadius: '0',  // Remove bordas arredondadas
-    outline: 'none',  // Remove a borda ao clicar
+    marginLeft: '10px',
+    border: 'none',
+    borderBottom: '2px solid #ccc',
+    borderRadius: '0',
+    outline: 'none',
   },
   addButton: {
-    width: '200px',  // Botão mais largo que o texto
+    width: '200px',
     padding: '12px',
     textAlign: 'center',
     border: '1px solid #ccc',
@@ -119,5 +131,14 @@ const styles = {
     borderRadius: '4px',
     fontSize: '14px',
     marginTop: '10px',
-  }
+  },
+  removeButton: {
+    marginLeft: '10px',
+    padding: '5px 10px',
+    border: 'none',
+    backgroundColor: '#ff4d4f',
+    color: '#fff',
+    cursor: 'pointer',
+    borderRadius: '4px',
+  },
 };
