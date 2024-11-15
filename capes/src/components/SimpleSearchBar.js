@@ -5,7 +5,7 @@ import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
 import AdvancedSearch from "./AdvancedSearch";
 
-const SearchBar = () => {
+const SimpleSearchBar = () => {
   const [query, setQuery] = useState("");
   const [works, setWorks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -177,4 +177,4 @@ const styles = {
   },
 };
 
-export default SearchBar;
+export default SimpleSearchBar;

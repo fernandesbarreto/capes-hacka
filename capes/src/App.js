@@ -1,12 +1,12 @@
 // src/App.js
 
 import React from "react";
-import SearchBar from "./components/SearchBar";
+import SimpleSearchBar from "./components/SimpleSearchBar";
 
 function App() {
   return (
     <div>
-      <SearchBar />
+      <SimpleSearchBar />
     </div>
   );
 }
