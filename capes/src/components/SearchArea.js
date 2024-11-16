@@ -82,6 +82,7 @@ const SearchArea = () => {
 
   return (
     <div style={styles.container}>
+      
       <h2>Periódicos CAPES</h2>
 
       <div>
