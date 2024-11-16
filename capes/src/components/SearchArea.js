@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
 import SearchBar from "./SearchBar";
 import ChaGPT from "./ChatGPT";
+import GPTSummarize from "./SummarizeAI";
 
 const SearchArea = () => {
   const [works, setWorks] = useState([]);
@@ -148,14 +149,10 @@ const SearchArea = () => {
               )}
               <p style={styles.publicationYear}>
                 {work.publication_year || "N/A"} |{" "}
-                {
-                  // Extract all institutions from all authorships
-                  work.authorships
-                    ?.flatMap((authorship) => authorship.institutions || [])
-                    // Find the first institution with a display_name
-                    .find((institution) => institution.display_name)
-                    ?.display_name || "N/A"
-                }
+                {work.authorships
+                  ?.flatMap((authorship) => authorship.institutions || [])
+                  .find((institution) => institution.display_name)
+                  ?.display_name || "N/A"}
               </p>
               <p>
                 <img
@@ -177,6 +174,11 @@ const SearchArea = () => {
                 </select>{" "}
                 | PlumX Metrics
               </p>
+              {work.abstract_inverted_index && (
+                <GPTSummarize
+                  abstract={JSON.stringify(work.abstract_inverted_index)}
+                />
+              )}
               <div style={styles.footer}>
                 <span>{work.publisher}</span>
                 {work.doi && (
