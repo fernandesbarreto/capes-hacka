@@ -1,6 +1,7 @@
 import React from "react";
 import SearchBar from "../components/SearchBar";
 import woman from "../assets/mulher.png";
+import progress from "../assets/progress.png";
 
 const TelaPortalCAPES = () => {
   return (
@@ -46,24 +47,11 @@ const TelaPortalCAPES = () => {
             endereço eletrônico de cada editor/autor.
           </p>
 
-          <div style={styles.stepsContainer}>
-            <div>
-              <span style={styles.step}>1</span>
-              <p>Pesquise pelo conteúdo desejado</p>
-            </div>
-            <div>
-              <span style={styles.step}>2</span>
-              <p>Entre/cadastre-se para receber seu acesso</p>
-            </div>
-            <div>
-              <span style={styles.step}>3</span>
-              <p>Veja o conteúdo de forma gratuita em cada site</p>
-            </div>
-            <div>
-              <span style={styles.step}>4</span>
-              <p>Enriqueça sua pesquisa</p>
-            </div>
-          </div>
+          <img
+            src={progress}
+            alt="1. Pesquise pelo conteúdo desejado \n 2. Entre e cadastre-se para ter receber seu acesso \n 3. Veja o conteúdo de forma gratuita em cada site \n 4. Enriqueça sua pesquisa"
+            style={styles.stepsContainer}
+          />
         </div>
       </div>
     </div>
@@ -79,7 +67,7 @@ const styles = {
     textAlign: "center",
   },
   link: {
-    color: "#007bff",
+    color: "#1351B4",
     cursor: "pointer",
   },
   main: {
@@ -106,7 +94,7 @@ const styles = {
   },
   searchButton: {
     padding: "10px 15px",
-    backgroundColor: "#007bff",
+    backgroundColor: "#1351B4",
     color: "#fff",
     border: "none",
     borderRadius: "0 5px 5px 0",
@@ -121,25 +109,18 @@ const styles = {
     cursor: "pointer",
   },
   infoSection: {
-    textAlign: "left",
+    textAlign: "center",
     maxWidth: "800px",
     margin: "0 auto",
   },
   sectionTitle: {
     fontSize: "1.5em",
     fontWeight: "bold",
+    color: "#1351B4",
   },
   stepsContainer: {
-    display: "flex",
-    justifyContent: "space-around",
-    textAlign: "center",
-    marginTop: "30px",
-  },
-  step: {
-    fontSize: "1.5em",
-    fontWeight: "bold",
-    color: "#007bff",
-    marginBottom: "10px",
+    width: "120%",
+    marginTop: "48px",
   },
   container: {
     position: "relative",
