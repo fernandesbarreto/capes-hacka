@@ -20,7 +20,6 @@ const Workcapes = () => {
 
   const navigate = useNavigate();
 
-  // Função para adicionar um novo card
   const addCard = () => {
     setCards([
       ...cards,
@@ -44,7 +43,13 @@ const Workcapes = () => {
       />
       <h3>Olá, Pedro, aqui estão os seus grupos de pesquisa</h3>
 
-      <div style={{ display: "flex", gap: "16px" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "16px",
+          overflowY: "scroll",
+        }}
+      >
         {cards.map((card, index) => (
           <div
             key={card.id}
@@ -91,9 +96,9 @@ const styles = {
   card: {
     borderRadius: "5px",
     textAlign: "center",
-    width: "360px", // Largura com unidade de medida
-    height: "180px", // Altura com unidade de medida
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Sombra no card
+    width: "360px",
+    height: "180px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     position: "relative",
     paddingBottom: "54px",
   },
@@ -108,11 +113,11 @@ const styles = {
     display: "flex",
     justifyContent: "space-around",
     width: "100%",
-    borderBottomLeftRadius: "5px", // Raio na borda inferior esquerda
-    borderBottomRightRadius: "5px", // Raio na borda inferior direita
-    height: "54px", // Altura dos botões
-    position: "absolute", // Posicionamento absoluto para ficar na parte inferior
-    bottom: 0, // Alinha os botões na parte inferior
+    borderBottomLeftRadius: "5px",
+    borderBottomRightRadius: "5px",
+    height: "54px",
+    position: "absolute",
+    bottom: 0,
   },
   unstyledButton: {
     background: "none",
@@ -132,7 +137,13 @@ const styles = {
     textAlign: "left",
   },
   footer: {
+    display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    padding: "8px 16px",
+    boxSizing: "border-box",
+    position: "absolute",
     bottom: 0,
   },
 };
