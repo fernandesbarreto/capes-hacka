@@ -32,7 +32,7 @@ const Workcapes = () => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", width: "90%" }}>
       <h1>Workcapes</h1>
       <hr
         style={{
@@ -88,7 +88,7 @@ const Workcapes = () => {
           </div>
         ))}
         <div style={styles.plusButton} onClick={addCard}>
-          <h3 style={{ fontSize: "4em" }}>+</h3>
+          <h3 style={{ fontSize: "4em", color: "#1351B4" }}>+</h3>
         </div>
       </div>
     </div>
@@ -99,7 +99,7 @@ export default Workcapes;
 
 const styles = {
   card: {
-    borderRadius: "5px",
+    borderRadius: "8px",
     textAlign: "center",
     width: "360px",
     height: "180px",
@@ -109,10 +109,10 @@ const styles = {
     flex: "0 0 auto",
   },
   plusButton: {
-    borderRadius: "5px",
+    borderRadius: "8px",
     textAlign: "center",
-    width: "214px",
-    height: "214px",
+    width: "180px",
+    height: "180px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     display: "flex",
     alignItems: "center",
@@ -124,8 +124,8 @@ const styles = {
     display: "flex",
     justifyContent: "space-around",
     width: "100%",
-    borderBottomLeftRadius: "5px",
-    borderBottomRightRadius: "5px",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
     height: "54px",
     position: "absolute",
     bottom: 0,
