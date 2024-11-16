@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
-import AdvancedSearch from "./AdvancedSearch";
-import GPTSummarize from "./SummarizeAI";
 
 const SimpleSearchBar = () => {
   const [query, setQuery] = useState("");
@@ -37,7 +35,7 @@ const SimpleSearchBar = () => {
 
       setWorks(response.data.results);
 
-      console.log(response.data.results)
+      console.log(response.data.results);
 
       const totalResults = response.data.meta.count;
       setTotalPages(Math.ceil(totalResults / perPage));
@@ -57,7 +55,6 @@ const SimpleSearchBar = () => {
     } finally {
       setIsLoading(false);
     }
-
   };
 
   const handleKeyPress = (e) => {
@@ -80,7 +77,6 @@ const SimpleSearchBar = () => {
 
   return (
     <div style={styles.container}>
-
       <h2>Periódicos CAPES</h2>
       <div style={styles.searchContainer}>
         <input
@@ -106,39 +102,61 @@ const SimpleSearchBar = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p style={styles.error}>{error}</p>}
       <ul style={styles.list}>
-  {works.map((work) => (
-    <li key={work.id} style={styles.listItem}>
-      <h3 style={styles.title}>{work.title}</h3>
-      <p style={styles.authors}>
-        <strong>Authors:</strong>{" "}
-        {work.authorships
-          .map((authorship) => authorship.author.display_name)
-          .join(", ")}
-      </p>
-      <p style={styles.publicationYear}>
-        <strong>Publication Year:</strong> {work.publication_year || "N/A"}
-      </p>
-      {work.doi && (
-        <p style={styles.doi}>
-          <strong>DOI:</strong>{" "}
-          <a
-            href={`https://doi.org/${work.doi}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {work.doi}
-          </a>
-        </p>
-      )}
-
-      {work.abstract_inverted_index && (
-        <GPTSummarize abstract={JSON.stringify(work.abstract_inverted_index)} />
-      )}
-
-
-    </li>
-  ))}
-</ul>
+        {works.map((work) => (
+          <li key={work.id} style={styles.card}>
+            <div style={styles.header}>
+              <div>
+                <span style={{ ...styles.badge, backgroundColor: "#FF9A00" }}>
+                  Artigo
+                </span>
+                <span
+                  style={{
+                    ...styles.badge,
+                    ...styles.openAccess,
+                    marginLeft: "8px",
+                  }}
+                >
+                  Acesso aberto
+                </span>
+              </div>
+            </div>
+            <h2 style={styles.title}>{work.title}</h2>
+            <p style={styles.authors}>
+              {work.authorships
+                .map((authorship) => authorship.author.display_name)
+                .join(", ")}
+            </p>
+            {work.abstract_inverted_index && (
+              <p style={styles.abstract}>
+                {Object.entries(work.abstract_inverted_index)
+                  .sort((a, b) => a[1][0] - b[1][0])
+                  .map(([word]) => word)
+                  .join(" ")}
+              </p>
+            )}
+            <p style={styles.publicationYear}>
+              {work.publication_year || "N/A"} |{" "}
+              {work.authorships
+                ?.flatMap((authorship) => authorship.institutions || [])
+                .find((institution) => institution.display_name)
+                ?.display_name || "N/A"}
+            </p>
+            <div style={styles.footer}>
+              <span>{work.publisher}</span>
+              {work.doi && (
+                <a
+                  style={styles.link}
+                  href={`https://doi.org/${work.doi}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Acessar
+                </a>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
 
       {!isLoading && works.length === 0 && query.trim() !== "" && !error && (
         <p>No results found.</p>
@@ -219,12 +237,17 @@ const styles = {
   },
   title: {
     margin: "0 0 10px 0",
+    color: "#1C1C5E",
+    fontWeight: "black",
   },
   authors: {
     margin: "5px 0",
+    fontWeight: "300",
   },
   publicationYear: {
     margin: "5px 0",
+    fontWeight: "bold",
+    fontSize: "14px",
   },
   doi: {
     margin: "5px 0",
@@ -253,6 +276,48 @@ const styles = {
   },
   pageInfo: {
     fontSize: "16px",
+  },
+  card: {
+    border: "1px solid #ddd",
+    borderRadius: "8px",
+    padding: "16px",
+    margin: "16px 0",
+    backgroundColor: "#fff",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+  },
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "16px",
+  },
+  badge: {
+    padding: "4px 8px",
+    borderRadius: "4px",
+    fontSize: "12px",
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  openAccess: {
+    backgroundColor: "#008765",
+  },
+  abstract: {
+    fontSize: "14px",
+    lineHeight: "1.5",
+    marginBottom: "16px",
+  },
+  footer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "16px",
+  },
+  link: {
+    textDecoration: "none",
+    color: "#fff",
+    backgroundColor: "#1351B4",
+    padding: "8px 16px",
+    borderRadius: "4px",
   },
 };
 
