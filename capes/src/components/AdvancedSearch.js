@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const Menu = ({ itemList }) => {
+const Menu = ({ itemList, selectedValue, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [menuTitle, setMenuTitle] = useState(itemList[0]);
 
   const handleItemClick = (item) => {
-    setMenuTitle(item);  // Atualiza o título com o nome do item clicado
-    setIsOpen(false);  // Fecha o menu após o item ser clicado
+    onSelect(item); // Chama a função para atualizar o valor selecionado
+    setIsOpen(false); // Fecha o menu após o item ser clicado
   };
 
   const toggleMenu = () => {
@@ -16,7 +15,7 @@ const Menu = ({ itemList }) => {
   return (
     <div style={styles.menuContainer}>
       <button onClick={toggleMenu} style={styles.button}>
-        {menuTitle}
+        {selectedValue}
       </button>
       {isOpen && (
         <ul style={styles.menuList}>
@@ -26,7 +25,7 @@ const Menu = ({ itemList }) => {
               style={styles.menuItem}
               onClick={() => handleItemClick(item)}
             >
-              {item} {menuTitle === item && '✔ '}
+              {item} {selectedValue === item && '✔ '}
             </li>
           ))}
         </ul>
@@ -35,13 +34,42 @@ const Menu = ({ itemList }) => {
   );
 };
 
-const AdvancedSearchLine = ({ isFirst, onRemove }) => {
+const AdvancedSearchLine = ({
+  isFirst,
+  onRemove,
+  field,
+  textValue,
+  setField,
+  setTextValue,
+  operator,
+  setOperator,
+}) => {
   return (
     <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-      {!isFirst && <Menu itemList={['E', 'OU']} />}
-      <Menu itemList={['Qualquer campo', 'Título', 'Autor', 'Assunto', 'Editor']} />
-      <Menu itemList={['Contém', 'É']} />
-      <input type="text" style={styles.textField} placeholder="Digite aqui..." />
+      {!isFirst && (
+        <Menu
+          itemList={['E', 'OU']}
+          selectedValue={operator}
+          onSelect={setOperator}
+        />
+      )}
+      <Menu
+        itemList={['Qualquer campo', 'Título', 'Autor', 'Assunto', 'Editor']}
+        selectedValue={field}
+        onSelect={setField}
+      />
+      <Menu
+        itemList={['Contém', 'É']}
+        selectedValue="Contém" // Fixado como "Contém" para este exemplo
+        onSelect={() => {}} // Sem atualização, pois é fixo
+      />
+      <input
+        value={textValue}
+        onChange={(e) => setTextValue(e.target.value)}
+        type="text"
+        style={styles.textField}
+        placeholder="Digite aqui..."
+      />
       {!isFirst && (
         <button onClick={onRemove} style={styles.removeButton}>
           X
@@ -51,24 +79,97 @@ const AdvancedSearchLine = ({ isFirst, onRemove }) => {
   );
 };
 
-const AdvancedSearch = () => {
-  const [lines, setLines] = useState([1]); // Inicialmente uma linha de pesquisa
+const AdvancedSearch = ({advancedString = ''}) => {
+
+  useEffect(() => {
+    stringToList();
+  }, [advancedString])
+
+  const stringToList = (advancedString) => {
+    if (advancedString == '' || !advancedString) {
+      return [];
+    }
+  
+    // Remove asteriscos do início da string
+    const cleanedString = advancedString.replace(/^\*+/, '');
+    
+    console.log("cleanedString ", cleanedString, "advancedString", advancedString);
+  
+    const result = [];
+    const parts = cleanedString.split(/(\bAND\b|\bOR\b)/);
+  
+    let currentOperator = null;
+  
+    for (let part of parts) {
+      part = part.trim();
+  
+      if (part === 'AND' || part === 'OR') {
+        currentOperator = part === 'AND' ? 'E' : 'OU';
+      } else if (part) {
+        // Remove as aspas e divide o campo e o valor
+        let fieldAndText = part.replace(/"/g, ''); // Remove aspas
+        let [field, textValue] = fieldAndText.split(':').map(item => item.trim());
+
+        if (field === "title") {
+          field = "Título";
+        } else {
+          field = "Autor";
+        }
+
+        console.log('Field:', field);
+        console.log('TextValue:', textValue); 
+  
+        const item = {
+          field: field.trim(), // Título, Autor, etc.
+          textValue: textValue.replace(/'/g, '').trim(), // Remove aspas simples se existirem
+        };
+  
+        // Aplica o operador, se não for o primeiro item
+        if (result.length > 0 && currentOperator) {
+          item.operator = currentOperator;
+        }
+  
+        result.push(item);
+      }
+    }
+
+    console.log('Final result:', result); // Verifique o resultado final
+    setLines(result)
+    console.log('lines:', lines)
+  
+    return result;
+  };
+  
+
+  const [lines, setLines] = useState([]);
 
   const addLine = () => {
-    setLines([...lines, lines.length + 1]); // Adiciona um número único à lista de linhas
+    setLines([...lines, { field: 'Título', textValue: '', operator: 'OU' }]);
   };
 
   const removeLine = (index) => {
-    setLines(lines.filter((_, i) => i !== index)); // Remove a linha específica
+    setLines(lines.filter((_, i) => i !== index));
+  };
+
+  const updateLine = (index, newValues) => {
+    const updatedLines = [...lines];
+    updatedLines[index] = { ...updatedLines[index], ...newValues };
+    setLines(updatedLines);
   };
 
   return (
     <div>
-      {lines.map((_, index) => (
+      {lines.map((line, index) => (
         <AdvancedSearchLine
           key={index}
           isFirst={index === 0}
           onRemove={() => removeLine(index)}
+          field={line.field}
+          textValue={line.textValue}
+          operator={line.operator}
+          setField={(value) => updateLine(index, { field: value })}
+          setTextValue={(value) => updateLine(index, { textValue: value })}
+          setOperator={(value) => updateLine(index, { operator: value })}
         />
       ))}
 
