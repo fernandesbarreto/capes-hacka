@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
+import SearchBar from "./SearchBar";
+import ResultsList from "./ResultsList";
+import ChaGPT from "./ChatGPT";
 
-const SimpleSearchBar = () => {
-  const [query, setQuery] = useState("");
+const SearchArea = () => {
   const [works, setWorks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -12,7 +14,11 @@ const SimpleSearchBar = () => {
 
   const perPage = 10;
 
-  const handleSearch = async (page = 1) => {
+  useEffect(() => {
+    handleSearch(currentPage);
+  }, [currentPage]);
+
+  const handleSearch = async (page = 1, query) => {
     const trimmedQuery = query.trim();
     if (trimmedQuery === "") {
       setWorks([]);
@@ -34,7 +40,6 @@ const SimpleSearchBar = () => {
       });
 
       setWorks(response.data.results);
-      console.log(response.data.results);
 
       const totalResults = response.data.meta.count;
       setTotalPages(Math.ceil(totalResults / perPage));
@@ -64,36 +69,36 @@ const SimpleSearchBar = () => {
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      handleSearch(currentPage - 1);
+      setCurrentPage(currentPage - 1);
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      handleSearch(currentPage + 1);
+      setCurrentPage(currentPage + 1);
     }
+  };
+
+  const [showSimpleSearch, setShowSimpleSearch] = useState(true);
+
+  const toggleComponent = () => {
+    setShowSimpleSearch((prevShowSimpleSearch) => !prevShowSimpleSearch);
   };
 
   return (
     <div style={styles.container}>
       <h2>Periódicos CAPES</h2>
-      <div style={styles.searchContainer}>
-        <input
-          type="text"
-          placeholder="Search scholarly works..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          onKeyPress={handleKeyPress}
-          style={styles.input}
-          aria-label="Search scholarly works"
-        />
-        <button
-          onClick={() => handleSearch(1)}
-          style={styles.button}
-          aria-label="Search"
-        >
-          Search
+
+      <div>
+        <button onClick={toggleComponent}>
+          {showSimpleSearch ? "Ir para ChatGPT" : "Voltar para SimpleSearch"}
         </button>
+
+        {showSimpleSearch ? (
+          <SearchBar handleSearch={handleSearch} />
+        ) : (
+          <ChaGPT handleSearch={handleSearch} />
+        )}
       </div>
 
       {works.length > 0 && <NetWorkViewer />}
@@ -386,4 +391,4 @@ const styles = {
   },
 };
 
-export default SimpleSearchBar;
+export default SearchArea;

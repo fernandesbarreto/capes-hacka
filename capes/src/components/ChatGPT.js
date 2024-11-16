@@ -4,11 +4,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import AdvancedSearch from "./AdvancedSearch";
 
-const GPTSearch = () => {
+const GPTSearch = ({handleSearch}) => {
   const [query, setQuery] = useState("");
   const [advancedSearch, setAdvancedSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
 
   const handleConvert = async (e) => {
     e.preventDefault();
@@ -79,6 +80,7 @@ ${query}
 
       const aiResponse = response.data.choices[0].message.content.trim();
       setAdvancedSearch(aiResponse);
+      handleSearch(1, aiResponse);
     } catch (err) {
       console.error(err);
       if (err.response) {
@@ -94,7 +96,7 @@ ${query}
   };
 
   return (
-    <div style={styles.container}>
+    <div>
       <h2>Conversor de Pesquisa Avançada</h2>
       <form onSubmit={handleConvert} style={styles.form}>
         <textarea
@@ -123,15 +125,6 @@ ${query}
 };
 
 const styles = {
-  container: {
-    maxWidth: "700px",
-    margin: "50px auto",
-    padding: "20px",
-    border: "1px solid #ddd",
-    borderRadius: "8px",
-    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-    fontFamily: "Arial, sans-serif",
-  },
   form: {
     display: "flex",
     flexDirection: "column",
