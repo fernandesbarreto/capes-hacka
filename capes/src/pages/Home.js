@@ -3,6 +3,7 @@ import SearchBar from "../components/SearchBar";
 import woman from "../assets/mulher.png";
 import progress from "../assets/progress.png";
 import trainings from "../assets/Treinamentos.png";
+import AcervoSection from "../components/collection";
 
 const TelaPortalCAPES = () => {
   return (
@@ -56,6 +57,9 @@ const TelaPortalCAPES = () => {
         </div>
       </div>
       <img src={trainings} alt="Training" style={styles.trainings} />
+      <div style={styles.main}>
+        <AcervoSection />
+      </div>
     </div>
   );
 };
