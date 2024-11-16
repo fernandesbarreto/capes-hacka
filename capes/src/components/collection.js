@@ -34,16 +34,15 @@ const AcervoSection = () => {
     grid: {
       display: "flex",
       justifyContent: "center",
-      gap: "20px",
+      gap: "48px",
       flexWrap: "wrap",
     },
     card: {
-      backgroundColor: "#f9f9f9",
+      backgroundColor: "#F2F2F7",
       padding: "20px",
-      borderRadius: "10px",
+      borderRadius: "4px",
       textAlign: "center",
       width: "150px",
-      boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
     },
     icon: {
       fontSize: "40px",
