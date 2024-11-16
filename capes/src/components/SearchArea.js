@@ -10,15 +10,12 @@ const SearchArea = () => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
+  const [query, setQuery] = useState("");
 
   const perPage = 10;
 
-  useEffect(() => {
-    handleSearch(currentPage);
-  }, [currentPage]);
-
-  const handleSearch = async (page = 1, query) => {
-    const trimmedQuery = query.trim();
+  const handleSearch = async (page = 1, newQuery = query) => {
+    const trimmedQuery = newQuery.trim();
     if (trimmedQuery === "") {
       setWorks([]);
       setTotalPages(null);
@@ -43,6 +40,7 @@ const SearchArea = () => {
       const totalResults = response.data.meta.count;
       setTotalPages(Math.ceil(totalResults / perPage));
       setCurrentPage(page);
+      setQuery(trimmedQuery);
     } catch (err) {
       if (err.response) {
         if (err.response.status === 429) {
@@ -60,21 +58,22 @@ const SearchArea = () => {
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSearch(1);
+  useEffect(() => {
+    if (query) {
+      handleSearch(currentPage, query);
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+      setCurrentPage((prevPage) => prevPage - 1);
     }
   };
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
+      setCurrentPage((prevPage) => prevPage + 1);
     }
   };
 
@@ -89,12 +88,16 @@ const SearchArea = () => {
       <h2>Periódicos CAPES</h2>
 
       <div>
-        <button onClick={toggleComponent}>
+        <button onClick={toggleComponent} style={styles.toggleButton}>
           {showSimpleSearch ? "Ir para ChatGPT" : "Voltar para SimpleSearch"}
         </button>
 
         {showSimpleSearch ? (
-          <SearchBar handleSearch={handleSearch} />
+          <SearchBar
+            handleSearch={handleSearch}
+            query={query}
+            setQuery={setQuery}
+          />
         ) : (
           <ChaGPT handleSearch={handleSearch} />
         )}
@@ -186,7 +189,7 @@ const SearchArea = () => {
                     <img
                       style={styles.smallIcon}
                       src={require("../assets/door.png")}
-                      alt="Estudante abrindo livro"
+                      alt="Acessar"
                     />{" "}
                     Acessar
                   </a>
@@ -197,7 +200,9 @@ const SearchArea = () => {
         })}
       </ul>
 
-      {!isLoading && works.length === 0 && !error && <p>No results found.</p>}
+      {!isLoading && works.length === 0 && query && !error && (
+        <p>No results found.</p>
+      )}
       {totalPages && totalPages > 1 && (
         <div style={styles.pagination}>
           <button
@@ -243,6 +248,16 @@ const styles = {
     boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
     fontFamily: "Arial, sans-serif",
   },
+  toggleButton: {
+    padding: "8px 16px",
+    marginBottom: "20px",
+    fontSize: "14px",
+    borderRadius: "4px",
+    border: "none",
+    backgroundColor: "#6c757d",
+    color: "#fff",
+    cursor: "pointer",
+  },
   searchContainer: {
     display: "flex",
     gap: "10px",
@@ -268,16 +283,14 @@ const styles = {
     listStyleType: "none",
     padding: 0,
   },
-  listItem: {
-    padding: "15px",
-    borderBottom: "1px solid #eee",
-  },
   title: {
     margin: "0 0 10px 0",
     color: "#1C1C5E",
-    fontWeight: "black",
+    fontWeight: "bold",
     display: "flex",
     alignItems: "center",
+    borderLeft: "4px solid #1C1C5E",
+    paddingLeft: "8px",
   },
   index: {
     marginRight: "8px",
@@ -293,9 +306,6 @@ const styles = {
     margin: "5px 0",
     fontWeight: "bold",
     fontSize: "14px",
-  },
-  doi: {
-    margin: "5px 0",
   },
   error: {
     color: "red",
@@ -361,6 +371,8 @@ const styles = {
     marginTop: "16px",
   },
   link: {
+    display: "flex",
+    alignItems: "center",
     textDecoration: "none",
     color: "#fff",
     fontWeight: "600",
@@ -374,12 +386,14 @@ const styles = {
     padding: "0px 4px 0px 4px",
   },
   select: {
-    appearence: "none",
+    appearance: "none",
     border: "1px solid #1C1C5E",
     backgroundColor: "white",
-    background: "white",
     borderRadius: "4px",
     color: "#1C1C5E",
+    padding: "4px 8px",
+    fontSize: "14px",
+    cursor: "pointer",
   },
   smallIcon: {
     width: "16px",

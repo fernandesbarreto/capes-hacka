@@ -1,13 +1,14 @@
-import React, { useState} from "react";
+import React from "react";
 
-const SearchBar = ({handleSearch}) => {
-
-    const [query, setQuery] = useState("");
-
+const SearchBar = ({ handleSearch, query, setQuery }) => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      handleSearch(1);
+      handleSearch(1, query);
     }
+  };
+
+  const onSearchClick = () => {
+    handleSearch(1, query);
   };
 
   return (
@@ -21,11 +22,7 @@ const SearchBar = ({handleSearch}) => {
         style={styles.input}
         aria-label="Search scholarly works"
       />
-      <button
-        onClick={() => handleSearch(1, query)}
-        style={styles.button}
-        aria-label="Search"
-      >
+      <button onClick={onSearchClick} style={styles.button} aria-label="Search">
         Search
       </button>
     </div>
