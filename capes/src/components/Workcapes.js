@@ -1,7 +1,13 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
-const Workcapes = ({ handleSearch }) => {
-    const [cards, setCards] = useState([]);
+const Workcapes = () => {
+    const [cards, setCards] = useState([
+        {id: 1, title: "Redes 6G: O Futuro da Conectividade", description: "Projeto Pesquisa Amazonense de Mauá"},
+        {id: 2, title: "Reciclagem de E-lixo: Um Desafio Urbano", description: "Trabalho de Conclusão de Curso"}
+    ]);
+
+    const navigate = useNavigate();
 
     // Função para adicionar um novo card
     const addCard = () => {
@@ -37,7 +43,10 @@ const Workcapes = ({ handleSearch }) => {
                                 background: colors[index % colors.length],  // Alterna as cores
                             }}
                         >
-                            <button style={styles.unstyledButton}>Entrar</button>
+                            <button style={styles.unstyledButton} 
+                            onClick={() => navigate('/researchgroup', { state: { title: card.title, description: card.description } })}>
+                                Entrar
+                            </button>
                             <button style={styles.unstyledButton}>
                                 <span className="material-symbols-outlined">
                                     favorite
