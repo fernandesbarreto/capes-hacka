@@ -43,11 +43,19 @@ const AcervoSection = () => {
       borderRadius: "4px",
       textAlign: "center",
       width: "150px",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
     },
     icon: {
       fontSize: "40px",
       color: "#2770E8",
       marginBottom: "10px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      height: "60px",
     },
     cardTitle: {
       fontSize: "1em",
@@ -83,7 +91,7 @@ const AcervoSection = () => {
             <br-icon-base
               icon-name="file"
               family-name="fas"
-              style={{ fontSize: "40px" }}
+              style={{ fontSize: "40px", marginLeft: "-4px" }}
             ></br-icon-base>
           </div>
           <div style={styles.cardTitle}>ASSUNTOS</div>
@@ -94,7 +102,7 @@ const AcervoSection = () => {
               icon-name="folder-open"
               family-name="fas"
               class-name=""
-              style={{ fontSize: "40px" }}
+              style={{ fontSize: "40px", marginLeft: "-10px" }}
             ></br-icon-base>
           </div>
           <div style={styles.cardTitle}>BASES E COLEÇÕES</div>
@@ -105,7 +113,7 @@ const AcervoSection = () => {
               icon-name="book"
               family-name="fas"
               class-name=""
-              style={{ fontSize: "40px" }}
+              style={{ fontSize: "40px", marginLeft: "-8px" }}
             ></br-icon-base>
           </div>
           <div style={styles.cardTitle}>LIVROS</div>
@@ -116,7 +124,7 @@ const AcervoSection = () => {
               icon-name="newspaper"
               family-name="fas"
               class-name=""
-              style={{ fontSize: "40px" }}
+              style={{ fontSize: "40px", marginLeft: "-10px" }}
             ></br-icon-base>
           </div>
           <div style={styles.cardTitle}>PERIÓDICOS</div>
