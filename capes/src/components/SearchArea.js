@@ -289,7 +289,6 @@ const styles = {
     fontWeight: "bold",
     display: "flex",
     alignItems: "center",
-    borderLeft: "4px solid #1C1C5E",
     paddingLeft: "8px",
   },
   index: {
@@ -360,6 +359,11 @@ const styles = {
     backgroundColor: "#008765",
   },
   abstract: {
+    display: "-webkit-box",
+    WebkitLineClamp: 6,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
     fontSize: "14px",
     lineHeight: "1.5",
     marginBottom: "16px",
