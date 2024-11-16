@@ -17,9 +17,13 @@
   align-items: center;
 }
 
-.gov-logo,
+.gov-logo {
+  height: 64px;
+  margin-right: 10px;
+}
+
 .capes-logo {
-  height: 40px;
+  height: 36px;
   margin-right: 10px;
 }
 

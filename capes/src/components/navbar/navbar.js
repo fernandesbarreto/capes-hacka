@@ -11,9 +11,9 @@ function Navbar() {
           className="gov-logo"
         />
         <img
-          src="https://www.capes.gov.br/logo.png"
-          alt="CAPES Logo"
-          className="capes-logo"
+          src={require("../../assets/logo capes.png")}
+          alt="capes logo"
+          class="capes-logo"
         />
         <span className="portal-title">Portal de Periódicos da CAPES</span>
         <span className="version">Versão ADA</span>
