@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
 import AdvancedSearch from "./AdvancedSearch";
+import GPTSummarize from "./SummarizeAI";
 
 const SimpleSearchBar = () => {
   const [query, setQuery] = useState("");
@@ -36,6 +37,8 @@ const SimpleSearchBar = () => {
 
       setWorks(response.data.results);
 
+      console.log(response.data.results)
+
       const totalResults = response.data.meta.count;
       setTotalPages(Math.ceil(totalResults / perPage));
       setCurrentPage(page);
@@ -54,6 +57,7 @@ const SimpleSearchBar = () => {
     } finally {
       setIsLoading(false);
     }
+
   };
 
   const handleKeyPress = (e) => {
@@ -97,41 +101,45 @@ const SimpleSearchBar = () => {
         </button>
       </div>
 
-      <AdvancedSearch />
-
       {works.length > 0 && <NetWorkViewer />}
 
       {isLoading && <p>Loading...</p>}
       {error && <p style={styles.error}>{error}</p>}
       <ul style={styles.list}>
-        {works.map((work) => (
-          <li key={work.id} style={styles.listItem}>
-            <h3 style={styles.title}>{work.title}</h3>
-            <p style={styles.authors}>
-              <strong>Authors:</strong>{" "}
-              {work.authorships
-                .map((authorship) => authorship.author.display_name)
-                .join(", ")}
-            </p>
-            <p style={styles.publicationYear}>
-              <strong>Publication Year:</strong>{" "}
-              {work.publication_year || "N/A"}
-            </p>
-            {work.doi && (
-              <p style={styles.doi}>
-                <strong>DOI:</strong>{" "}
-                <a
-                  href={`https://doi.org/${work.doi}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {work.doi}
-                </a>
-              </p>
-            )}
-          </li>
-        ))}
-      </ul>
+  {works.map((work) => (
+    <li key={work.id} style={styles.listItem}>
+      <h3 style={styles.title}>{work.title}</h3>
+      <p style={styles.authors}>
+        <strong>Authors:</strong>{" "}
+        {work.authorships
+          .map((authorship) => authorship.author.display_name)
+          .join(", ")}
+      </p>
+      <p style={styles.publicationYear}>
+        <strong>Publication Year:</strong> {work.publication_year || "N/A"}
+      </p>
+      {work.doi && (
+        <p style={styles.doi}>
+          <strong>DOI:</strong>{" "}
+          <a
+            href={`https://doi.org/${work.doi}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {work.doi}
+          </a>
+        </p>
+      )}
+
+      {work.abstract_inverted_index && (
+        <GPTSummarize abstract={JSON.stringify(work.abstract_inverted_index)} />
+      )}
+
+
+    </li>
+  ))}
+</ul>
+
       {!isLoading && works.length === 0 && query.trim() !== "" && !error && (
         <p>No results found.</p>
       )}
