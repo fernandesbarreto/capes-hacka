@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 
 const SimpleSearchBar = () => {
   const [query, setQuery] = useState("");
@@ -34,7 +35,6 @@ const SimpleSearchBar = () => {
       });
 
       setWorks(response.data.results);
-
       console.log(response.data.results);
 
       const totalResults = response.data.meta.count;
@@ -102,60 +102,72 @@ const SimpleSearchBar = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p style={styles.error}>{error}</p>}
       <ul style={styles.list}>
-        {works.map((work) => (
-          <li key={work.id} style={styles.card}>
-            <div style={styles.header}>
-              <div>
-                <span style={{ ...styles.badge, backgroundColor: "#FF9A00" }}>
-                  Artigo
-                </span>
-                <span
-                  style={{
-                    ...styles.badge,
-                    ...styles.openAccess,
-                    marginLeft: "8px",
-                  }}
-                >
-                  Acesso aberto
-                </span>
+        {works.map((work, index) => {
+          // Calculate the global index based on the current page and items per page
+          const globalIndex = (currentPage - 1) * perPage + index + 1;
+
+          return (
+            <li key={work.id} style={styles.card}>
+              <div style={styles.header}>
+                <div>
+                  <span style={{ ...styles.badge, backgroundColor: "#FF9A00" }}>
+                    Artigo
+                  </span>
+                  <span
+                    style={{
+                      ...styles.badge,
+                      ...styles.openAccess,
+                      marginLeft: "8px",
+                    }}
+                  >
+                    Acesso aberto
+                  </span>
+                </div>
               </div>
-            </div>
-            <h2 style={styles.title}>{work.title}</h2>
-            <p style={styles.authors}>
-              {work.authorships
-                .map((authorship) => authorship.author.display_name)
-                .join(", ")}
-            </p>
-            {work.abstract_inverted_index && (
-              <p style={styles.abstract}>
-                {Object.entries(work.abstract_inverted_index)
-                  .sort((a, b) => a[1][0] - b[1][0])
-                  .map(([word]) => word)
-                  .join(" ")}
+              <h2 style={styles.title}>
+                <span style={styles.index}>{globalIndex}.</span> {work.title}
+              </h2>
+              <p style={styles.authors}>
+                {work.authorships
+                  .map((authorship) => authorship.author.display_name)
+                  .join(", ")}
               </p>
-            )}
-            <p style={styles.publicationYear}>
-              {work.publication_year || "N/A"} |{" "}
-              {work.authorships
-                ?.flatMap((authorship) => authorship.institutions || [])
-                .find((institution) => institution.display_name)
-                ?.display_name || "N/A"}
-            </p>
-            <div style={styles.footer}>
-              <span>{work.publisher}</span>
-              {work.doi && (
-                <a
-                  style={styles.link}
-                  href={`https://doi.org/${work.doi}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Acessar
-                </a>
+              {work.abstract_inverted_index && (
+                <p style={styles.abstract}>
+                  {Object.entries(work.abstract_inverted_index)
+                    .sort((a, b) => a[1][0] - b[1][0])
+                    .map(([word]) => word)
+                    .join(" ")}
+                </p>
               )}
-            </div>
-          </li>
-        ))}
+              <p style={styles.publicationYear}>
+                {work.publication_year || "N/A"} |{" "}
+                {
+                  // Extract all institutions from all authorships
+                  work.authorships
+                    ?.flatMap((authorship) => authorship.institutions || [])
+                    // Find the first institution with a display_name
+                    .find((institution) => institution.display_name)
+                    ?.display_name || "N/A"
+                }
+              </p>
+              <div style={styles.footer}>
+                <span>{work.publisher}</span>
+                {work.doi && (
+                  <a
+                    style={styles.link}
+                    href={`https://doi.org/${work.doi}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {/* <MeetingRoomIcon /> */}
+                    Acessar
+                  </a>
+                )}
+              </div>
+            </li>
+          );
+        })}
       </ul>
 
       {!isLoading && works.length === 0 && query.trim() !== "" && !error && (
@@ -170,7 +182,7 @@ const SimpleSearchBar = () => {
               ...styles.paginationButton,
               ...(currentPage === 1 || isLoading ? styles.disabledButton : {}),
             }}
-            aria-label="Próxima página"
+            aria-label="Página anterior"
           >
             Anterior
           </button>
@@ -186,7 +198,7 @@ const SimpleSearchBar = () => {
                 ? styles.disabledButton
                 : {}),
             }}
-            aria-label="Página anterior"
+            aria-label="Próxima página"
           >
             Próxima
           </button>
@@ -239,6 +251,14 @@ const styles = {
     margin: "0 0 10px 0",
     color: "#1C1C5E",
     fontWeight: "black",
+    display: "flex",
+    alignItems: "center",
+  },
+  index: {
+    marginRight: "8px",
+    fontWeight: "bold",
+    color: "#555",
+    fontSize: "18px",
   },
   authors: {
     margin: "5px 0",
@@ -278,12 +298,15 @@ const styles = {
     fontSize: "16px",
   },
   card: {
-    border: "1px solid #ddd",
+    border: "1px solid #ddd", // Existing border for all sides
+    borderLeft: "4px solid #1C1C5E", // New blue border on the left
     borderRadius: "8px",
     padding: "16px",
     margin: "16px 0",
     backgroundColor: "#fff",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    flexDirection: "column",
   },
   header: {
     display: "flex",
@@ -315,9 +338,10 @@ const styles = {
   link: {
     textDecoration: "none",
     color: "#fff",
+    fontWeight: "600",
     backgroundColor: "#1351B4",
-    padding: "8px 16px",
-    borderRadius: "4px",
+    padding: "8px 24px",
+    borderRadius: "16px",
   },
 };
 

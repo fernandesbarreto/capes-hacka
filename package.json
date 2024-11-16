@@ -1,6 +1,11 @@
 {
   "dependencies": {
-    "@material-ui/icons": "^4.11.3",
-    "@mui/icons-material": "^6.1.7"
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.1.7",
+    "@mui/material": "^6.1.7"
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
   }
 }
