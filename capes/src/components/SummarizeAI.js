@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 
 const GPTSummarize = ({ abstract = "" }) => {
   const [query, setQuery] = useState("");
@@ -14,7 +13,6 @@ const GPTSummarize = ({ abstract = "" }) => {
       summarize();
     }
 
-    // Cleanup on unmount
     return () => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
@@ -29,6 +27,7 @@ const GPTSummarize = ({ abstract = "" }) => {
       return;
     }
 
+    console.log("here1");
     setIsLoading(true);
     setError(null);
     setSummary("");
@@ -48,13 +47,15 @@ ${query}
 
 **Saída:**`;
 
+    console.log("here2");
+
     const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
     if (!apiKey) {
       setError("Chave da API do OpenAI não está definida.");
       setIsLoading(false);
       return;
     }
-
+    console.log("here3");
     try {
       abortControllerRef.current = new AbortController();
       const response = await fetch(
@@ -70,11 +71,13 @@ ${query}
             messages: [{ role: "user", content: prompt }],
             max_tokens: 150,
             temperature: 0.2,
-            stream: true, // Enable streaming
+            stream: true,
           }),
           signal: abortControllerRef.current.signal,
         }
       );
+
+      console.log("here4");
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -83,19 +86,24 @@ ${query}
         );
       }
 
+      console.log("here5");
+
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
       let done = false;
 
       while (!done) {
+        console.log("here6");
         const { value, done: doneReading } = await reader.read();
         done = doneReading;
+        console.log("here7");
         if (value) {
           const chunk = decoder.decode(value, { stream: true });
           // OpenAI sends data in the format: "data: {...}\n\n"
           const lines = chunk
             .split("\n")
             .filter((line) => line.startsWith("data: "));
+          console.log("here8");
           for (const line of lines) {
             const jsonStr = line.replace(/^data: /, "").trim();
             if (jsonStr === "[DONE]") {
@@ -103,12 +111,14 @@ ${query}
               break;
             }
             try {
+              console.log("here9");
               const parsed = JSON.parse(jsonStr);
               const content = parsed.choices[0].delta.content;
               if (content) {
                 setSummary((prev) => prev + content);
               }
             } catch (e) {
+              console.log("here10");
               console.error("Erro ao analisar o chunk JSON:", e);
             }
           }
@@ -141,7 +151,6 @@ ${query}
       {isLoading && <p>Carregando...</p>}
       {summary && (
         <p>
-          <AutoAwesomeIcon />
           <i>{summary}</i>
         </p>
       )}
