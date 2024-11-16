@@ -1,10 +1,11 @@
 // src/App.js
 
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SearchArea from "./components/SearchArea";
 import Workcapes from "./components/Workcapes";
 import ResearchGroup from "./components/ResearchGroup";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   return (

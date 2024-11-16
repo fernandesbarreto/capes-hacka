@@ -1,114 +1,160 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-import '@govbr-ds/webcomponents/dist/webcomponents.umd.min.js';
+import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
 
 const Workcapes = () => {
-    const [cards, setCards] = useState([
-        {id: 1, title: "Redes 6G: O Futuro da Conectividade", description: "Projeto Pesquisa Amazonense de Mauá"},
-        {id: 2, title: "Reciclagem de E-lixo: Um Desafio Urbano", description: "Trabalho de Conclusão de Curso"}
+  const [cards, setCards] = useState([
+    {
+      id: 1,
+      title: "Redes 6G: O Futuro da Conectividade",
+      description: "Projeto Pesquisa Amazonense de Mauá",
+    },
+    {
+      id: 2,
+      title: "Reciclagem de E-lixo: Um Desafio Urbano",
+      description: "Trabalho de Conclusão de Curso",
+    },
+  ]);
+
+  const navigate = useNavigate();
+
+  const addCard = () => {
+    setCards([
+      ...cards,
+      {
+        id: cards.length + 1, // Ensure unique IDs
+        title: `Título ${cards.length + 1}`,
+        description: "Descrição do card",
+      },
     ]);
+  };
 
-    const navigate = useNavigate();
+  return (
+    <div style={{ padding: "20px", width: "90%" }}>
+      <h1>Workcapes</h1>
+      <hr
+        style={{
+          margin: "16px 0",
+          border: "none",
+          borderTop: "1px solid #ccc",
+        }}
+      />
+      <h3>Olá, Pedro, aqui estão os seus grupos de pesquisa</h3>
 
-    // Função para adicionar um novo card
-    const addCard = () => {
-        setCards([
-            ...cards,
-            {
-                id: cards.length,
-                title: `Título ${cards.length + 1}`,
-                description: "Descrição do card",
-            },
-        ]);
-    };
-
-    const colors = ["#7ECC06", "#FFCE00", "#FF6600"];
-
-    return (
-        <div>
-            <h1>Workcapes</h1>
-            <hr style={{ margin: "16px 0", border: "none", borderTop: "1px solid #ccc" }} />
-            <h3>Olá, Pedro, aqui estão os seus grupos de pesquisa</h3>
-        
-            <div style={{ display: "flex", gap: "16px" }}>
-                {cards.map((card, index) => (
-                    <div key={card.id} style={{ ...styles.card }}>
-                        <div style = {styles.cardInfo}>
-                            <h3 >{card.title}</h3>
-                            <p >{card.description}</p>
-                        </div>
-
-                        <div
-                            style={{
-                                ...styles.buttonsDiv,
-                                background: colors[index % colors.length],  // Alterna as cores
-                            }}
-                        >
-                            <button style={styles.unstyledButton} 
-                            onClick={() => navigate('/researchgroup', { state: { title: card.title, description: card.description } })}>
-                                Entrar
-                            </button>
-                            <button style={styles.unstyledButton}>
-                                <span className="material-symbols-outlined">
-                                    favorite
-                                </span>
-                            </button>
-                            <button style={styles.unstyledButton}>Compartilhar</button>
-                        </div>
-                    </div>
-                ))}
+      <div
+        style={{
+          display: "flex",
+          gap: "16px",
+          overflowX: "scroll", // Enable horizontal scrolling
+          flexWrap: "nowrap", // Prevent wrapping to the next line
+          padding: "16px 0", // Optional: Add some padding
+        }}
+      >
+        {cards.map((card) => (
+          <div
+            key={card.id}
+            style={{ ...styles.card, width: "360px", height: "180px" }}
+          >
+            <br-card style={{ borderRadius: "8px", height: "180px" }}>
+              <br-card-header slot="header">
                 <div
-                    style={styles.plusButton}
-                    onClick={addCard}
+                  className="d-flex"
+                  style={{ justifyContent: "space-between" }}
                 >
-                    <h3 style={{ fontSize: "4em" }}>+</h3>
+                  <div className="ml-3">
+                    <div style={styles.cardInfo}>{card.title}</div>
+                    <div style={styles.cardDescription}>{card.description}</div>
+                  </div>
+                  <div className="ml-auto">
+                    <br-button circle icon="ellipsis-v"></br-button>
+                  </div>
                 </div>
-            </div>
+              </br-card-header>
+
+              <br-card-footer slot="footer">
+                <div className="d-flex" style={styles.footer}>
+                  <div>
+                    <br-button label="Entrar"></br-button>
+                  </div>
+                  <div className="ml-auto">
+                    <br-button circle icon="share-alt"></br-button>
+                    <br-button circle icon="heart"></br-button>
+                  </div>
+                </div>
+              </br-card-footer>
+            </br-card>
+          </div>
+        ))}
+        <div style={styles.plusButton} onClick={addCard}>
+          <h3 style={{ fontSize: "4em", color: "#1351B4" }}>+</h3>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Workcapes;
 
 const styles = {
-    card: {
-        borderRadius: "5px",
-        textAlign: "center",
-        width: "322px",  // Largura com unidade de medida
-        height: "160px", // Altura com unidade de medida
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)", // Sombra no card
-        position: "relative", 
-        paddingBottom: "54px",
-    },
-    plusButton: {
-        borderRadius: "5px",
-        textAlign: "center",
-        width: "214px",  
-        height: "214px", 
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",  
-    },
-    buttonsDiv: {
-        display: "flex",
-        justifyContent: "space-around",
-        width: "100%",
-        borderBottomLeftRadius: "5px", // Raio na borda inferior esquerda
-        borderBottomRightRadius: "5px", // Raio na borda inferior direita
-        height: "54px",  // Altura dos botões
-        position: "absolute", // Posicionamento absoluto para ficar na parte inferior
-        bottom: 0, // Alinha os botões na parte inferior
-    },
-    unstyledButton: {
-        background: "none",
-        border: "none",
-        color: "inherit",
-        font: "inherit",
-        cursor: "pointer",
-        padding: "0",
-        outline: "none"
-    }, 
-    cardInfo:{
-        textAlign: "left",
-        padding: "18px",
-    }
+  card: {
+    borderRadius: "8px",
+    textAlign: "center",
+    width: "360px",
+    height: "180px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    position: "relative",
+    paddingBottom: "54px",
+    flex: "0 0 auto",
+  },
+  plusButton: {
+    borderRadius: "8px",
+    textAlign: "center",
+    width: "180px",
+    height: "180px",
+    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    flex: "0 0 auto",
+  },
+  buttonsDiv: {
+    display: "flex",
+    justifyContent: "space-around",
+    width: "100%",
+    borderBottomLeftRadius: "8px",
+    borderBottomRightRadius: "8px",
+    height: "54px",
+    position: "absolute",
+    bottom: 0,
+  },
+  unstyledButton: {
+    background: "none",
+    border: "none",
+    color: "inherit",
+    font: "inherit",
+    cursor: "pointer",
+    padding: "0",
+    outline: "none",
+  },
+  cardInfo: {
+    textAlign: "left",
+    fontSize: "20px",
+    fontWeight: "bold",
+  },
+  cardDescription: {
+    textAlign: "left",
+  },
+  footer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    padding: "8px 16px",
+    boxSizing: "border-box",
+    position: "absolute",
+    bottom: 0,
+  },
 };
