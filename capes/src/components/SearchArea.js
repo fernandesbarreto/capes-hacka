@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
 import SearchBar from "./SearchBar";
-import ResultsList from "./ResultsList";
 import ChaGPT from "./ChatGPT";
 
 const SearchArea = () => {
@@ -198,9 +197,7 @@ const SearchArea = () => {
         })}
       </ul>
 
-      {!isLoading && works.length === 0 && query.trim() !== "" && !error && (
-        <p>No results found.</p>
-      )}
+      {!isLoading && works.length === 0 && !error && <p>No results found.</p>}
       {totalPages && totalPages > 1 && (
         <div style={styles.pagination}>
           <button
