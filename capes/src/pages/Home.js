@@ -5,7 +5,6 @@ import woman from "../assets/mulher.png";
 const TelaPortalCAPES = () => {
   return (
     <div style={styles.container}>
-      {/* Cabeçalho */}
       <div style={styles.header}>
         <p style={{ margin: 0 }}>
           Você tem acesso ao conteúdo gratuito do Portal através do{" "}
@@ -13,21 +12,19 @@ const TelaPortalCAPES = () => {
         </p>
       </div>
 
-      {/* Seção Principal */}
       <div style={styles.main}>
-        <div style={styles.container}>
+        <section style={styles.container}>
           <img
             src={woman}
-            alt="Woman working on a computer"
+            alt="Mulher trabalhando em um computador"
             style={styles.image}
           />
           <h1 style={styles.title}>
             Conteúdo científico diversificado para deixar sua pesquisa ainda
             melhor.
           </h1>
-        </div>
+        </section>
 
-        {/* Barra de Busca */}
         <div style={styles.searchBar}>
           <select style={styles.select}>
             <option>Assuntos</option>
@@ -37,7 +34,6 @@ const TelaPortalCAPES = () => {
           <button style={styles.advancedSearchButton}>Busca avançada</button>
         </div>
 
-        {/* Como acessar os materiais */}
         <div style={styles.infoSection}>
           <h2 style={styles.sectionTitle}>
             Como acessar os materiais do Portal?
@@ -50,7 +46,6 @@ const TelaPortalCAPES = () => {
             endereço eletrônico de cada editor/autor.
           </p>
 
-          {/* Passos */}
           <div style={styles.stepsContainer}>
             <div>
               <span style={styles.step}>1</span>
@@ -150,6 +145,7 @@ const styles = {
     position: "relative",
     textAlign: "center",
     color: "white",
+    margin: "24px",
   },
   image: {
     width: "100%",
@@ -157,11 +153,14 @@ const styles = {
   },
   title: {
     position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    fontSize: "2em",
+    bottom: "20px",
+    left: "20px",
+    fontSize: "36px",
     fontWeight: "bold",
-    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)", // Optional for better readability
+    color: "white",
+    width: "560px",
+    textAlign: "start",
+    textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+    margin: 0,
   },
 };
