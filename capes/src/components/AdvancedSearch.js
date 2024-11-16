@@ -31,6 +31,7 @@ const Menu = ({ itemList, selectedValue, onSelect }) => {
         </ul>
       )}
     </div>
+
   );
 };
 
@@ -117,7 +118,7 @@ const AdvancedSearch = ({advancedString = ''}) => {
             field = 'Autor';
             break;
           default:
-            field = 'subject';
+            field = 'Assunto';
             break;
         }
   

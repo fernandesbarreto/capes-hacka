@@ -1,14 +1,12 @@
 // src/App.js
 
 import React from "react";
-import SimpleSearchBar from "./components/SimpleSearchBar";
-import ChatGPT from "./components/ChatGPT";
+import SearchArea from "./components/SearchArea";
 
 function App() {
   return (
     <div>
-      <SimpleSearchBar />
-      <ChatGPT />
+      <SearchArea />
     </div>
   );
 }
