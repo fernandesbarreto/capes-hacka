@@ -6,12 +6,13 @@
   }
   
   .tag {
-    background-color: #e0e0e0; /* Cor de fundo */
     border-radius: 50px; /* Bordas arredondadas */
     padding: 5px 15px; /* Espaçamento interno */
     display: flex;
     align-items: center;
-    height: 42px;
+    height: 56px;
+    gap: 16px;
+    max-width: 200px;
   }
   
   .tag p {
@@ -61,4 +62,11 @@
 .comments.open {
   max-height: 1000px; /* Define um valor grande o suficiente para acomodar todos os comentários */
   opacity: 1;
+}
+
+.namePhoto {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-bottom: 20px;
 }

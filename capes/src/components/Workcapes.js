@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
+import '@govbr-ds/webcomponents/dist/webcomponents.umd.min.js';
+
 const Workcapes = () => {
     const [cards, setCards] = useState([
         {id: 1, title: "Redes 6G: O Futuro da Conectividade", description: "Projeto Pesquisa Amazonense de Mauá"},
