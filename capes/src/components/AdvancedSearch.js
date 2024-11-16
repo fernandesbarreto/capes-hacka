@@ -82,7 +82,8 @@ const AdvancedSearchLine = ({
 const AdvancedSearch = ({advancedString = ''}) => {
 
   useEffect(() => {
-    stringToList();
+    console.log('advancedString:', advancedString);
+    stringToList(advancedString);
   }, [advancedString])
 
   const stringToList = (advancedString) => {
@@ -91,9 +92,7 @@ const AdvancedSearch = ({advancedString = ''}) => {
     }
   
     // Remove asteriscos do início da string
-    const cleanedString = advancedString.replace(/^\*+/, '');
-    
-    console.log("cleanedString ", cleanedString, "advancedString", advancedString);
+    const cleanedString = advancedString.replace(/^\*+/, '').replace(/[()]/g, '');
   
     const result = [];
     const parts = cleanedString.split(/(\bAND\b|\bOR\b)/);
@@ -110,14 +109,17 @@ const AdvancedSearch = ({advancedString = ''}) => {
         let fieldAndText = part.replace(/"/g, ''); // Remove aspas
         let [field, textValue] = fieldAndText.split(':').map(item => item.trim());
 
-        if (field === "title") {
-          field = "Título";
-        } else {
-          field = "Autor";
+        switch(field) {
+          case 'title':
+            field = 'Título';
+            break;
+          case 'author':
+            field = 'Autor';
+            break;
+          default:
+            field = 'subject';
+            break;
         }
-
-        console.log('Field:', field);
-        console.log('TextValue:', textValue); 
   
         const item = {
           field: field.trim(), // Título, Autor, etc.
@@ -133,10 +135,10 @@ const AdvancedSearch = ({advancedString = ''}) => {
       }
     }
 
-    console.log('Final result:', result); // Verifique o resultado final
+    console.log('result:', result);
+
     setLines(result)
-    console.log('lines:', lines)
-  
+
     return result;
   };
   

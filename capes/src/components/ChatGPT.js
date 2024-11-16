@@ -30,6 +30,8 @@ Você é um assistente especializado em transformar perguntas de pesquisa em bus
 1. Utilize os campos específicos conforme necessário (por exemplo, title: e author:).
 2. Use operadores booleanos em maiúsculas: AND, OR.
 3. Utilize aspas para delimitar termos de busca específicos.
+4. Combine os termos com termos semlhantes com OR (por exemplo, se o texto tem Information Technology use "Information Technology" OR "IT").
+5. Combine o assunto do texto com AND usando topics : (por exemplo, topics: "Machine Learning" OR topics: "Artificial Intelligence").
 4. Deixe os campos fora das aspas, exemplo: title: "machine learning".
 
 **Exemplos:**
@@ -38,19 +40,19 @@ Você é um assistente especializado em transformar perguntas de pesquisa em bus
 Preciso de informações de cachorros no ano de 2001 e de informações de gatos no ano de 2009
 
 **Saída:**
-title: "dog" AND "2001" OR title: "cat" AND "2009"
+title: "dog" AND "2001" OR title: "cat" AND "2009" AND topics: "Animals" OR topics: "Pets"
 
 **Entrada:**
 Estou fazendo uma pesquisa sobre terremotos e vulcões do Chile e da Argentina
 
 **Saída:**
-title: "argentina" OR title: "chile" AND title: "earthquakes" OR title: "volcanoes"
+title: "argentina" OR title: "chile" AND title: "earthquakes" OR title: "volcanoes"  AND topics: "Geology" OR topics: "Natural Disasters"
 
 **Entrada:**
 Queria ler trabalhos sobre inteligência artificial e machine learning escritos por John Bolton
 
 **Saída:**
-"Artificial Inteligence" OR "AI" OR "Machine Learning" AND authors: "John Bolton"
+title: "Artificial Inteligence" OR title: "AI" OR title: "Machine Learning" AND authors: "John Bolton"  AND topics: "Artificial Intelligence" OR topics: "Machine Learning"
 
 ---
 
@@ -62,7 +64,7 @@ ${query}
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
-          model: "gpt-4",
+          model: "gpt-4o",
           messages: [{ role: "user", content: prompt }],
           max_tokens: 150,
           temperature: 0.2,

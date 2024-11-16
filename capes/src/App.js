@@ -7,7 +7,7 @@ import ChatGPT from "./components/ChatGPT";
 function App() {
   return (
     <div>
-      {/* <SimpleSearchBar /> */}
+      <SimpleSearchBar />
       <ChatGPT />
     </div>
   );
