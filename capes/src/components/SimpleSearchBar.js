@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
-import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 
 const SimpleSearchBar = () => {
   const [query, setQuery] = useState("");
@@ -151,6 +150,26 @@ const SimpleSearchBar = () => {
                     ?.display_name || "N/A"
                 }
               </p>
+              <p>
+                <img
+                  style={styles.icons}
+                  src={require("../assets/brasil.png")}
+                  alt="Bandeira do Brasil"
+                />{" "}
+                |{" "}
+                <img
+                  style={styles.icons}
+                  src={require("../assets/book.png")}
+                  alt="Estudante abrindo livro"
+                />{" "}
+                Revisado por pares |{" "}
+                <select style={styles.select}>
+                  <option>Disponibilidade</option>
+                  <option>Teste</option>
+                  <option>Teste</option>
+                </select>{" "}
+                | PlumX Metrics
+              </p>
               <div style={styles.footer}>
                 <span>{work.publisher}</span>
                 {work.doi && (
@@ -160,7 +179,11 @@ const SimpleSearchBar = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {/* <MeetingRoomIcon /> */}
+                    <img
+                      style={styles.smallIcon}
+                      src={require("../assets/door.png")}
+                      alt="Estudante abrindo livro"
+                    />{" "}
                     Acessar
                   </a>
                 )}
@@ -298,8 +321,8 @@ const styles = {
     fontSize: "16px",
   },
   card: {
-    border: "1px solid #ddd", // Existing border for all sides
-    borderLeft: "4px solid #1C1C5E", // New blue border on the left
+    border: "1px solid #ddd",
+    borderLeft: "4px solid #1C1C5E",
     borderRadius: "8px",
     padding: "16px",
     margin: "16px 0",
@@ -342,6 +365,24 @@ const styles = {
     backgroundColor: "#1351B4",
     padding: "8px 24px",
     borderRadius: "16px",
+  },
+  icons: {
+    width: "24px",
+    marginBottom: "-4px",
+    padding: "0px 4px 0px 4px",
+  },
+  select: {
+    appearence: "none",
+    border: "1px solid #1C1C5E",
+    backgroundColor: "white",
+    background: "white",
+    borderRadius: "4px",
+    color: "#1C1C5E",
+  },
+  smallIcon: {
+    width: "16px",
+    marginBottom: "-4px",
+    paddingRight: "4px",
   },
 };
 
