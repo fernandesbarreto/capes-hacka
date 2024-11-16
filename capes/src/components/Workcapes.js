@@ -24,7 +24,7 @@ const Workcapes = () => {
     setCards([
       ...cards,
       {
-        id: cards.length,
+        id: cards.length + 1, // Ensure unique IDs
         title: `Título ${cards.length + 1}`,
         description: "Descrição do card",
       },
@@ -32,7 +32,7 @@ const Workcapes = () => {
   };
 
   return (
-    <div>
+    <div style={{ padding: "20px" }}>
       <h1>Workcapes</h1>
       <hr
         style={{
@@ -47,33 +47,38 @@ const Workcapes = () => {
         style={{
           display: "flex",
           gap: "16px",
-          overflowY: "scroll",
+          overflowX: "scroll", // Enable horizontal scrolling
+          flexWrap: "nowrap", // Prevent wrapping to the next line
+          padding: "16px 0", // Optional: Add some padding
         }}
       >
-        {cards.map((card, index) => (
+        {cards.map((card) => (
           <div
             key={card.id}
             style={{ ...styles.card, width: "360px", height: "180px" }}
           >
             <br-card style={{ borderRadius: "8px", height: "180px" }}>
               <br-card-header slot="header">
-                <div class="d-flex" style={{ justifyContent: "space-between" }}>
-                  <div class="ml-3">
+                <div
+                  className="d-flex"
+                  style={{ justifyContent: "space-between" }}
+                >
+                  <div className="ml-3">
                     <div style={styles.cardInfo}>{card.title}</div>
                     <div style={styles.cardDescription}>{card.description}</div>
                   </div>
-                  <div class="ml-auto">
+                  <div className="ml-auto">
                     <br-button circle icon="ellipsis-v"></br-button>
                   </div>
                 </div>
               </br-card-header>
 
               <br-card-footer slot="footer">
-                <div class="d-flex" style={styles.footer}>
+                <div className="d-flex" style={styles.footer}>
                   <div>
                     <br-button label="Entrar"></br-button>
                   </div>
-                  <div class="ml-auto">
+                  <div className="ml-auto">
                     <br-button circle icon="share-alt"></br-button>
                     <br-button circle icon="heart"></br-button>
                   </div>
@@ -101,6 +106,7 @@ const styles = {
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
     position: "relative",
     paddingBottom: "54px",
+    flex: "0 0 auto",
   },
   plusButton: {
     borderRadius: "5px",
@@ -108,6 +114,11 @@ const styles = {
     width: "214px",
     height: "214px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    cursor: "pointer",
+    flex: "0 0 auto",
   },
   buttonsDiv: {
     display: "flex",
