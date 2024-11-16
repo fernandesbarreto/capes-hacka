@@ -1,12 +1,12 @@
 // src/App.js
 
 import React from "react";
-import SearchBar from "./components/SearchBar";
+import SearchArea from "./components/SearchArea";
 
 function App() {
   return (
     <div>
-      <SearchBar />
+      <SearchArea />
     </div>
   );
 }

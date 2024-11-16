@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
-function FilterBar({worksData, applyFilters }) {
+function FilterBar({worksData, applyFilters, searchPerformed}) {
     const [availableTypes, setAvailableTypes] = useState({});
     const [availableEditors, setAvailableEditors] = useState({});
     const [availableLanguages, setAvailableLanguages] = useState({});
@@ -11,7 +10,7 @@ function FilterBar({worksData, applyFilters }) {
     const [OACount, setOA] = useState(0);
     const [noOACount, setNoOA] = useState(0);
 
-    const [openAccessOnly, setOpenAccessOnly] = useState(false);
+    const [openAccessOnly, setOpenAccessOnly] = useState([""]);
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [yearRange, setYearRange] = useState([2000, 2024]);
     const [selectedAreas, setSelectedAreas] = useState([]);
@@ -19,8 +18,11 @@ function FilterBar({worksData, applyFilters }) {
     const [selectedEditors, setSelectedEditors] = useState([]);
 
     useEffect(() => {
-        handleFilters(); // Atualiza os filtros quando os dados de worksData mudam
-    }, [worksData]);
+        if (searchPerformed) {
+            handleFilters(); 
+        }
+        // Atualiza os filtros quando há uma nova pesquisa
+    }, [worksData, searchPerformed]);
 
     const handleTypeChange = (type) => {
         setSelectedTypes((prev) =>
@@ -113,14 +115,26 @@ function FilterBar({worksData, applyFilters }) {
 
 
     return (
-        <div>
+        <div className="filter">
+            <div>
+                <strong>Acesso Aberto</strong>
+                </div>
+
             <label>
                 <input
                     type="checkbox"
-                    checked={openAccessOnly}
-                    onChange={() => setOpenAccessOnly(!openAccessOnly)}
+                    checked={openAccessOnly === "yes"}
+                    onChange={() => setOpenAccessOnly(openAccessOnly === "" ? "yes" : "")}
                 />
-                Open Access Only
+                Sim
+            </label>
+            <label>
+                <input
+                    type="checkbox"
+                    checked={openAccessOnly === "no"}
+                    onChange={() => setOpenAccessOnly(openAccessOnly === "" ? "no" : "")}
+                />
+                Não
             </label>
 
             <div>
