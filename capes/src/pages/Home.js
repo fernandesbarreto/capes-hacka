@@ -2,6 +2,7 @@ import React from "react";
 import SearchBar from "../components/SearchBar";
 import woman from "../assets/mulher.png";
 import progress from "../assets/progress.png";
+import trainings from "../assets/Treinamentos.png";
 
 const TelaPortalCAPES = () => {
   return (
@@ -54,6 +55,7 @@ const TelaPortalCAPES = () => {
           />
         </div>
       </div>
+      <img src={trainings} alt="Training" style={styles.trainings} />
     </div>
   );
 };
@@ -73,6 +75,7 @@ const styles = {
   main: {
     padding: "40px 20px",
     textAlign: "center",
+    margin: "24px",
   },
   searchBar: {
     display: "flex",
@@ -122,11 +125,17 @@ const styles = {
     width: "120%",
     marginTop: "48px",
   },
+  trainings: {
+    width: "100vw",
+    height: "auto",
+    display: "block",
+    marginTop: "48px",
+    padding: 0,
+  },
   container: {
     position: "relative",
     textAlign: "center",
     color: "white",
-    margin: "24px",
   },
   image: {
     width: "100%",
