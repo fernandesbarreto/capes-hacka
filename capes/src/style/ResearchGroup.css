@@ -2,6 +2,7 @@
     display: flex;
     gap: 10px; /* Espaço entre as tags */
     flex-wrap: wrap; /* Caso os itens ultrapassem a largura, eles irão para a linha de baixo */
+    padding-bottom: 80px;
   }
   
   .tag {
@@ -17,4 +18,47 @@
     margin: 0; /* Remove a margem padrão do parágrafo */
     font-size: 14px; /* Ajuste o tamanho da fonte */
   }
+
+  .saved-works-container{
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
   
+  .saved-work{
+    border-bottom: #ccc 1px solid;
+    padding: 32px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end; /* Alinha os botões à direita */
+    margin-top: auto;          /* Se precisar empurrar os botões para o final do card */
+}
+
+.comment-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 8px 0;
+  background-color: #f9f9f9;
+}
+
+.comment-author {
+  margin: 0;
+  font-weight: bold;
+}
+
+.comment-content {
+  margin: 4px 0 0;
+}
+
+.comments {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.comments.open {
+  max-height: 1000px; /* Define um valor grande o suficiente para acomodar todos os comentários */
+  opacity: 1;
+}
