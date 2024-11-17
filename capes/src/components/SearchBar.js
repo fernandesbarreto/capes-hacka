@@ -12,6 +12,23 @@ const SearchBar = ({ handleSearch, query, setQuery }) => {
   };
 
   return (
+  /*
+    <div>
+      
+      <br-input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onKeyPress={handleKeyPress}
+        label="string"
+        placeholder="Procure por títulos, palavras-chave e autores"
+        is-highlight="true"
+        icon="search"
+        icon-clicked={onSearchClick}
+      ></br-input>
+    </div>
+    */
+    
     <div style={styles.searchContainer}>
       <input
         type="text"
@@ -26,6 +43,7 @@ const SearchBar = ({ handleSearch, query, setQuery }) => {
         Search
       </button>
     </div>
+  
   );
 };
 

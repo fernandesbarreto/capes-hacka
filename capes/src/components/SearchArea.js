@@ -4,6 +4,9 @@ import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
 import SearchBar from "./SearchBar";
 import ChaGPT from "./ChatGPT";
+import FilterBar from "./FilterBar";
+import "./searchBar.css";
+import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
 import GPTSummarize from "./SummarizeAI";
 
 const SearchArea = () => {
@@ -13,10 +16,15 @@ const SearchArea = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const [query, setQuery] = useState("");
+  const [isShowingFilters, setIsShowingFilters] = useState(false);
+  const [searchPerformed, setSearchPerformed] = useState(false);
 
   const [showSimpleSearch, setShowSimpleSearch] = useState(true);
+  const [perPage, setPerPage] = useState(10);
 
-  const perPage = 10;
+  const applyFilters = (filteredWorks) => {
+    setWorks(filteredWorks);
+  };
 
   useEffect(() => {
     handleSearch(currentPage);
@@ -48,10 +56,13 @@ const SearchArea = () => {
       setTotalPages(Math.ceil(totalResults / perPage));
       setCurrentPage(page);
       setQuery(trimmedQuery);
+      setSearchPerformed(true);
+      setIsShowingFilters(true);
     } catch (err) {
       setError("Error occurred while fetching data.");
     } finally {
       setIsLoading(false);
+      //setSearchPerformed(false)
     }
   };
 
@@ -61,24 +72,217 @@ const SearchArea = () => {
 
   return (
     <div style={styles.container}>
+      <div class="search-area">
+        {
+          <FilterBar
+            worksData={works}
+            applyFilters={applyFilters}
+            searchPerformed={searchPerformed}
+            isShowingFilters={isShowingFilters}
+          />
+        }
+        <div>
+          <div className="acervo">
+            <div className="acervo-left">
+              <h3>Acervo</h3>
+              <h5>Você tem acesso ao conteúdo gratuito do Portal através do</h5>
+              <br-button>Acesso CAFe</br-button>
+            </div>
+            <br-button
+              onClick={toggleComponent}
+              label={showSimpleSearch ? "Busca Avançada" : "Busca Simples"}
+            ></br-button>
+          </div>
 
-      <h2>Periódicos CAPES</h2>
+          <div className="search-bar">
+            <div className="search-bar-input">
+              {showSimpleSearch ? (
+                <SearchBar
+                  handleSearch={handleSearch}
+                  query={query}
+                  setQuery={setQuery}
+                />
+              ) : (
+                <ChaGPT handleSearch={handleSearch} />
+              )}
+            </div>
+          </div>
 
-      <div>
-        <button onClick={toggleComponent} style={styles.toggleButton}>
-          {showSimpleSearch ? "Ir para ChatGPT" : "Voltar para SimpleSearch"}
-        </button>
+          <div className="results">
+            <h2>Resultados</h2>
+            <div className="search-quantity">
+              <h4>Exibir</h4>
+              <select id="dropdown" name="options">
+                <option value="option1">10</option>
+                <option value="option2">20</option>
+                <option value="option3">30</option>
+              </select>
+              <br-divider size vertical class="mx-3"></br-divider>
+              <h4>
+                {1 + (currentPage - 1) * perPage} de {totalPages * perPage}
+              </h4>
+              <label id="page">Página</label>
+              <select id="dropdown" name="page">
+                <option value="option1">10</option>
+                <option value="option2">20</option>
+                <option value="option3">30</option>
+              </select>
+              <br-divider size vertical class="mx-3"></br-divider>
+              <br-button
+                icon="angle-left"
+                onClick={handlePreviousPage}
+                disabled={currentPage === 1 || isLoading}
+              />
+              <br-button
+                icon="angle-right"
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages || isLoading}
+              />
+            </div>
+          </div>
 
-        {showSimpleSearch ? (
-          <SearchBar handleSearch={handleSearch} query={query} setQuery={setQuery} />
-        ) : (
-          <ChaGPT handleSearch={handleSearch} />
-        )}
+          {isLoading && <p>Loading...</p>}
+          {error && <p style={styles.error}>{error}</p>}
+          <ul style={styles.list}>
+            {works.map((work, index) => {
+              // Calculate the global index based on the current page and items per page
+              const globalIndex = (currentPage - 1) * perPage + index + 1;
+
+              return (
+                <li key={work.id} style={styles.card}>
+                  <div style={styles.header}>
+                    <div>
+                      <span
+                        style={{ ...styles.badge, backgroundColor: "#FF9A00" }}
+                      >
+                        Artigo
+                      </span>
+                      <span
+                        style={{
+                          ...styles.badge,
+                          ...styles.openAccess,
+                          marginLeft: "8px",
+                        }}
+                      >
+                        Acesso aberto
+                      </span>
+                    </div>
+                  </div>
+                  <h2 style={styles.title}>
+                    <span style={styles.index}>{globalIndex}.</span>{" "}
+                    {work.title}
+                  </h2>
+                  <p style={styles.authors}>
+                    {work.authorships
+                      .map((authorship) => authorship.author.display_name)
+                      .join(", ")}
+                  </p>
+                  {work.abstract_inverted_index && (
+                    <p style={styles.abstract}>
+                      {Object.entries(work.abstract_inverted_index)
+                        .sort((a, b) => a[1][0] - b[1][0])
+                        .map(([word]) => word)
+                        .join(" ")}
+                    </p>
+                  )}
+                  <p style={styles.publicationYear}>
+                    {work.publication_year || "N/A"} |{" "}
+                    {
+                      // Extract all institutions from all authorships
+                      work.authorships
+                        ?.flatMap((authorship) => authorship.institutions || [])
+                        // Find the first institution with a display_name
+                        .find((institution) => institution.display_name)
+                        ?.display_name || "N/A"
+                    }
+                  </p>
+                  <p>
+                    <img
+                      style={styles.icons}
+                      src={require("../assets/brasil.png")}
+                      alt="Bandeira do Brasil"
+                    />{" "}
+                    |{" "}
+                    <img
+                      style={styles.icons}
+                      src={require("../assets/book.png")}
+                      alt="Estudante abrindo livro"
+                    />{" "}
+                    Revisado por pares |{" "}
+                    <select style={styles.select}>
+                      <option>Disponibilidade</option>
+                      <option>Teste</option>
+                      <option>Teste</option>
+                    </select>{" "}
+                    | PlumX Metrics
+                  </p>
+                  {work.abstract_inverted_index && (
+                    <GPTSummarize
+                      abstract={JSON.stringify(work.abstract_inverted_index)}
+                    />
+                  )}
+                  <div style={styles.footer}>
+                    <span>{work.publisher}</span>
+                    {work.doi && (
+                      <a
+                        style={styles.link}
+                        href={`https://doi.org/${work.doi}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img
+                          style={styles.smallIcon}
+                          src={require("../assets/door.png")}
+                          alt="Acessar"
+                        />{" "}
+                        Acessar
+                      </a>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+
+          {!isLoading && works.length === 0 && query && !error && (
+            <p>No results found.</p>
+          )}
+        </div>
       </div>
 
       {works.length > 0 && <NetWorkViewer />}
-      {isLoading && <p>Loading...</p>}
-      {error && <p style={styles.error}>{error}</p>}
+
+      {totalPages && totalPages > 1 && (
+        <div style={styles.pagination}>
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1 || isLoading}
+            style={{
+              ...styles.paginationButton,
+              ...(currentPage === 1 || isLoading ? styles.disabledButton : {}),
+            }}
+            aria-label="Página anterior"
+          >
+            Anterior
+          </button>
+          <span style={styles.pageInfo}>
+            Página {currentPage} de {totalPages}
+          </span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages || isLoading}
+            style={{
+              ...styles.paginationButton,
+              ...(currentPage === totalPages || isLoading
+                ? styles.disabledButton
+                : {}),
+            }}
+            aria-label="Próxima página"
+          >
+            Próxima
+          </button>
+        </div>
+      )}
     </div>
   );
 };
@@ -86,6 +290,7 @@ const SearchArea = () => {
 const styles = {
   container: {
     maxWidth: "1200px",
+    marginTop: "300px",
     margin: "50px auto",
     padding: "20px",
     border: "1px solid #ddd",
@@ -248,6 +453,10 @@ const styles = {
     width: "16px",
     marginBottom: "-4px",
     paddingRight: "4px",
+  },
+  hiperlinks: {
+    padding: "16px",
+    color: "#1351B4",
   },
 };
 
