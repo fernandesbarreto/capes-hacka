@@ -1,7 +1,10 @@
-// src/App.js
-
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import SearchArea from "./components/SearchArea";
 import Workcapes from "./components/Workcapes";
 import ResearchGroup from "./components/ResearchGroup";
@@ -17,6 +20,7 @@ function App() {
       <TopBar />
       <div className="main-content">
         <Routes>
+          <Route path="/" element={<Navigate to="/home" replace />} />
           <Route path="/collection" element={<SearchArea />} />
           <Route path="/home" element={<TelaPortalCAPES />} />
           <Route path="/workcapes" element={<Workcapes />} />
