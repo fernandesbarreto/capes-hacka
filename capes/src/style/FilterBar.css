@@ -1,0 +1,35 @@
+.custom-switch {
+    width: 50px;
+    height: 24px;
+    background-color: #ccc;
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .custom-switch .switch-knob {
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: all 0.3s;
+  }
+  
+  .custom-switch .switch-knob.active {
+    left: 26px;
+  }
+  
+  .custom-switch.active {
+    background-color: #4caf50;
+  }
+
+.title-and-switch {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+  }

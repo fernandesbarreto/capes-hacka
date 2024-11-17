@@ -1,11 +1,60 @@
 import React, { useState, useEffect } from "react";
+import "../style/FilterBar.css";
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
+
+const CustomSwitch = ({ task }) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleToggle = () => {
+    const newChecked = !isChecked;
+    setIsChecked(newChecked);
+
+    if (newChecked) {
+      task();
+    }
+
+    console.log("Switch está:", newChecked ? "ON" : "OFF");
+  };
+
+  return (
+    <div
+      className="custom-switch"
+      onClick={handleToggle}
+      style={{
+        backgroundColor: isChecked ? "#5992ED" : "#ccc", // Muda a cor de fundo para azul
+        padding: "5px",
+        borderRadius: "15px",
+        cursor: "pointer",
+        display: "inline-block",
+        width: "50px",
+        height: "25px",
+        position: "relative",
+      }}
+    >
+      <div
+        className="switch-knob"
+        style={{
+          backgroundColor: "#fff",
+          borderRadius: "50%",
+          height: "20px",
+          width: "20px",
+          position: "absolute",
+          top: "50%",
+          left: isChecked ? "25px" : "5px",
+          transform: "translateY(-50%)",
+          transition: "left 0.2s",
+        }}
+      ></div>
+    </div>
+  );
+};
 
 function FilterBar({
   worksData,
   applyFilters,
   searchPerformed,
   isShowingFilters,
+  handleSearch,
 }) {
   const [availableTypes, setAvailableTypes] = useState({});
   const [availableEditors, setAvailableEditors] = useState({});
@@ -99,6 +148,11 @@ function FilterBar({
     setOA(isOACount);
   };
 
+  const handleUniFilter = () => {
+    console.log("teste");
+    handleSearch(2);
+  };
+
   const applySelectedFilters = () => {
     let filteredWorks = [...worksData];
 
@@ -120,43 +174,121 @@ function FilterBar({
         selectedAreas.includes(work.concepts[0]?.display_name)
       );
     }
-
     // Chama a função para atualizar os works na SearchBar
     applyFilters(filteredWorks);
   };
+
+  const filters = [
+    "Disponível na UFPE",
+    "Acesso Aberto",
+    "Produção Nacional",
+    "Revisão por Pares",
+  ];
 
   return (
     <div class="retangulo">
       {isShowingFilters && (
         <div className="filter">
-          <br-list title="Lista vertical" data-toggle="true" density="small">
-            <br-item title="Definições" tooltip-text="">
-              <br-list>
+          <br-list title="" data-toggle="true" density="small">
+            <br-item
+              title="Definições"
+              style={{
+                background: "#F8F8F8",
+                borderRadius: "8px",
+                marginBottom: "8px",
+              }}
+            >
+              <br-list style={{ background: "#F8F8F8", padding: "12px" }}>
+                {filters.map((filter) => (
+                  <div className="title-and-switch">
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {filter}
+                    </p>
+                    <CustomSwitch task={handleUniFilter} />
+                  </div>
+                ))}
+              </br-list>
+            </br-item>
+
+            <br-item
+              title="Ano de Publicação"
+              style={{
+                background: "#F8F8F8",
+                borderRadius: "8px",
+                marginBottom: "8px",
+              }}
+            >
+              <br-list style={{ background: "#F8F8F8", padding: "12px" }}>
                 <br-switch
-                  label="Simples"
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Acesso Aberto"
                   id
                   label-checked=""
                   label-not-checked=""
                 ></br-switch>
-                <br-item hover tooltip-text="">
-                  Subitem 1.1
-                </br-item>
-                <br-item hover>Subitem 1.2</br-item>
-                <br-item hover>Subitem 1.3</br-item>
+                <br-switch
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Produção Nacional"
+                  id
+                  label-checked=""
+                  label-not-checked=""
+                ></br-switch>
+                <br-switch
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Revisão por Pares"
+                  id
+                  label-checked=""
+                  label-not-checked=""
+                ></br-switch>
               </br-list>
             </br-item>
-            <br-divider></br-divider>
-            <br-item title="Item 2" tooltip-text="">
-              <br-list>
-                <br-item hover tooltip-text="">
-                  Subitem 2.1
-                </br-item>
-                <br-item hover>Subitem 2.2</br-item>
-                <br-item hover>Subitem 2.3</br-item>
+
+            <br-item
+              title="Áreas"
+              style={{
+                background: "#F8F8F8",
+                borderRadius: "8px",
+                marginBottom: "8px",
+              }}
+            >
+              <br-list style={{ background: "#F8F8F8", padding: "12px" }}>
+                <br-input
+                  icon-sign="search"
+                  label="Label / Rótulo"
+                  placeholder="Busca"
+                ></br-input>
+                <br-checkbox
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Ciências Humanas"
+                  name="base"
+                  aria-label=""
+                  model="check1"
+                ></br-checkbox>
+                <br-checkbox
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Ciências Exatas"
+                  name="base"
+                  aria-label=""
+                  model="check1"
+                ></br-checkbox>
+                <br-checkbox
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Ciências Biológicas"
+                  name="base"
+                  aria-label=""
+                  model="check1"
+                ></br-checkbox>
               </br-list>
             </br-item>
           </br-list>
 
+          {/*
           <div>
             <strong>Acesso Aberto</strong>
           </div>
@@ -198,6 +330,56 @@ function FilterBar({
               ))}
             </div>
 
+                        <div>
+                            <h4>Languages</h4>
+                            <div className="multi-select">
+                                {Object.entries(availableLanguages).map((lang) => (
+                                    <label key={lang[0]}>
+                                        <input
+                                            type="checkbox"
+                                            value={lang[0]}
+                                            checked={selectedLanguages.includes(lang[0])}
+                                            onChange={() => {
+                                                setSelectedLanguages((prev) =>
+                                                    prev.includes(lang[0]) ? prev.filter((l) => l !== lang[0]) : [...prev, lang[0]]
+                                                );
+                                            }}
+                                        />
+                                        {lang[0]}
+                                        ({lang[1]})
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Editors</h4>
+                            <div className="multi-select">
+                                {Object.entries(availableEditors).map((editor) => (
+                                    <label key={editor[0]}>
+                                        <input
+                                            type="checkbox"
+                                            value={editor[0]}
+                                            checked={selectedEditors.includes(editor[0])}
+                                            onChange={() => {
+                                                setSelectedEditors((prev) =>
+                                                    prev.includes(editor[0]) ? prev.filter((e) => e !== editor[0]) : [...prev, editor[0]]
+                                                );
+                                            }}
+                                        />
+                                        {editor[0]}
+                                        ({editor[1]})
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <button onClick={applySelectedFilters} >Filtrar</button>
+                        </div>
+                    </div>
+                    
+                </div>
+            )}
             <div>
               <h4>Areas</h4>
               <div className="multi-select">
@@ -243,8 +425,6 @@ function FilterBar({
                 ))}
               </div>
             </div>
-
-            {/* Editors Filter */}
             <div>
               <h4>Editors</h4>
               <div className="multi-select">
@@ -272,6 +452,7 @@ function FilterBar({
               <button onClick={applySelectedFilters}>Filtrar</button>
             </div>
           </div>
+           */}
         </div>
       )}
     </div>
