@@ -26,7 +26,7 @@ const TopBar = () => {
           list-links="[
     {
       name: 'Sobre',
-      href: '#'
+      href: 'home'
     },
     {
       name: 'Acervo',
