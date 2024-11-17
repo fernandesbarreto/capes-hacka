@@ -226,6 +226,10 @@ const SearchArea = () => {
                             marginLeft: "16px",
                           }}
                         >
+                          <i
+                            class="fa-solid fa-lock-open"
+                            style={{ marginRight: "4px" }}
+                          ></i>
                           Acesso aberto
                         </span>
                         <span
@@ -235,6 +239,10 @@ const SearchArea = () => {
                             marginLeft: "16px",
                           }}
                         >
+                          <i
+                            class="fa-solid fa-book-open-reader"
+                            style={{ marginRight: "4px" }}
+                          ></i>
                           Revisado por Pares
                         </span>
                       </div>
@@ -339,7 +347,7 @@ const SearchArea = () => {
                             href={`https://doi.org/${work.doi}`}
                             icon="sign-in-alt"
                             label="Acessar"
-                            type="primary"
+                            type="secondary"
                           ></br-button>
                         </a>
                       )}
