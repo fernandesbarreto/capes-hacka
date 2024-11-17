@@ -151,7 +151,7 @@ function FilterBar({
   const handleUniFilter = () => {
     console.log("teste");
     handleSearch(2);
-  }
+  };
 
   const applySelectedFilters = () => {
     let filteredWorks = [...worksData];
@@ -178,63 +178,117 @@ function FilterBar({
     applyFilters(filteredWorks);
   };
 
-  const filters = ["Disponível na UFPE", "Acesso Aberto", "Produção Nacional", "Revisão por Pares"];
+  const filters = [
+    "Disponível na UFPE",
+    "Acesso Aberto",
+    "Produção Nacional",
+    "Revisão por Pares",
+  ];
 
   return (
     <div class="retangulo">
       {isShowingFilters && (
         <div className="filter">
-        <br-list title="" data-toggle="true" density="small">
-            <br-item title="Definições" style={{background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px'}}>
-            
-                <br-list style={{background: "#F8F8F8", padding: '12px'}}>
-
-                  {filters.map((filter) => (
-                    <div className="title-and-switch">
-                      <p style={{ margin: 0, fontSize:"14px", fontWeight:"bold" }}>{filter}</p>
-                      <CustomSwitch task = {handleUniFilter}/>
-                    </div>
-                  ))}
-
-                </br-list>
-                
+          <br-list title="" data-toggle="true" density="small">
+            <br-item
+              title="Definições"
+              style={{
+                background: "#F8F8F8",
+                borderRadius: "8px",
+                marginBottom: "8px",
+              }}
+            >
+              <br-list style={{ background: "#F8F8F8", padding: "12px" }}>
+                {filters.map((filter) => (
+                  <div className="title-and-switch">
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {filter}
+                    </p>
+                    <CustomSwitch task={handleUniFilter} />
+                  </div>
+                ))}
+              </br-list>
             </br-item>
-           
-            <br-item title="Ano de Publicação" style={{background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px'}}>
-                <br-list style={{background: "#F8F8F8", padding: '12px'}}>
-                    <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}}label="Acesso Aberto" id label-checked="" label-not-checked=""></br-switch>
-                    <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}}label="Produção Nacional" id label-checked="" label-not-checked=""></br-switch>
-                    <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}}label="Revisão por Pares" id label-checked="" label-not-checked=""></br-switch>
-                </br-list>
-            </br-item>
-            
-            <br-item title="Áreas" style={{background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px'}}>
-                <br-list style={{background: "#F8F8F8", padding: '12px'}}>
-                    <br-input icon-sign="search" label="Label / Rótulo" placeholder="Busca"></br-input>
-                    <br-checkbox style={{background: "#F8F8F8", paddingTop: '8px'}}
-                        label="Ciências Humanas"
-                        name="base"
-                        aria-label=""
-                        model="check1"
-                    ></br-checkbox>
-                    <br-checkbox style={{background: "#F8F8F8", paddingTop: '8px'}}
-                        label="Ciências Exatas"
-                        name="base"
-                        aria-label=""
-                        model="check1"
-                    ></br-checkbox>
-                    <br-checkbox style={{background: "#F8F8F8", paddingTop: '8px'}}
-                        label="Ciências Biológicas"
-                        name="base"
-                        aria-label=""
-                        model="check1"
-                    ></br-checkbox>
 
-                </br-list>
+            <br-item
+              title="Ano de Publicação"
+              style={{
+                background: "#F8F8F8",
+                borderRadius: "8px",
+                marginBottom: "8px",
+              }}
+            >
+              <br-list style={{ background: "#F8F8F8", padding: "12px" }}>
+                <br-switch
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Acesso Aberto"
+                  id
+                  label-checked=""
+                  label-not-checked=""
+                ></br-switch>
+                <br-switch
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Produção Nacional"
+                  id
+                  label-checked=""
+                  label-not-checked=""
+                ></br-switch>
+                <br-switch
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Revisão por Pares"
+                  id
+                  label-checked=""
+                  label-not-checked=""
+                ></br-switch>
+              </br-list>
             </br-item>
-        </br-list>
 
-        {/*
+            <br-item
+              title="Áreas"
+              style={{
+                background: "#F8F8F8",
+                borderRadius: "8px",
+                marginBottom: "8px",
+              }}
+            >
+              <br-list style={{ background: "#F8F8F8", padding: "12px" }}>
+                <br-input
+                  icon-sign="search"
+                  label="Label / Rótulo"
+                  placeholder="Busca"
+                ></br-input>
+                <br-checkbox
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Ciências Humanas"
+                  name="base"
+                  aria-label=""
+                  model="check1"
+                ></br-checkbox>
+                <br-checkbox
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Ciências Exatas"
+                  name="base"
+                  aria-label=""
+                  model="check1"
+                ></br-checkbox>
+                <br-checkbox
+                  style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                  label="Ciências Biológicas"
+                  name="base"
+                  aria-label=""
+                  model="check1"
+                ></br-checkbox>
+              </br-list>
+            </br-item>
+          </br-list>
+
+          {/*
           <div>
             <strong>Acesso Aberto</strong>
           </div>

@@ -1,5 +1,3 @@
-// src/AdvancedSearch.js
-
 import React, { useState } from "react";
 import axios from "axios";
 import AdvancedSearch from "./AdvancedSearch";
@@ -10,21 +8,32 @@ const GPTSearch = ({ handleSearch, input }) => {
   const [advancedSearch, setAdvancedSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [popupIsOpen, SetPopupIsOpen] = useState(false);
+  const [popupIsOpen, setPopupIsOpen] = useState(false); // Renamed to follow camelCase
 
   const handleSearchFromModal = (text) => {
-    setQuery(text);  // Atualiza o estado do ChatGPT com o texto vindo do modal
+    setQuery(text); // Atualiza o estado do ChatGPT com o texto vindo do modal
+    setPopupIsOpen(false); // Fecha o modal após receber o texto
+    handleConvert(null, text); // Passa o texto diretamente para handleConvert
   };
 
   const handlePopup = () => {
-    SetPopupIsOpen(popupIsOpen => !popupIsOpen);
-  }
+    setPopupIsOpen(true);
+  };
 
-  const handleConvert = async (e) => {
-    e.preventDefault();
+  const handleCloseModal = () => {
+    setPopupIsOpen(false);
+  };
 
-    if (!query || !query.trim()) {
-      setError("Por favor, insira uma pergunta de pesquisa.");
+  // Modificada para aceitar um parâmetro opcional newQuery
+  const handleConvert = async (e, newQuery = null) => {
+    if (e) {
+      e.preventDefault();
+    }
+
+    const effectiveQuery = newQuery !== null ? newQuery : query;
+
+    if (!effectiveQuery || !effectiveQuery.trim()) {
+      //setError("Por favor, insira uma pergunta de pesquisa.");
       return;
     }
 
@@ -67,14 +76,14 @@ title: "Artificial Inteligence" OR title: "AI" OR title: "Machine Learning" AND 
 ---
 
 **Entrada:**
-${query}
+${effectiveQuery}
 
 **Saída:`;
 
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
-          model: "gpt-4o",
+          model: "gpt-4",
           messages: [{ role: "user", content: prompt }],
           max_tokens: 150,
           temperature: 0.2,
@@ -106,35 +115,38 @@ ${query}
 
   return (
     <div>
+      <SmartModal
+        onSearch={handleSearchFromModal}
+        open={popupIsOpen}
+        onClose={handleCloseModal}
+        setQuery={setQuery}
+      />
 
-      <SmartModal onSearch={handleSearchFromModal} open = {popupIsOpen} />
-
-      <h2>Conversor de Pesquisa Avançada</h2>
-
-      <button onClick={() => handlePopup()}>Abrir Modal</button>
+      <button onClick={handlePopup} style={styles.smart}>
+        <i
+          className="fa-solid fa-wand-magic-sparkles"
+          style={{ paddingRight: "8px" }}
+        ></i>
+        Assistente Inteligente
+      </button>
 
       <form onSubmit={handleConvert} style={styles.form}>
-        <textarea
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Digite sua pergunta de pesquisa aqui..."
-          style={styles.textarea}
-          rows="4"
-        />
-        <button type="submit" style={styles.button} disabled={isLoading}>
-          {isLoading ? "Convertendo..." : "Converter"}
-        </button>
-        
-      </form>
-      {error && <p style={styles.error}>{error}</p>}
-      {advancedSearch && (
-        <div style={styles.result}>
-          <h3>Busca Avançada:</h3>
-          <p>{advancedSearch}</p>
-        </div>
-      )}
+        {error && <p style={styles.error}>{error}</p>}
 
-      <AdvancedSearch advancedString={advancedSearch} />
+        {advancedSearch && (
+          <div style={styles.result}>
+            <h3>Busca Avançada:</h3>
+            <p>{advancedSearch}</p>
+          </div>
+        )}
+
+        <div style={styles.buttons}>
+          <AdvancedSearch
+            advancedString={advancedSearch}
+            handleConvert={handleConvert}
+          />
+        </div>
+      </form>
     </div>
   );
 };
@@ -152,6 +164,16 @@ const styles = {
     borderRadius: "4px",
     border: "1px solid #ccc",
     resize: "vertical",
+  },
+  convertButton: {
+    padding: "10px 20px",
+    fontSize: "16px",
+    borderRadius: "4px",
+    border: "none",
+    backgroundColor: "#28a745",
+    color: "#fff",
+    cursor: "pointer",
+    alignSelf: "flex-start",
   },
   button: {
     padding: "10px 20px",
@@ -171,6 +193,24 @@ const styles = {
     padding: "10px",
     backgroundColor: "#f8f9fa",
     borderRadius: "4px",
+  },
+  buttons: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "20px",
+  },
+  smart: {
+    padding: "10px 24px",
+    alignItems: "center",
+    color: "#1351B4",
+    border: "1px solid #1351B4",
+    backgroundColor: "white",
+    borderRadius: "32px",
+    fontSize: "16px",
+    fontWeight: "500",
+    display: "flex",
   },
 };
 

@@ -15,7 +15,8 @@ const Menu = ({ itemList, selectedValue, onSelect }) => {
   return (
     <div style={styles.menuContainer}>
       <button onClick={toggleMenu} style={styles.button}>
-        {selectedValue}
+        <>{selectedValue}</>
+        <i class="fas fa-caret-down" style={{ color: "#1351B4" }}></i>
       </button>
       {isOpen && (
         <ul style={styles.menuList}>
@@ -46,6 +47,9 @@ const AdvancedSearchLine = ({
 }) => {
   return (
     <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
+      <button onClick={onRemove} style={styles.removeButton}>
+        <i class="fas fa-times-circle"></i>
+      </button>
       {!isFirst && (
         <Menu
           itemList={["E", "OU"]}
@@ -63,23 +67,20 @@ const AdvancedSearchLine = ({
         selectedValue="Contém" // Fixado como "Contém" para este exemplo
         onSelect={() => {}} // Sem atualização, pois é fixo
       />
-      <input
+      <textarea
         value={textValue}
         onChange={(e) => setTextValue(e.target.value)}
         type="text"
-        style={styles.textField}
-        placeholder="Digite aqui..."
+        style={isFirst ? styles.textFieldFirst : styles.textField}
+        placeholder="Digite os termos da busca"
       />
-      {!isFirst && (
-        <button onClick={onRemove} style={styles.removeButton}>
-          X
-        </button>
-      )}
     </div>
   );
 };
 
-const AdvancedSearch = ({ advancedString = "" }) => {
+const AdvancedSearch = ({ advancedString = "", handleConvert }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     console.log("advancedString:", advancedString);
     stringToList(advancedString);
@@ -145,7 +146,10 @@ const AdvancedSearch = ({ advancedString = "" }) => {
     return result;
   };
 
-  const [lines, setLines] = useState([]);
+  const [lines, setLines] = useState([
+    { field: "Título", textValue: "", operator: "OU" },
+    { field: "Título", textValue: "", operator: "OU" },
+  ]);
 
   const addLine = () => {
     setLines([...lines, { field: "Título", textValue: "", operator: "OU" }]);
@@ -177,10 +181,23 @@ const AdvancedSearch = ({ advancedString = "" }) => {
         />
       ))}
 
-      <div style={{ marginTop: "10px" }}>
-        <button onClick={addLine} style={styles.addButton}>
-          + Adicionar novo campo
-        </button>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "16px",
+        }}
+      >
+        <div>
+          <br-button
+            onClick={addLine}
+            icon="plus"
+            label="Adicionar novo campo"
+          ></br-button>
+          <br-button onClick={addLine} icon="undo" label="Limpar"></br-button>
+        </div>
+
+        <br-button icon="search" label="Buscar" type="primary"></br-button>
       </div>
     </div>
   );
@@ -196,10 +213,14 @@ const styles = {
   button: {
     width: "150px",
     padding: "8px",
-    textAlign: "left",
-    border: "1px solid #ccc",
+    textAlign: "center",
+    border: "1px solid #888888",
+    borderRadius: "4px",
     backgroundColor: "#fff",
-    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: "38px",
   },
   menuList: {
     listStyleType: "none",
@@ -220,29 +241,24 @@ const styles = {
   textField: {
     width: "200px",
     padding: "8px",
-    marginLeft: "10px",
-    border: "none",
-    borderBottom: "2px solid #ccc",
-    borderRadius: "0",
+    border: "1px solid #888",
+    borderRadius: "4px",
+    height: "38px",
+  },
+  textFieldFirst: {
+    width: "360px",
+    height: "38px",
+    padding: "8px",
+    border: "1px solid #888",
+    borderRadius: "4px",
     outline: "none",
   },
-  addButton: {
-    width: "200px",
-    padding: "12px",
-    textAlign: "center",
-    border: "1px solid #ccc",
-    backgroundColor: "#f0f0f0",
-    cursor: "pointer",
-    borderRadius: "4px",
-    fontSize: "14px",
-    marginTop: "10px",
-  },
   removeButton: {
-    marginLeft: "10px",
+    margin: "4px",
     padding: "5px 10px",
     border: "none",
-    backgroundColor: "#ff4d4f",
-    color: "#fff",
+    backgroundColor: "white",
+    color: "#333",
     cursor: "pointer",
     borderRadius: "4px",
   },
