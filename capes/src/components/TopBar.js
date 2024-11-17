@@ -1,11 +1,12 @@
 import React from "react";
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
+import signature from "../assets/assinatura.png";
 
 const TopBar = () => {
   return (
     <div>
       <br-header
-        image="capes/src/assets/assinatura.png"
+        image={signature}
         signature=""
         title="Portal de Periódicos da Capes"
         subtitle="Versão ADA"
