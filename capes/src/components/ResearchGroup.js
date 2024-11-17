@@ -5,6 +5,10 @@ import commentIcon from "../assets/commenticon.png";
 import heartIcon from "../assets/hearticon.png";
 import SugestedWorks from "./SugestedWorks";
 import workStatus from "../assets/workstatus.png";
+import person1 from "../assets/person1.jpg"
+import person2 from "../assets/person2.jpg"
+import person3 from "../assets/person3.jpg"
+import person4 from "../assets/person4.jpg"
 
 const ResearchGroup = () => {
   const location = useLocation();
@@ -17,10 +21,10 @@ const ResearchGroup = () => {
   const colors = ["#FFCE00", "#7ECC06", "#FF6600", "#01CD9A"];
 
   const persons = [
-    { id: 1, name: "Pedro Montes", image: "https://picsum.photos/id/823/400" },
-    { id: 2, name: "Caroleta Costa", image: "https://picsum.photos/id/823/400" },
-    { id: 3, name: "João Lima", image: "https://picsum.photos/id/823/400" },
-    { id: 4, name: "Rodrigo Pereira", image: "https://picsum.photos/id/823/400" },
+    { id: 1, name: "Pedro Montes", image: person1 },
+    { id: 2, name: "Caroleta Costa", image: person2 },
+    { id: 3, name: "João Lima", image: person3 },
+    { id: 4, name: "Rodrigo Pereira", image: person4 },
   ];
 
   const [works, setWorks] = useState([
@@ -30,9 +34,7 @@ const ResearchGroup = () => {
       mainComment:
         { person: persons[0], content: "O 6G promete integrar dispositivos inteligentes em larga escala, revolucionando cidades, saúde e indústrias com maior eficiência e baixa latência." },
       comments: [
-        { person: persons[0], content: "Ótimo artigo" },
-        { person: persons[3], content: "Observações interessantes" },
-        { person: persons[1], content: "Muito pertinente para o escopo da pesquisa" },
+        { person: persons[0], content: "Gostei muito do parágrafo que aborda como o 6G vai transformar o ecossistema da Internet das Coisas (IoT). A conexão massiva e a latência ultrabaixa mencionadas são exatamente os pontos que podem embasar nossa pesquisa em Redes 6G: O Futuro da Conectividade, já que destacam o potencial dessa tecnologia para suportar dispositivos em larga escala e aplicações críticas, como cidades inteligentes e saúde conectada. Acho que vale explorar mais essa relação entre IoT e 6G no nosso trabalho!" },
       ],
     },
     {
@@ -163,7 +165,7 @@ const ResearchGroup = () => {
                     <img
                       src={heartIcon}
                       alt="Icone de coração"
-                      style={{ alignSelf: "flex-end", cursor: "pointer", width: "22px", height: "22px" }}
+                      style={{ alignSelf: "flex-end", cursor: "pointer", width: "22px", height: "22px", margin: "16px" }}
                     />
                   </div>
 
