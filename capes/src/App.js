@@ -7,7 +7,6 @@ import Workcapes from "./components/Workcapes";
 import ResearchGroup from "./components/ResearchGroup";
 import TelaPortalCAPES from "./pages/Home.js";
 import TopBar from "./components/TopBar.js";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 function App() {
