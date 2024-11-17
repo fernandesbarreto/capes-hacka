@@ -124,6 +124,8 @@ function FilterBar({
     applyFilters(filteredWorks);
   };
 
+  const filters = ["Disponível na UFPE", "Acesso Aberto", "Produção Nacional", "Revisão por Pares"];
+
   return (
     <div class="retangulo">
       {isShowingFilters && (
@@ -132,9 +134,14 @@ function FilterBar({
             <br-item title="Definições" style={{background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px'}}>
             
                 <br-list style={{background: "#F8F8F8", padding: '12px'}}>
-                    <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}} label="Acesso Aberto" id label-checked="" label-not-checked=""></br-switch>
-                    <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}}label="Produção Nacional" id label-checked="" label-not-checked=""></br-switch>
-                    <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}}label="Revisão por Pares" id label-checked="" label-not-checked=""></br-switch>
+
+                  {filters.map((filter) => (
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <p style={{ margin: 0, fontSize:"14px", fontWeight:"bold" }}>{filter}</p>
+                    <br-switch style={{ background: "#F8F8F8", marginLeft: 'auto' }} id label-not-checked=""></br-switch>
+                    </div>
+                  ))}
+
                 </br-list>
                 
             </br-item>

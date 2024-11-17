@@ -43,7 +43,7 @@ const SearchArea = () => {
     }
   };
 
-  const handleSearch = async (page = 1, query) => {
+  const handleSearch = async (page = 1) => {
     if (query === "" || !query) {
       setWorks([]);
       setTotalPages(null);
@@ -164,7 +164,6 @@ const SearchArea = () => {
             </div>
           </div>
 
-          {isLoading && <p>Loading...</p>}
           {error && <p style={styles.error}>{error}</p>}
           {!networkMode && (
             <ul style={styles.list}>
