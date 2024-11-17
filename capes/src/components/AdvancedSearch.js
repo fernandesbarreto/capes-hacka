@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const Menu = ({ itemList, selectedValue, onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,13 +25,12 @@ const Menu = ({ itemList, selectedValue, onSelect }) => {
               style={styles.menuItem}
               onClick={() => handleItemClick(item)}
             >
-              {item} {selectedValue === item && '✔ '}
+              {item} {selectedValue === item && "✔ "}
             </li>
           ))}
         </ul>
       )}
     </div>
-
   );
 };
 
@@ -46,21 +45,21 @@ const AdvancedSearchLine = ({
   setOperator,
 }) => {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
+    <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
       {!isFirst && (
         <Menu
-          itemList={['E', 'OU']}
+          itemList={["E", "OU"]}
           selectedValue={operator}
           onSelect={setOperator}
         />
       )}
       <Menu
-        itemList={['Qualquer campo', 'Título', 'Autor', 'Assunto', 'Editor']}
+        itemList={["Qualquer campo", "Título", "Autor", "Assunto", "Editor"]}
         selectedValue={field}
         onSelect={setField}
       />
       <Menu
-        itemList={['Contém', 'É']}
+        itemList={["Contém", "É"]}
         selectedValue="Contém" // Fixado como "Contém" para este exemplo
         onSelect={() => {}} // Sem atualização, pois é fixo
       />
@@ -80,74 +79,76 @@ const AdvancedSearchLine = ({
   );
 };
 
-const AdvancedSearch = ({advancedString = ''}) => {
-
+const AdvancedSearch = ({ advancedString = "" }) => {
   useEffect(() => {
-    console.log('advancedString:', advancedString);
+    console.log("advancedString:", advancedString);
     stringToList(advancedString);
-  }, [advancedString])
+  }, [advancedString]);
 
   const stringToList = (advancedString) => {
-    if (advancedString == '' || !advancedString) {
+    if (advancedString === "" || !advancedString) {
       return [];
     }
-  
+
     // Remove asteriscos do início da string
-    const cleanedString = advancedString.replace(/^\*+/, '').replace(/[()]/g, '');
-  
+    const cleanedString = advancedString
+      .replace(/^\*+/, "")
+      .replace(/[()]/g, "");
+
     const result = [];
     const parts = cleanedString.split(/(\bAND\b|\bOR\b)/);
-  
+
     let currentOperator = null;
-  
+
     for (let part of parts) {
       part = part.trim();
-  
-      if (part === 'AND' || part === 'OR') {
-        currentOperator = part === 'AND' ? 'E' : 'OU';
+
+      if (part === "AND" || part === "OR") {
+        currentOperator = part === "AND" ? "E" : "OU";
       } else if (part) {
         // Remove as aspas e divide o campo e o valor
-        let fieldAndText = part.replace(/"/g, ''); // Remove aspas
-        let [field, textValue] = fieldAndText.split(':').map(item => item.trim());
+        let fieldAndText = part.replace(/"/g, ""); // Remove aspas
+        let [field, textValue] = fieldAndText
+          .split(":")
+          .map((item) => item.trim());
 
-        switch(field) {
-          case 'title':
-            field = 'Título';
+        switch (field) {
+          case "title":
+            field = "Título";
             break;
-          case 'author':
-            field = 'Autor';
+          case "author":
+            field = "Autor";
             break;
           default:
-            field = 'Assunto';
+            field = "Assunto";
             break;
         }
-  
+
         const item = {
           field: field.trim(), // Título, Autor, etc.
-          textValue: textValue.replace(/'/g, '').trim(), // Remove aspas simples se existirem
+          textValue: textValue.replace(/'/g, "").trim(), // Remove aspas simples se existirem
         };
-  
+
         // Aplica o operador, se não for o primeiro item
         if (result.length > 0 && currentOperator) {
           item.operator = currentOperator;
         }
-  
+
         result.push(item);
       }
     }
 
-    console.log('result:', result);
+    console.log("result:", result);
 
-    setLines(result)
+    setLines(result);
 
     return result;
   };
-  
 
   const [lines, setLines] = useState([]);
 
   const addLine = () => {
-    setLines([...lines, { field: 'Título', textValue: '', operator: 'OU' }]);
+    setLines([...lines, { field: "Título", textValue: "", operator: "OU" }]);
   };
 
   const removeLine = (index) => {
@@ -176,7 +177,7 @@ const AdvancedSearch = ({advancedString = ''}) => {
         />
       ))}
 
-      <div style={{ marginTop: '10px' }}>
+      <div style={{ marginTop: "10px" }}>
         <button onClick={addLine} style={styles.addButton}>
           + Adicionar novo campo
         </button>
@@ -189,60 +190,60 @@ export default AdvancedSearch;
 
 const styles = {
   menuContainer: {
-    display: 'inline-block',
-    marginRight: '10px',
+    display: "inline-block",
+    marginRight: "10px",
   },
   button: {
-    width: '150px',
-    padding: '8px',
-    textAlign: 'left',
-    border: '1px solid #ccc',
-    backgroundColor: '#fff',
-    cursor: 'pointer',
+    width: "150px",
+    padding: "8px",
+    textAlign: "left",
+    border: "1px solid #ccc",
+    backgroundColor: "#fff",
+    cursor: "pointer",
   },
   menuList: {
-    listStyleType: 'none',
+    listStyleType: "none",
     padding: 0,
     margin: 0,
-    position: 'absolute',
-    backgroundColor: '#fff',
-    border: '1px solid #ccc',
-    width: '150px',
-    boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+    position: "absolute",
+    backgroundColor: "#fff",
+    border: "1px solid #ccc",
+    width: "150px",
+    boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
     zIndex: 1,
   },
   menuItem: {
-    padding: '8px',
-    cursor: 'pointer',
-    borderBottom: '1px solid #ccc',
+    padding: "8px",
+    cursor: "pointer",
+    borderBottom: "1px solid #ccc",
   },
   textField: {
-    width: '200px',
-    padding: '8px',
-    marginLeft: '10px',
-    border: 'none',
-    borderBottom: '2px solid #ccc',
-    borderRadius: '0',
-    outline: 'none',
+    width: "200px",
+    padding: "8px",
+    marginLeft: "10px",
+    border: "none",
+    borderBottom: "2px solid #ccc",
+    borderRadius: "0",
+    outline: "none",
   },
   addButton: {
-    width: '200px',
-    padding: '12px',
-    textAlign: 'center',
-    border: '1px solid #ccc',
-    backgroundColor: '#f0f0f0',
-    cursor: 'pointer',
-    borderRadius: '4px',
-    fontSize: '14px',
-    marginTop: '10px',
+    width: "200px",
+    padding: "12px",
+    textAlign: "center",
+    border: "1px solid #ccc",
+    backgroundColor: "#f0f0f0",
+    cursor: "pointer",
+    borderRadius: "4px",
+    fontSize: "14px",
+    marginTop: "10px",
   },
   removeButton: {
-    marginLeft: '10px',
-    padding: '5px 10px',
-    border: 'none',
-    backgroundColor: '#ff4d4f',
-    color: '#fff',
-    cursor: 'pointer',
-    borderRadius: '4px',
+    marginLeft: "10px",
+    padding: "5px 10px",
+    border: "none",
+    backgroundColor: "#ff4d4f",
+    color: "#fff",
+    cursor: "pointer",
+    borderRadius: "4px",
   },
 };
