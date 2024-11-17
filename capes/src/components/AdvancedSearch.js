@@ -155,6 +155,13 @@ const AdvancedSearch = ({ advancedString = "", handleConvert }) => {
     setLines([...lines, { field: "Título", textValue: "", operator: "OU" }]);
   };
 
+  const resetLine = () => {
+    setLines([
+      { field: "Título", textValue: "", operator: "OU" },
+      { field: "Título", textValue: "", operator: "OU" },
+    ]);
+  };
+
   const removeLine = (index) => {
     setLines(lines.filter((_, i) => i !== index));
   };
@@ -194,7 +201,7 @@ const AdvancedSearch = ({ advancedString = "", handleConvert }) => {
             icon="plus"
             label="Adicionar novo campo"
           ></br-button>
-          <br-button onClick={addLine} icon="undo" label="Limpar"></br-button>
+          <br-button onClick={resetLine} icon="undo" label="Limpar"></br-button>
         </div>
 
         <br-button icon="search" label="Buscar" type="primary"></br-button>
