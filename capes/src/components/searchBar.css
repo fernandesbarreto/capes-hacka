@@ -50,9 +50,10 @@ a {
 }
 
 .acervo-left {
+  margin: 0 !important;
   display: flex;
   justify-content: left;
-  align-items: center;
+  align-items: end;
   gap: 8px;
 }
 

@@ -96,9 +96,13 @@ const SearchArea = () => {
         <div>
           <div className="acervo">
             <div className="acervo-left">
-              <h3>Acervo</h3>
-              <h5>Você tem acesso ao conteúdo gratuito do Portal através do</h5>
-              <br-button>Acesso CAFe</br-button>
+              <h3 style={{ color: "#1351b4", margin: 0 }}>Acervo</h3>
+              <i style={{ margin: "4px" }}>
+                Você tem acesso ao conteúdo gratuito do Portal através do
+              </i>
+              <p style={{ color: "#1351b4", margin: "2px" }}>
+                Acesso CAFe <i class="fas fa-caret-down"></i>
+              </p>
             </div>
             <br-button
               onClick={toggleComponent}
