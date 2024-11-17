@@ -1,5 +1,4 @@
-// src/AdvancedSearch.js
-
+// GPTSearch.js
 import React, { useState } from "react";
 import axios from "axios";
 import AdvancedSearch from "./AdvancedSearch";
@@ -10,14 +9,19 @@ const GPTSearch = ({ handleSearch, input }) => {
   const [advancedSearch, setAdvancedSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [popupIsOpen, SetPopupIsOpen] = useState(false);
+  const [popupIsOpen, setPopupIsOpen] = useState(false); // Renamed to follow camelCase
 
   const handleSearchFromModal = (text) => {
     setQuery(text); // Atualiza o estado do ChatGPT com o texto vindo do modal
+    setPopupIsOpen(false); // Close the modal after receiving the search text
   };
 
   const handlePopup = () => {
-    SetPopupIsOpen(true);
+    setPopupIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setPopupIsOpen(false);
   };
 
   const handleConvert = async (e) => {
@@ -74,7 +78,7 @@ ${query}
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
-          model: "gpt-4o",
+          model: "gpt-4",
           messages: [{ role: "user", content: prompt }],
           max_tokens: 150,
           temperature: 0.2,
@@ -106,7 +110,11 @@ ${query}
 
   return (
     <div>
-      <SmartModal onSearch={handleSearchFromModal} open={popupIsOpen} />
+      <SmartModal
+        onSearch={handleSearchFromModal}
+        open={popupIsOpen}
+        onClose={handleCloseModal}
+      />
 
       <h2>Conversor de Pesquisa Avançada</h2>
 
@@ -118,19 +126,25 @@ ${query}
           style={styles.textarea}
           rows="4"
         />
+        <button type="submit" style={styles.convertButton} disabled={isLoading}>
+          {isLoading ? "Convertendo..." : "Converter"}
+        </button>
       </form>
+
       {error && <p style={styles.error}>{error}</p>}
+
       {advancedSearch && (
         <div style={styles.result}>
           <h3>Busca Avançada:</h3>
           <p>{advancedSearch}</p>
         </div>
       )}
+
       <div style={styles.buttons}>
         <AdvancedSearch advancedString={advancedSearch} />
-        <button onClick={() => handlePopup()} style={styles.smart}>
+        <button onClick={handlePopup} style={styles.smart}>
           <i
-            class="fa-solid fa-wand-magic-sparkles"
+            className="fa-solid fa-wand-magic-sparkles"
             style={{ paddingRight: "8px" }}
           ></i>
           Busca Inteligente
@@ -153,6 +167,16 @@ const styles = {
     borderRadius: "4px",
     border: "1px solid #ccc",
     resize: "vertical",
+  },
+  convertButton: {
+    padding: "10px 20px",
+    fontSize: "16px",
+    borderRadius: "4px",
+    border: "none",
+    backgroundColor: "#28a745",
+    color: "#fff",
+    cursor: "pointer",
+    alignSelf: "flex-start",
   },
   button: {
     padding: "10px 20px",
@@ -177,18 +201,20 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    marginTop: "20px",
   },
   smart: {
-    padding: "-16px 24px -16px 24px",
+    padding: "10px 24px",
     textAlign: "center",
     color: "#1351B4",
     border: "1px solid #ccc",
     backgroundColor: "white",
     cursor: "pointer",
     borderRadius: "32px",
-    marginTop: "10px",
     fontSize: "16px",
     fontWeight: "500",
+    display: "flex",
+    alignItems: "center",
   },
 };
 
