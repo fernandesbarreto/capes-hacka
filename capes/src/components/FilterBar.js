@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
+import '@govbr-ds/webcomponents/dist/webcomponents.umd.min.js';
 
-function FilterBar({worksData, applyFilters, searchPerformed}) {
+function FilterBar({ worksData, applyFilters, searchPerformed, isShowingFilters }) {
     const [availableTypes, setAvailableTypes] = useState({});
     const [availableEditors, setAvailableEditors] = useState({});
     const [availableLanguages, setAvailableLanguages] = useState({});
@@ -19,16 +20,16 @@ function FilterBar({worksData, applyFilters, searchPerformed}) {
 
     useEffect(() => {
         if (searchPerformed) {
-            handleFilters(); 
+            handleFilters();
         }
         // Atualiza os filtros quando há uma nova pesquisa
     }, [worksData, searchPerformed]);
 
     const handleTypeChange = (type) => {
         setSelectedTypes((prev) =>
-          prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
+            prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
         );
-      };
+    };
 
     const handleFilters = async () => {
 
@@ -115,116 +116,139 @@ function FilterBar({worksData, applyFilters, searchPerformed}) {
 
 
     return (
-        <div className="filter">
-            <div>
-                <strong>Acesso Aberto</strong>
-                </div>
+        <div class="retangulo">
+            {isShowingFilters && (
 
-            <label>
-                <input
-                    type="checkbox"
-                    checked={openAccessOnly === "yes"}
-                    onChange={() => setOpenAccessOnly(openAccessOnly === "" ? "yes" : "")}
-                />
-                Sim
-            </label>
-            <label>
-                <input
-                    type="checkbox"
-                    checked={openAccessOnly === "no"}
-                    onChange={() => setOpenAccessOnly(openAccessOnly === "" ? "no" : "")}
-                />
-                Não
-            </label>
+                <div className="filter">
+                    <br-list title="Lista vertical" data-toggle="true" density="small">
+                        <br-item title="Definições" tooltip-text="Lorem ipsum">
+                            <br-list>
+                                <br-switch label="Simples" id label-checked="" label-not-checked=""></br-switch>
+                                <br-item hover tooltip-text="Lorem ipsum">Subitem 1.1</br-item >
+                                <br-item hover>Subitem 1.2</br-item>
+                                <br-item hover>Subitem 1.3</br-item></br-list
+                            ></br-item
+                        ><br-divider></br-divider
+                        ><br-item title="Item 2" tooltip-text="Lorem ipsum"
+                        ><br-list
+                        ><br-item hover tooltip-text="Lorem ipsum">Subitem 2.1</br-item
+                        ><br-item hover>Subitem 2.2</br-item
+                        ><br-item hover>Subitem 2.3</br-item></br-list
+                            ></br-item
+                        ></br-list
+                    >
 
-            <div>
-                <h4>Type</h4>
-                <div className="multi-select">
-                    {Object.entries(availableTypes).map((type) => (
-                        <label key={type[0]}>
-                            <input
-                                type="checkbox"
-                                value={type[0]}
-                                checked={selectedTypes.includes(type[0])}
-                                onChange={() => handleTypeChange(type[0])}
-                            />
-                            {type[0]}
-                            ({type[1]})
-                        </label>
-                    ))}
-                </div>
+                    <div>
+                        <strong>Acesso Aberto</strong>
+                    </div>
 
-                <div>
-                    <h4>Areas</h4>
-                    <div className="multi-select">
-                        {Object.entries(availableAreas).map((area) => (
-                            <label key={area[0]}>
-                                <input
-                                    type="checkbox"
-                                    value={area[0]}
-                                    checked={selectedAreas.includes(area[0])}
-                                    onChange={() => {
-                                        setSelectedAreas((prev) =>
-                                            prev.includes(area[0]) ? prev.filter((a) => a !== area[0]) : [...prev, area[0]]
-                                        );
-                                    }}
-                                />
-                                {area[0]}
-                                ({area[1]})
-                            </label>
-                        ))}
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={openAccessOnly === "yes"}
+                            onChange={() => setOpenAccessOnly(openAccessOnly === "" ? "yes" : "")}
+                        />
+                        Sim
+                    </label>
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={openAccessOnly === "no"}
+                            onChange={() => setOpenAccessOnly(openAccessOnly === "" ? "no" : "")}
+                        />
+                        Não
+                    </label>
+
+                    <div>
+                        <h4>Type</h4>
+                        <div className="multi-select">
+                            {Object.entries(availableTypes).map((type) => (
+                                <label key={type[0]}>
+                                    <input
+                                        type="checkbox"
+                                        value={type[0]}
+                                        checked={selectedTypes.includes(type[0])}
+                                        onChange={() => handleTypeChange(type[0])}
+                                    />
+                                    {type[0]}
+                                    ({type[1]})
+                                </label>
+                            ))}
+                        </div>
+
+                        <div>
+                            <h4>Areas</h4>
+                            <div className="multi-select">
+                                {Object.entries(availableAreas).map((area) => (
+                                    <label key={area[0]}>
+                                        <input
+                                            type="checkbox"
+                                            value={area[0]}
+                                            checked={selectedAreas.includes(area[0])}
+                                            onChange={() => {
+                                                setSelectedAreas((prev) =>
+                                                    prev.includes(area[0]) ? prev.filter((a) => a !== area[0]) : [...prev, area[0]]
+                                                );
+                                            }}
+                                        />
+                                        {area[0]}
+                                        ({area[1]})
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4>Languages</h4>
+                            <div className="multi-select">
+                                {Object.entries(availableLanguages).map((lang) => (
+                                    <label key={lang[0]}>
+                                        <input
+                                            type="checkbox"
+                                            value={lang[0]}
+                                            checked={selectedLanguages.includes(lang[0])}
+                                            onChange={() => {
+                                                setSelectedLanguages((prev) =>
+                                                    prev.includes(lang[0]) ? prev.filter((l) => l !== lang[0]) : [...prev, lang[0]]
+                                                );
+                                            }}
+                                        />
+                                        {lang[0]}
+                                        ({lang[1]})
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Editors Filter */}
+                        <div>
+                            <h4>Editors</h4>
+                            <div className="multi-select">
+                                {Object.entries(availableEditors).map((editor) => (
+                                    <label key={editor[0]}>
+                                        <input
+                                            type="checkbox"
+                                            value={editor[0]}
+                                            checked={selectedEditors.includes(editor[0])}
+                                            onChange={() => {
+                                                setSelectedEditors((prev) =>
+                                                    prev.includes(editor[0]) ? prev.filter((e) => e !== editor[0]) : [...prev, editor[0]]
+                                                );
+                                            }}
+                                        />
+                                        {editor[0]}
+                                        ({editor[1]})
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div>
+                            <button onClick={applySelectedFilters} >Filtrar</button>
+                        </div>
                     </div>
                 </div>
-
-                <div>
-                    <h4>Languages</h4>
-                    <div className="multi-select">
-                        {Object.entries(availableLanguages).map((lang) => (
-                            <label key={lang[0]}>
-                                <input
-                                    type="checkbox"
-                                    value={lang[0]}
-                                    checked={selectedLanguages.includes(lang[0])}
-                                    onChange={() => {
-                                        setSelectedLanguages((prev) =>
-                                            prev.includes(lang[0]) ? prev.filter((l) => l !== lang[0]) : [...prev, lang[0]]
-                                        );
-                                    }}
-                                />
-                                {lang[0]}
-                                ({lang[1]})
-                            </label>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Editors Filter */}
-                <div>
-                    <h4>Editors</h4>
-                    <div className="multi-select">
-                        {Object.entries(availableEditors).map((editor) => (
-                            <label key={editor[0]}>
-                                <input
-                                    type="checkbox"
-                                    value={editor[0]}
-                                    checked={selectedEditors.includes(editor[0])}
-                                    onChange={() => {
-                                        setSelectedEditors((prev) =>
-                                            prev.includes(editor[0]) ? prev.filter((e) => e !== editor[0]) : [...prev, editor[0]]
-                                        );
-                                    }}
-                                />
-                                {editor[0]}
-                                ({editor[1]})
-                            </label>
-                        ))}
-                    </div>
-                </div>
-
-                <div>
-                    <button onClick = {applySelectedFilters} >Filtrar</button>
-                </div>
-            </div>
+            )}
         </div>
     );
 }
