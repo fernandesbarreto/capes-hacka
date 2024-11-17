@@ -8,7 +8,6 @@ import ResearchGroup from "./components/ResearchGroup";
 import TelaPortalCAPES from "./pages/Home.js";
 import TopBar from "./components/TopBar.js";
 import LocalModal from "./components/Modal.js";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 function App() {
