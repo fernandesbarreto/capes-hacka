@@ -8,7 +8,7 @@ import FilterBar from "./FilterBar";
 import "./searchBar.css";
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
 import GPTSummarize from "./SummarizeAI";
-import "../style/SearchArea.css";
+import "../style/SearchArea.css"
 
 const SearchArea = () => {
   const [works, setWorks] = useState([]);
@@ -20,12 +20,15 @@ const SearchArea = () => {
   const [isShowingFilters, setIsShowingFilters] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [networkMode, setNetworkMode] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMessageVisible, setIsMessageVisible] = useState(false);
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [showSimpleSearch, setShowSimpleSearch] = useState(true);
   const [perPage, setPerPage] = useState(10);
+
+  const applyFilters = (filteredWorks) => {
+    setWorks(filteredWorks);
+  };
 
   const handleGroupClick = () => {
     setIsMessageVisible(true);
@@ -36,10 +39,6 @@ const SearchArea = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-  };
-
-  const applyFilters = (filteredWorks) => {
-    setWorks(filteredWorks);
   };
 
   useEffect(() => {
@@ -57,7 +56,6 @@ const SearchArea = () => {
     }
   };
 
-  const handleSearch = async (page = 1, query = "") => {
   const handleSearch = async (page = 1, query = "") => {
     if (query === "" || !query) {
       setWorks([]);
@@ -107,7 +105,6 @@ const SearchArea = () => {
             searchPerformed={searchPerformed}
             isShowingFilters={isShowingFilters}
             handleSearch={handleSearch}
-            handleSearch={handleSearch}
           />
         }
         <div>
@@ -149,7 +146,6 @@ const SearchArea = () => {
 
           <div className="results">
             <div style={{ display: "flex", alignItems: "center" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
               <h3>Resultados</h3>
               <br-button
                 onClick={() => setNetworkMode(false)}
@@ -189,12 +185,8 @@ const SearchArea = () => {
                 <h4>1</h4>
                 <br-button circle icon="caret-down" />
               </div>
-              <br-button
-                icon="angle-left"
-                onClick={handlePreviousPage} />
-              <br-button icon="angle-right"
-                onClick={handleNextPage}
-              />
+              <br-button icon="angle-left" onClick={handlePreviousPage} />
+              <br-button icon="angle-right" onClick={handleNextPage} />
             </div>
           </div>
 
@@ -239,14 +231,12 @@ const SearchArea = () => {
                           Revisado por Pares
                         </span>
                       </div>
-
                       {isMessageVisible && (
-      <br-message state="success" show-icon="true" style ={{position: "absolute", top: "200px", right: "60px", zIndex: "10" }}>
-        Salvo com sucesso ao grupo <i> Redes 6G: O Futuro da Conectividade </i>
-      </br-message>
-    )}
+                        <br-message state="success" show-icon="true" style ={{position: "absolute", top: "200px", right: "60px", zIndex: "10" }}>
+                          Salvo com sucesso ao grupo <i> Redes 6G: O Futuro da Conectividade </i>
+                        </br-message>
+                      )}
 
-                      
                       <div style={{ display: "flex", position: "relative" }}>
                         <br-button icon="link" />
                         <br-button icon="share" />
@@ -311,15 +301,12 @@ const SearchArea = () => {
                       {work.authorships
                         ?.flatMap((authorship) => authorship.institutions || [])
                         .find((institution) => institution.display_name)
-                        ?.display_name || "N/A"} {" "}
-                      | {" "} <u>
-                        {work.cited_by_count} citações
-                      </u>
+                        ?.display_name || "N/A"}{" "}
+                      | <u>{work.cited_by_count} citações</u>
                     </p>
                     <div style={styles.footer}>
                       <span>{work.publisher}</span>
                       {work.doi && (
-
                         <a
                           href={`https://doi.org/${work.doi}`}
                           target="_blank"
@@ -347,7 +334,6 @@ const SearchArea = () => {
           {works.length > 0 && networkMode && <NetWorkViewer />}
         </div>
       </div>
-
 
       {totalPages && totalPages > 1 && (
         <div style={styles.pagination}>
