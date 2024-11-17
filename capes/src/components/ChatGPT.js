@@ -1,4 +1,3 @@
-// GPTSearch.js
 import React, { useState } from "react";
 import axios from "axios";
 import AdvancedSearch from "./AdvancedSearch";
@@ -147,17 +146,6 @@ ${effectiveQuery}
             advancedString={advancedSearch}
             handleConvert={handleConvert}
           />
-          {/* Botão de Converter */}
-          {/* Se desejar manter o botão de conversão no formulário, descomente-o */}
-          {/* 
-          <button
-            type="submit"
-            style={styles.convertButton}
-            disabled={isLoading}
-          >
-            {isLoading ? "Convertendo..." : "Converter"}
-          </button> 
-          */}
         </div>
       </form>
     </div>

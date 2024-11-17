@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
 import SearchBar from "./SearchBar";
-import ChaGPT from "./ChatGPT";
+import ChatGPT from "./ChatGPT";
 import FilterBar from "./FilterBar";
 import "./searchBar.css";
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
@@ -42,7 +42,8 @@ const SearchArea = () => {
     }
   };
 
-  const handleSearch = async (page = 1) => {
+  const handleSearch = async (page = 1, query = "") => {
+    console.log("entrando aqui");
     if (query === "" || !query) {
       setWorks([]);
       setTotalPages(null);
@@ -74,7 +75,6 @@ const SearchArea = () => {
       setError("Error occurred while fetching data.");
     } finally {
       setIsLoading(false);
-      //setSearchPerformed(false)
     }
   };
 
@@ -91,7 +91,7 @@ const SearchArea = () => {
             applyFilters={applyFilters}
             searchPerformed={searchPerformed}
             isShowingFilters={isShowingFilters}
-            handleSearch = {handleSearch}
+            handleSearch={handleSearch}
           />
         }
         <div>
@@ -122,7 +122,7 @@ const SearchArea = () => {
                   setQuery={setQuery}
                 />
               ) : (
-                <ChaGPT handleSearch={handleSearch} />
+                <ChatGPT handleSearch={handleSearch} />
               )}
             </div>
           </div>
