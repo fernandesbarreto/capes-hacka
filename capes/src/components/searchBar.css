@@ -1,13 +1,11 @@
-
-
 .top-bar {
-    display: flex;
-    justify-content: space-between;
-    padding: 16px;
-  }
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
 
 .top-links {
-    color: #1351B4;
+  color: #1351b4;
 }
 
 .top-links-area {
@@ -17,169 +15,166 @@
 }
 
 .login-button {
-    background: #1351B4;
-    height: 32px;
-    color: white;
-    border-radius: 42px;
-    display: flex; /* Ativa o Flexbox */
-    gap: 4px;
-    justify-content: center; /* Alinha o texto horizontalmente */
-    align-items: center;
-    padding: 6px 16px;
+  background: #1351b4;
+  height: 32px;
+  color: white;
+  border-radius: 42px;
+  display: flex; /* Ativa o Flexbox */
+  gap: 4px;
+  justify-content: center; /* Alinha o texto horizontalmente */
+  align-items: center;
+  padding: 6px 16px;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .mid-bar {
-    display: flex;
-    justify-content: space-between; /* Alinha o texto horizontalmente */
-    align-items: center;
+  display: flex;
+  justify-content: space-between; /* Alinha o texto horizontalmente */
+  align-items: center;
 }
 
 .mid-bar-info {
-    display: flex;
-    justify-content: center; /* Alinha o texto horizontalmente */
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  justify-content: center; /* Alinha o texto horizontalmente */
+  align-items: center;
+  gap: 8px;
 }
 
 .acervo {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .acervo-left {
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 8px;
 }
 
 .search-bar {
-    display: flex;
-    gap: 8px;
-    align-items: center;
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
 .search-bar-input {
-    width: 100%;
+  width: 100%;
 }
 
 .search-quantity {
-    display: flex;
-    gap: 16px;
-    align-items: center;
+  display: flex;
+  gap: 16px;
+  align-items: center;
 }
 
 .retangulo {
-    width: 220px;      /* Largura do retângulo */
+  width: 220px; /* Largura do retângulo */
 }
 
 .search-area {
-    display: flex;
-    gap: 40px;
+  display: flex;
+  gap: 40px;
 }
 
 .results {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 select {
-    width: 70px;
-    cursor: pointer;
+  width: 70px;
+  cursor: pointer;
 }
 .search-container {
-    display: flex;
-    align-items: center;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  .search-container input {
-    border: none;
-    outline: none;
-    padding: 8px;
-    flex: 1;
-    
-  }
-  
-  .search-button {
-    background-color: transparent;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-  }
-  
-  .search-button i {
-    font-size: 16px;
-  }
-  .styled-select {
-    width: 250px; /* Largura do select */
-    height: 56px; /* Altura do select */
-    padding-left: 30px; /* Espaço para o ícone à esquerda */
-    padding-right: 30px; /* Espaço para a seta */
-    border-radius: 8px; /* Borda com cantos arredondados */
-    border: 2px solid #007BFF; /* Borda azul */
-    font-size: 16px; /* Tamanho da fonte */
-    background-color: white; /* Cor de fundo */
-    appearance: none; /* Remove a seta padrão do select */
-    -webkit-appearance: none; /* Para o Safari */
-    -moz-appearance: none; /* Para o Firefox */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7"><path fill="none" stroke="%23007BFF" stroke-width="2" d="M1 1l5 5 5-5" /></svg>'); /* Triângulo invertido */
-    background-repeat: no-repeat;
-    background-position: right 10px center; /* Posiciona a seta à direita */
-    background-size: 12px 7px; /* Tamanho da seta */
-    cursor: pointer; /* Cursor de clique */
-  }
-  
-  /* Para quando o select estiver em foco */
-  .styled-select:focus {
-    outline: none; /* Remove o contorno padrão */
-  }
-  
-  /* Estilo opcional para melhorar a aparência do texto */
-  .styled-select option {
-    font-size: 16px;
-    color: #1351B4
-  }
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
 
-  /* Estilizando o select com a nova classe */
+.search-container input {
+  border: none;
+  outline: none;
+  padding: 8px;
+  flex: 1;
+}
+
+.search-button {
+  background-color: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.search-button i {
+  font-size: 16px;
+}
+.styled-select {
+  width: 250px; /* Largura do select */
+  height: 56px; /* Altura do select */
+  padding-left: 30px; /* Espaço para o ícone à esquerda */
+  padding-right: 30px; /* Espaço para a seta */
+  border-radius: 8px; /* Borda com cantos arredondados */
+  border: 2px solid #007bff; /* Borda azul */
+  font-size: 16px; /* Tamanho da fonte */
+  background-color: white; /* Cor de fundo */
+  appearance: none; /* Remove a seta padrão do select */
+  -webkit-appearance: none; /* Para o Safari */
+  -moz-appearance: none; /* Para o Firefox */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7"><path fill="none" stroke="%23007BFF" stroke-width="2" d="M1 1l5 5 5-5" /></svg>'); /* Triângulo invertido */
+  background-repeat: no-repeat;
+  background-position: right 10px center; /* Posiciona a seta à direita */
+  background-size: 12px 7px; /* Tamanho da seta */
+  cursor: pointer; /* Cursor de clique */
+}
+
+/* Para quando o select estiver em foco */
+.styled-select:focus {
+  outline: none; /* Remove o contorno padrão */
+}
+
+/* Estilo opcional para melhorar a aparência do texto */
+.styled-select option {
+  font-size: 16px;
+  color: #1351b4;
+}
+
+/* Estilizando o select com a nova classe */
 .custom-dropdown {
-    width: 80px; /* Largura do select */
-    height: 32px; /* Altura de 32px */
-    padding-left: 10px; /* Espaço para o texto */
-    padding-right: 30px; /* Espaço para a seta */
-    border: none; /* Remover bordas */
-    font-size: 16px; /* Tamanho da fonte */
-    background-color: white; /* Cor de fundo */
-    appearance: none; /* Remove a seta padrão do select */
-    -webkit-appearance: none; /* Para o Safari */
-    -moz-appearance: none; /* Para o Firefox */
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7"><path fill="none" stroke="%23000000" stroke-width="2" d="M1 1l5 5 5-5" /></svg>'); /* Triângulo invertido */
-    background-repeat: no-repeat;
-    background-position: right 10px center; /* Posiciona a seta à direita */
-    background-size: 12px 7px; /* Tamanho da seta */
-    cursor: pointer; /* Cursor de clique */
-  }
-  
-  /* Para quando o select estiver em foco */
-  .custom-dropdown:focus {
-    outline: none; /* Remove o contorno padrão */
-  }
-  
-  /* Estilo opcional para melhorar a aparência do texto */
-  .custom-dropdown option {
-    font-size: 16px;
-  }
+  width: 80px; /* Largura do select */
+  height: 32px; /* Altura de 32px */
+  padding-left: 10px; /* Espaço para o texto */
+  padding-right: 30px; /* Espaço para a seta */
+  border: none; /* Remover bordas */
+  font-size: 16px; /* Tamanho da fonte */
+  background-color: white; /* Cor de fundo */
+  appearance: none; /* Remove a seta padrão do select */
+  -webkit-appearance: none; /* Para o Safari */
+  -moz-appearance: none; /* Para o Firefox */
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 7"><path fill="none" stroke="%23000000" stroke-width="2" d="M1 1l5 5 5-5" /></svg>'); /* Triângulo invertido */
+  background-repeat: no-repeat;
+  background-position: right 10px center; /* Posiciona a seta à direita */
+  background-size: 12px 7px; /* Tamanho da seta */
+  cursor: pointer; /* Cursor de clique */
+}
 
-  .filter {
-    width: 220px;
-  }
-  
-  
+/* Para quando o select estiver em foco */
+.custom-dropdown:focus {
+  outline: none; /* Remove o contorno padrão */
+}
+
+/* Estilo opcional para melhorar a aparência do texto */
+.custom-dropdown option {
+  font-size: 16px;
+}
+
+.filter {
+  width: 220px;
+}

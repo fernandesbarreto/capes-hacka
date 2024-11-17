@@ -67,7 +67,7 @@ const AdvancedSearchLine = ({
         value={textValue}
         onChange={(e) => setTextValue(e.target.value)}
         type="text"
-        style={styles.textField}
+        style={isFirst ? styles.textFieldFirst : styles.textField}
         placeholder="Digite aqui..."
       />
       {!isFirst && (
@@ -145,7 +145,10 @@ const AdvancedSearch = ({ advancedString = "" }) => {
     return result;
   };
 
-  const [lines, setLines] = useState([]);
+  const [lines, setLines] = useState([
+    { field: "Título", textValue: "", operator: "OU" },
+    { field: "Título", textValue: "", operator: "OU" },
+  ]);
 
   const addLine = () => {
     setLines([...lines, { field: "Título", textValue: "", operator: "OU" }]);
@@ -177,10 +180,13 @@ const AdvancedSearch = ({ advancedString = "" }) => {
         />
       ))}
 
-      <div style={{ marginTop: "10px" }}>
-        <button onClick={addLine} style={styles.addButton}>
-          + Adicionar novo campo
-        </button>
+      <div>
+        <br-button
+          onClick={addLine}
+          icon="plus"
+          label="Adicionar novo campo"
+        ></br-button>
+        <br-button onClick={addLine} icon="undo" label="Limpar"></br-button>
       </div>
     </div>
   );
@@ -226,16 +232,14 @@ const styles = {
     borderRadius: "0",
     outline: "none",
   },
-  addButton: {
-    width: "200px",
-    padding: "12px",
-    textAlign: "center",
-    border: "1px solid #ccc",
-    backgroundColor: "#f0f0f0",
-    cursor: "pointer",
-    borderRadius: "4px",
-    fontSize: "14px",
-    marginTop: "10px",
+  textFieldFirst: {
+    width: "360px",
+    padding: "8px",
+    marginLeft: "10px",
+    border: "none",
+    borderBottom: "2px solid #ccc",
+    borderRadius: "0",
+    outline: "none",
   },
   removeButton: {
     marginLeft: "10px",

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import magicIcon from "../assets/magicicon.png";
 
-const SmartModal = ({ onSearch, open }) => {
+const SmartModal = ({ onSearch, open, convert, setQuery }) => {
   // Recebe a função onSearch como prop
   const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState("");
@@ -23,6 +23,8 @@ const SmartModal = ({ onSearch, open }) => {
     console.log("Texto da textarea:", text); // Captura o texto da textarea
     if (onSearch) {
       onSearch(text); // Passa o texto para o componente pai
+      setQuery(text);
+      convert();
     }
   };
 

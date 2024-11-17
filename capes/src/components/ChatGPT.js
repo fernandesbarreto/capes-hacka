@@ -25,7 +25,9 @@ const GPTSearch = ({ handleSearch, input }) => {
   };
 
   const handleConvert = async (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
 
     if (!query || !query.trim()) {
       setError("Por favor, insira uma pergunta de pesquisa.");
@@ -114,42 +116,39 @@ ${query}
         onSearch={handleSearchFromModal}
         open={popupIsOpen}
         onClose={handleCloseModal}
+        convert={handleConvert}
+        setQuery={setQuery}
       />
 
-      <h2>Conversor de Pesquisa Avançada</h2>
+      <button onClick={handlePopup} style={styles.smart}>
+        <i
+          className="fa-solid fa-wand-magic-sparkles"
+          style={{ paddingRight: "8px" }}
+        ></i>
+        Busca Inteligente
+      </button>
 
       <form onSubmit={handleConvert} style={styles.form}>
-        <textarea
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Digite sua pergunta de pesquisa aqui..."
-          style={styles.textarea}
-          rows="4"
-        />
-        <button type="submit" style={styles.convertButton} disabled={isLoading}>
-          {isLoading ? "Convertendo..." : "Converter"}
-        </button>
-      </form>
+        {error && <p style={styles.error}>{error}</p>}
 
-      {error && <p style={styles.error}>{error}</p>}
+        {advancedSearch && (
+          <div style={styles.result}>
+            <h3>Busca Avançada:</h3>
+            <p>{advancedSearch}</p>
+          </div>
+        )}
 
-      {advancedSearch && (
-        <div style={styles.result}>
-          <h3>Busca Avançada:</h3>
-          <p>{advancedSearch}</p>
+        <div style={styles.buttons}>
+          <AdvancedSearch advancedString={advancedSearch} />
+          <button
+            type="submit"
+            style={styles.convertButton}
+            disabled={isLoading}
+          >
+            {isLoading ? "Convertendo..." : "Converter"}
+          </button>
         </div>
-      )}
-
-      <div style={styles.buttons}>
-        <AdvancedSearch advancedString={advancedSearch} />
-        <button onClick={handlePopup} style={styles.smart}>
-          <i
-            className="fa-solid fa-wand-magic-sparkles"
-            style={{ paddingRight: "8px" }}
-          ></i>
-          Busca Inteligente
-        </button>
-      </div>
+      </form>
     </div>
   );
 };
@@ -205,16 +204,14 @@ const styles = {
   },
   smart: {
     padding: "10px 24px",
-    textAlign: "center",
+    alignItems: "center",
     color: "#1351B4",
-    border: "1px solid #ccc",
+    border: "1px solid #1351B4",
     backgroundColor: "white",
-    cursor: "pointer",
     borderRadius: "32px",
     fontSize: "16px",
     fontWeight: "500",
     display: "flex",
-    alignItems: "center",
   },
 };
 
