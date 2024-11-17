@@ -91,6 +91,7 @@ const SearchArea = () => {
             applyFilters={applyFilters}
             searchPerformed={searchPerformed}
             isShowingFilters={isShowingFilters}
+            handleSearch = {handleSearch}
           />
         }
         <div>
@@ -172,7 +173,6 @@ const SearchArea = () => {
             </div>
           </div>
 
-          {isLoading && <p>Loading...</p>}
           {error && <p style={styles.error}>{error}</p>}
           {!networkMode && (
             <ul style={styles.list}>
