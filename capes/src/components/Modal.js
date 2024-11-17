@@ -2,17 +2,29 @@ import React, { useState, useEffect, useRef } from "react";
 import ufpe from "../assets/ufpe.jpg";
 
 const LocalModal = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const LOCAL_STORAGE_KEY = "hasClosedModal";
+
+  const [isOpen, setIsOpen] = useState(
+    !localStorage.getItem(LOCAL_STORAGE_KEY)
+  );
 
   const maybeLaterButtonRef = useRef(null);
   const yesButtonRef = useRef(null);
 
   useEffect(() => {
-    setIsOpen(true);
+    if (typeof window !== "undefined") {
+      const hasClosedModal = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (!hasClosedModal) {
+        setIsOpen(true);
+      }
+    }
   }, []);
 
   const closeModal = () => {
     setIsOpen(false);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(LOCAL_STORAGE_KEY, true);
+    }
   };
 
   useEffect(() => {
@@ -20,11 +32,13 @@ const LocalModal = () => {
     const yesButton = yesButtonRef.current;
 
     const handleMaybeLaterClick = () => {
-      setIsOpen(false);
+      closeModal();
+      console.log("User chose to close the modal.");
     };
 
     const handleYesClick = () => {
-      setIsOpen(false);
+      closeModal();
+      console.log("User confirmed.");
     };
 
     if (maybeLaterButton) {
@@ -43,20 +57,25 @@ const LocalModal = () => {
         yesButton.removeEventListener("click", handleYesClick);
       }
     };
-  }, [isOpen]);
+  }, []);
 
   return (
     <>
       {isOpen && (
         <br-scrim show center-content>
           <br-modal title="Acesso" show={isOpen} closable onClose={closeModal}>
-            <div style={{ display: "flex", alignContent: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <img
                 src={ufpe}
                 alt="Logo da UFPE"
                 style={{
                   width: "120px",
-                  margin: "auto",
                   borderRadius: "8px",
                   padding: "8px",
                 }}
@@ -68,7 +87,14 @@ const LocalModal = () => {
               <b>Universidade Federal de Pernambuco - UFPE</b>. Gostaria de ver
               materiais personalizados disponíveis para essa instituição?
             </p>
-            <div slot="buttons" style={{ display: "flex", gap: "8px" }}>
+            <div
+              slot="buttons"
+              style={{
+                display: "flex",
+                gap: "8px",
+                justifyContent: "flex-end",
+              }}
+            >
               <br-button
                 type="secondary"
                 className="m-1"
