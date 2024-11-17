@@ -4,9 +4,8 @@ import NetWorkViewer from "./NetworkViewer";
 import SearchBar from "./SearchBar";
 import ChaGPT from "./ChatGPT";
 import FilterBar from "./FilterBar";
-import './searchBar.css'
-
-import '@govbr-ds/webcomponents/dist/webcomponents.umd.min.js';
+import "./searchBar.css";
+import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
 import GPTSummarize from "./SummarizeAI";
 
 const SearchArea = () => {
@@ -24,8 +23,8 @@ const SearchArea = () => {
 
 
   const applyFilters = (filteredWorks) => {
-    setWorks(filteredWorks)
-  }
+    setWorks(filteredWorks);
+  };
 
   useEffect(() => {
     handleSearch(currentPage);
@@ -58,9 +57,8 @@ const SearchArea = () => {
       setTotalPages(Math.ceil(totalResults / perPage));
       setCurrentPage(page);
       setQuery(trimmedQuery);
-      setSearchPerformed(true)
-      setIsShowingFilters(true)
-
+      setSearchPerformed(true);
+      setIsShowingFilters(true);
     } catch (err) {
       if (err.response) {
         if (err.response.status === 429) {
@@ -108,20 +106,25 @@ const SearchArea = () => {
     <div style={styles.container}>
       <div class="search-area">
         {
-          <FilterBar worksData={works} applyFilters={applyFilters} searchPerformed={searchPerformed} isShowingFilters={isShowingFilters} />
+          <FilterBar
+            worksData={works}
+            applyFilters={applyFilters}
+            searchPerformed={searchPerformed}
+            isShowingFilters={isShowingFilters}
+          />
         }
         <div>
           <div className="acervo">
             <div className="acervo-left">
-              <h3>
-                Acervo
-              </h3>
+              <h3>Acervo</h3>
               <h5>Você tem acesso ao conteúdo gratuito do Portal através do</h5>
               <br-button>Acesso CAFe</br-button>
             </div>
-            <br-button onClick={toggleComponent} label={showSimpleSearch ? "Busca Avançada" : "Busca Simples"}></br-button>
+            <br-button
+              onClick={toggleComponent}
+              label={showSimpleSearch ? "Busca Avançada" : "Busca Simples"}
+            ></br-button>
           </div>
-
 
           <div className="search-bar">
             <select id="dropdown" name="page" className="styled-select">
@@ -141,7 +144,6 @@ const SearchArea = () => {
                 <ChaGPT handleSearch={handleSearch} />
               )}
             </div>
-
           </div>
 
           <div className="results">
@@ -292,10 +294,6 @@ const SearchArea = () => {
 
 
         </div>
-
-
-
-
       </div>
 
 
@@ -512,7 +510,7 @@ const styles = {
   },
   hiperlinks: {
     padding: "16px",
-    color: "#1351B4"
+    color: "#1351B4",
   },
 };
 
