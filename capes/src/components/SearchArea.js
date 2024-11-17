@@ -8,6 +8,7 @@ import FilterBar from "./FilterBar";
 import "./searchBar.css";
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
 import GPTSummarize from "./SummarizeAI";
+import "../style/SearchArea.css";
 
 const SearchArea = () => {
   const [works, setWorks] = useState([]);
@@ -19,10 +20,23 @@ const SearchArea = () => {
   const [isShowingFilters, setIsShowingFilters] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [networkMode, setNetworkMode] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMessageVisible, setIsMessageVisible] = useState(false);
+
 
   const [showSimpleSearch, setShowSimpleSearch] = useState(true);
   const [perPage, setPerPage] = useState(10);
 
+  const handleGroupClick = () => {
+    setIsMessageVisible(true);
+    setTimeout(() => {
+      setIsMessageVisible(false); // Oculta a mensagem após um tempo (exemplo: 3 segundos)
+    }, 3000);
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const applyFilters = (filteredWorks) => {
     setWorks(filteredWorks);
@@ -43,7 +57,7 @@ const SearchArea = () => {
     }
   };
 
-  const handleSearch = async (page = 1, query="") => {
+  const handleSearch = async (page = 1, query = "") => {
     if (query === "" || !query) {
       setWorks([]);
       setTotalPages(null);
@@ -92,7 +106,7 @@ const SearchArea = () => {
             applyFilters={applyFilters}
             searchPerformed={searchPerformed}
             isShowingFilters={isShowingFilters}
-            handleSearch = {handleSearch}
+            handleSearch={handleSearch}
           />
         }
         <div>
@@ -129,7 +143,7 @@ const SearchArea = () => {
           </div>
 
           <div className="results">
-            <div style={{display: "flex", alignItems: "center"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <h3>Resultados</h3>
               <br-button onClick={() => setNetworkMode(false)}
                 icon="list"></br-button>
@@ -158,7 +172,7 @@ const SearchArea = () => {
               </div>
               <br-button
                 icon="angle-left"
-                onClick={handlePreviousPage}/>
+                onClick={handlePreviousPage} />
               <br-button icon="angle-right"
                 onClick={handleNextPage}
               />
@@ -201,11 +215,45 @@ const SearchArea = () => {
                           Revisado por Pares
                         </span>
                       </div>
-                      <div style={{ display: "flex" }}>
+
+                      {isMessageVisible && (
+      <br-message state="success" show-icon="true" style ={{position: "absolute", top: "200px", right: "60px", zIndex: "10" }}>
+        Salvo com sucesso ao grupo <i> Redes 6G: O Futuro da Conectividade </i>
+      </br-message>
+    )}
+
+                      
+                      <div style={{ display: "flex", position: "relative" }}>
                         <br-button icon="link" />
                         <br-button icon="share" />
                         <br-button icon="download" />
-                        <br-button icon="bookmark" />
+                        <br-button icon="folder" onClick={toggleMenu} />
+                        {isMenuOpen && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: "100%",
+                              right: 0,
+                              backgroundColor: "#fff",
+                              boxShadow: "0 2px 10px rgba(0, 0, 0, 0.15)",
+                              borderRadius: "8px",
+                              zIndex: 10,
+                            }}
+                          >
+                            <div className="group-name name-with-divisor">
+                              Meus salvos
+                            </div>
+                            <div className="group-name name-with-divisor" onClick={handleGroupClick}>
+                              Redes 6G: O Futuro da Conectividade
+                            </div>
+                            <div className="group-name name-with-divisor">
+                              Reciclagem de E-lixo: Um Desafio Urbano
+                            </div>
+                            <div  className="group-name">
+                              6G e IoT: Conectando um Mundo Inteligente
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <h2 style={styles.title}>
@@ -241,14 +289,14 @@ const SearchArea = () => {
                         ?.flatMap((authorship) => authorship.institutions || [])
                         .find((institution) => institution.display_name)
                         ?.display_name || "N/A"} {" "}
-                        | {" "} <u>
+                      | {" "} <u>
                         {work.cited_by_count} citações
-                          </u>
+                      </u>
                     </p>
                     <div style={styles.footer}>
                       <span>{work.publisher}</span>
                       {work.doi && (
-                        
+
                         <a
                           href={`https://doi.org/${work.doi}`}
                           target="_blank"
@@ -276,9 +324,6 @@ const SearchArea = () => {
 
         </div>
       </div>
-
-
-
 
 
       {totalPages && totalPages > 1 && (
