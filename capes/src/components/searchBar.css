@@ -98,6 +98,7 @@ select {
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
+  min-width: 640px;
 }
 
 .search-container input {

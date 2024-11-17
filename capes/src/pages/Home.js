@@ -28,11 +28,13 @@ const TelaPortalCAPES = () => {
         </section>
 
         <div style={styles.searchBar}>
-          <select style={styles.select}>
-            <option>Assuntos</option>
+          <select id="dropdown" name="page" className="styled-select">
+            <option value="Assuntos">Assuntos</option>
+            <option value="Bases e Coleções">Bases e Coleções</option>
+            <option value="Livros">Livro</option>
+            <option value="Periódicos">Periódicos</option>
           </select>
           <SearchBar />
-          <button style={styles.searchButton}>🔍</button>
           <button style={styles.advancedSearchButton}>Busca avançada</button>
         </div>
 
@@ -82,7 +84,8 @@ const styles = {
   searchBar: {
     display: "flex",
     justifyContent: "center",
-    marginBottom: "40px",
+    gap: "8px",
+    margin: "40px 0 40px 0",
   },
   select: {
     padding: "10px",
