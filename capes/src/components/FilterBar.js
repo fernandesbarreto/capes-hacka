@@ -126,7 +126,6 @@ function FilterBar({
 
     return (
         <div class="retangulo">
-            {isShowingFilters && (
                 <div className="filter">
                     <br-list title="" data-toggle="true" density="small">
                         <br-item title="Definições" style={{ background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px' }}>
@@ -144,13 +143,13 @@ function FilterBar({
                                 <br-input
                                 icon="calendar"
                                     label="De"
-                                    placeholder="1970"
+                                    placeholder={oldestDate}
                                     density="small"
                                 ></br-input>
                                 <br-input
                                 icon="calendar"
                                     label="Até"
-                                    placeholder="2024"
+                                    placeholder={newestDate}
                                     density="small"
                                 ></br-input>
 
@@ -351,7 +350,6 @@ function FilterBar({
           </div>
            */}
                 </div>
-            )}
         </div>
     );
 }

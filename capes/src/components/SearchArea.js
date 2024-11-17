@@ -117,7 +117,7 @@ const SearchArea = () => {
           <div className="acervo">
             <div className="acervo-left">
               <h3>Acervo</h3>
-              <h5>Você tem acesso ao conteúdo gratuito do Portal através do</h5>
+              <i>Você tem acesso ao conteúdo gratuito do Portal através do</i>
               <br-button>Acesso CAFe</br-button>
             </div>
             <br-button
