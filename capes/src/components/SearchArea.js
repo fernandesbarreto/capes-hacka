@@ -18,9 +18,11 @@ const SearchArea = () => {
   const [query, setQuery] = useState("");
   const [isShowingFilters, setIsShowingFilters] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const [networkMode, setNetworkMode] = useState(false);
 
   const [showSimpleSearch, setShowSimpleSearch] = useState(true);
   const [perPage, setPerPage] = useState(10);
+
 
   const applyFilters = (filteredWorks) => {
     setWorks(filteredWorks);
@@ -106,6 +108,12 @@ const SearchArea = () => {
           </div>
 
           <div className="search-bar">
+            <select id="dropdown" name="page" className="styled-select">
+              <option value="Assuntos">Assuntos</option>
+              <option value="Bases e Coleções">Bases e Coleções</option>
+              <option value="Livros">Livro</option>
+              <option value="Periódicos">Periódicos</option>
+            </select>
             <div className="search-bar-input">
               {showSimpleSearch ? (
                 <SearchBar
@@ -120,148 +128,158 @@ const SearchArea = () => {
           </div>
 
           <div className="results">
-            <h2>Resultados</h2>
+            <div style={{display: "flex", alignItems: "center"}}>
+              <h3>Resultados</h3>
+              <br-button onClick={() => setNetworkMode(false)}
+                icon="list"></br-button>
+              <br-button onClick={() => setNetworkMode(true)}
+                icon="project-diagram"></br-button>
+            </div>
             <div className="search-quantity">
-              <h4>Exibir</h4>
-              <select id="dropdown" name="options">
-                <option value="option1">10</option>
-                <option value="option2">20</option>
-                <option value="option3">30</option>
-              </select>
-              <br-divider size vertical class="mx-3"></br-divider>
-              <h4>
-                {1 + (currentPage - 1) * perPage} de {totalPages * perPage}
-              </h4>
-              <label id="page">Página</label>
-              <select id="dropdown" name="page">
-                <option value="option1">10</option>
-                <option value="option2">20</option>
-                <option value="option3">30</option>
-              </select>
-              <br-divider size vertical class="mx-3"></br-divider>
+              <div style={{
+                display: "flex", borderRight: "2px solid #ccc",
+                gap: "16px",
+                alignItems: "center"
+              }}>
+                <h4>Exibir</h4>
+                <h4>10</h4>
+                <br-button circle icon="caret-down" />
+              </div>
+              <div style={{
+                display: "flex", borderRight: "2px solid #ccc",
+                gap: "16px",
+                alignItems: "center"
+              }}>
+                <h4>{totalPages > 0 ? 1 + (currentPage - 1) * perPage : 0} de {totalPages * perPage} itens</h4>
+                <h4>Página</h4>
+                <h4>1</h4>
+                <br-button circle icon="caret-down" />
+              </div>
               <br-button
                 icon="angle-left"
-                onClick={handlePreviousPage}
-                disabled={currentPage === 1 || isLoading}
-              />
-              <br-button
-                icon="angle-right"
+                onClick={handlePreviousPage}/>
+              <br-button icon="angle-right"
                 onClick={handleNextPage}
-                disabled={currentPage === totalPages || isLoading}
               />
             </div>
           </div>
 
           {isLoading && <p>Loading...</p>}
           {error && <p style={styles.error}>{error}</p>}
-          <ul style={styles.list}>
-            {works.map((work, index) => {
-              // Calculate the global index based on the current page and items per page
-              const globalIndex = (currentPage - 1) * perPage + index + 1;
+          {!networkMode && (
+            <ul style={styles.list}>
+              {works.map((work, index) => {
+                // Calculate the global index based on the current page and items per page
+                const globalIndex = (currentPage - 1) * perPage + index + 1;
 
-              return (
-                <li key={work.id} style={styles.card}>
-                  <div style={styles.header}>
-                    <div>
-                      <span
-                        style={{ ...styles.badge, backgroundColor: "#FF9A00" }}
-                      >
-                        Artigo
-                      </span>
-                      <span
-                        style={{
-                          ...styles.badge,
-                          ...styles.openAccess,
-                          marginLeft: "8px",
-                        }}
-                      >
-                        Acesso aberto
-                      </span>
+                !isLoading && works.length === 0 && !error && (
+                  <p>No results found.</p>
+                );
+                return (
+                  <li key={work.id} style={styles.card}>
+                    <div style={styles.header}>
+                      <div>
+                        <span style={{ ...styles.badge, backgroundColor: "#1351B4" }}>
+                          Artigo
+                        </span>
+                        <span
+                          style={{
+                            ...styles.badge,
+                            ...styles.openAccess,
+                            marginLeft: "16px",
+                          }}
+                        >
+                          Acesso aberto
+                        </span>
+                        <span
+                          style={{
+                            ...styles.badge,
+                            ...styles.peerReviewed,
+                            marginLeft: "16px",
+                          }}
+                        >
+                          Revisado por Pares
+                        </span>
+                      </div>
+                      <div style={{ display: "flex" }}>
+                        <br-button icon="link" />
+                        <br-button icon="share" />
+                        <br-button icon="download" />
+                        <br-button icon="bookmark" />
+                      </div>
                     </div>
-                  </div>
-                  <h2 style={styles.title}>
-                    <span style={styles.index}>{globalIndex}.</span>{" "}
-                    {work.title}
-                  </h2>
-                  <p style={styles.authors}>
-                    {work.authorships
-                      .map((authorship) => authorship.author.display_name)
-                      .join(", ")}
-                  </p>
-                  {work.abstract_inverted_index && (
-                    <p style={styles.abstract}>
-                      {Object.entries(work.abstract_inverted_index)
-                        .sort((a, b) => a[1][0] - b[1][0])
-                        .map(([word]) => word)
-                        .join(" ")}
+                    <h2 style={styles.title}>
+                      <span style={styles.index}></span> {work.title}
+                    </h2>
+                    <p style={styles.authors}>
+                      {work.authorships
+                        .map((authorship) => authorship.author.display_name)
+                        .join(", ")}
                     </p>
-                  )}
-                  <p style={styles.publicationYear}>
-                    {work.publication_year || "N/A"} |{" "}
-                    {
-                      // Extract all institutions from all authorships
-                      work.authorships
-                        ?.flatMap((authorship) => authorship.institutions || [])
-                        // Find the first institution with a display_name
-                        .find((institution) => institution.display_name)
-                        ?.display_name || "N/A"
-                    }
-                  </p>
-                  <p>
-                    <img
-                      style={styles.icons}
-                      src={require("../assets/brasil.png")}
-                      alt="Bandeira do Brasil"
-                    />{" "}
-                    |{" "}
-                    <img
-                      style={styles.icons}
-                      src={require("../assets/book.png")}
-                      alt="Estudante abrindo livro"
-                    />{" "}
-                    Revisado por pares |{" "}
-                    <select style={styles.select}>
-                      <option>Disponibilidade</option>
-                      <option>Teste</option>
-                      <option>Teste</option>
-                    </select>{" "}
-                    | PlumX Metrics
-                  </p>
-                  {work.abstract_inverted_index && (
-                    <GPTSummarize
-                      abstract={JSON.stringify(work.abstract_inverted_index)}
-                    />
-                  )}
-                  <div style={styles.footer}>
-                    <span>{work.publisher}</span>
-                    {work.doi && (
-                      <a
-                        style={styles.link}
-                        href={`https://doi.org/${work.doi}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <img
-                          style={styles.smallIcon}
-                          src={require("../assets/door.png")}
-                          alt="Acessar"
-                        />{" "}
-                        Acessar
-                      </a>
+                    {work.abstract_inverted_index && (
+                      <p style={styles.abstract}>
+                        {Object.entries(work.abstract_inverted_index)
+                          .sort((a, b) => a[1][0] - b[1][0])
+                          .map(([word]) => word)
+                          .join(" ")}
+                      </p>
                     )}
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+                    {work.abstract_inverted_index && (
+                      <GPTSummarize
+                        abstract={JSON.stringify(work.abstract_inverted_index)}
+                      />
+                    )}
+                    <p>
+                      <img
+                        style={styles.icons}
+                        src={require("../assets/brasil.png")}
+                        alt="Bandeira do Brasil"
+                      />{" "}
+                      |{" "}
+                      {work.publication_year || "N/A"} |{" "}
+                      {work.authorships
+                        ?.flatMap((authorship) => authorship.institutions || [])
+                        .find((institution) => institution.display_name)
+                        ?.display_name || "N/A"} {" "}
+                        | {" "} <u>
+                        {work.cited_by_count} citações
+                          </u>
+                    </p>
+                    <div style={styles.footer}>
+                      <span>{work.publisher}</span>
+                      {work.doi && (
+                        
+                        <a
+                          href={`https://doi.org/${work.doi}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <br-button href={`https://doi.org/${work.doi}`} icon="sign-in-alt" label="Acessar" type="secondary"></br-button>
+                        </a>
+                      )}
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
 
           {!isLoading && works.length === 0 && query && !error && (
             <p>No results found.</p>
           )}
+
+          {works.length > 0 && networkMode && <NetWorkViewer />}
+
+
+
+
+
         </div>
       </div>
 
-      {works.length > 0 && <NetWorkViewer />}
+
+
+
 
       {totalPages && totalPages > 1 && (
         <div style={styles.pagination}>
@@ -361,6 +379,7 @@ const styles = {
   authors: {
     margin: "5px 0",
     fontWeight: "300",
+    color: "#757575"
   },
   publicationYear: {
     margin: "5px 0",
@@ -393,8 +412,6 @@ const styles = {
     fontSize: "16px",
   },
   card: {
-    border: "1px solid #ddd",
-    borderLeft: "4px solid #1C1C5E",
     borderRadius: "8px",
     padding: "16px",
     margin: "16px 0",
@@ -417,9 +434,14 @@ const styles = {
     color: "#fff",
   },
   openAccess: {
-    backgroundColor: "#008765",
+    color: "#168821"
+  },
+  peerReviewed: {
+    color: "#F16421"
   },
   abstract: {
+    border: "1px solid #ddd",
+    borderLeft: "4px solid #1C1C5E",
     display: "-webkit-box",
     WebkitLineClamp: 6,
     WebkitBoxOrient: "vertical",
@@ -427,7 +449,9 @@ const styles = {
     textOverflow: "ellipsis",
     fontSize: "14px",
     lineHeight: "1.5",
-    marginBottom: "16px",
+    margin: "16px 0",
+    padding: "16px",
+    color: "#333333"
   },
   footer: {
     display: "flex",

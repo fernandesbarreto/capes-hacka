@@ -12,27 +12,27 @@ const SearchBar = ({ handleSearch, query, setQuery }) => {
   };
 
   return (
-  /*
-    <div>
-      
-      <br-input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onKeyPress={handleKeyPress}
-        label="string"
-        placeholder="Procure por títulos, palavras-chave e autores"
-        is-highlight="true"
-        icon="search"
-        icon-clicked={onSearchClick}
-      ></br-input>
-    </div>
-    */
-    
+    /*
+      <div>
+        <br-input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onKeyPress={handleKeyPress}
+          label="string"
+          placeholder="Procure por títulos, palavras-chave e autores"
+          is-highlight="true"
+          icon="search"
+          icon-clicked={onSearchClick}
+          > </br-input>
+      </div>
+      */
+
+    /*
     <div style={styles.searchContainer}>
       <input
         type="text"
-        placeholder="Search scholarly works..."
+        placeholder="Procure por títulos, palavras-chave e autores"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyPress={handleKeyPress}
@@ -43,7 +43,21 @@ const SearchBar = ({ handleSearch, query, setQuery }) => {
         Search
       </button>
     </div>
-  
+    */
+
+    <div class="search-container">
+      <input type="text"
+        placeholder="Procure por títulos, palavras-chave e autores"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        onKeyPress={handleKeyPress}
+        aria-label="Search scholarly works"/>
+        <br-button icon="microphone">
+        </br-button>
+        <br-button icon="search" onClick={onSearchClick} class="search-button">
+        </br-button>
+    </div>
+
   );
 };
 
