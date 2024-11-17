@@ -28,8 +28,10 @@ const SearchArea = () => {
   };
 
   useEffect(() => {
-    handleSearch(currentPage);
-  }, [currentPage]);
+    if (query) {
+      handleSearch(currentPage, query);
+    }
+  }, [currentPage, query]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
