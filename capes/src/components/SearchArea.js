@@ -92,6 +92,7 @@ const SearchArea = () => {
             applyFilters={applyFilters}
             searchPerformed={searchPerformed}
             isShowingFilters={isShowingFilters}
+            handleSearch = {handleSearch}
           />
         }
         <div>

@@ -1,11 +1,60 @@
 import React, { useState, useEffect } from "react";
+import "../style/FilterBar.css";
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
+
+const CustomSwitch = ({ task }) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleToggle = () => {
+    const newChecked = !isChecked;
+    setIsChecked(newChecked);
+
+    if (newChecked) {
+      task();
+    }
+
+    console.log("Switch está:", newChecked ? "ON" : "OFF");
+  };
+
+  return (
+    <div
+      className="custom-switch"
+      onClick={handleToggle}
+      style={{
+        backgroundColor: isChecked ? "#5992ED" : "#ccc", // Muda a cor de fundo para azul
+        padding: "5px",
+        borderRadius: "15px",
+        cursor: "pointer",
+        display: "inline-block",
+        width: "50px",
+        height: "25px",
+        position: "relative",
+      }}
+    >
+      <div
+        className="switch-knob"
+        style={{
+          backgroundColor: "#fff",
+          borderRadius: "50%",
+          height: "20px",
+          width: "20px",
+          position: "absolute",
+          top: "50%",
+          left: isChecked ? "25px" : "5px",
+          transform: "translateY(-50%)",
+          transition: "left 0.2s",
+        }}
+      ></div>
+    </div>
+  );
+};
 
 function FilterBar({
   worksData,
   applyFilters,
   searchPerformed,
   isShowingFilters,
+  handleSearch,
 }) {
   const [availableTypes, setAvailableTypes] = useState({});
   const [availableEditors, setAvailableEditors] = useState({});
@@ -99,6 +148,11 @@ function FilterBar({
     setOA(isOACount);
   };
 
+  const handleUniFilter = () => {
+    console.log("teste");
+    handleSearch(2);
+  }
+
   const applySelectedFilters = () => {
     let filteredWorks = [...worksData];
 
@@ -136,9 +190,9 @@ function FilterBar({
                 <br-list style={{background: "#F8F8F8", padding: '12px'}}>
 
                   {filters.map((filter) => (
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <p style={{ margin: 0, fontSize:"14px", fontWeight:"bold" }}>{filter}</p>
-                    <br-switch style={{ background: "#F8F8F8", marginLeft: 'auto' }} id label-not-checked=""></br-switch>
+                    <div className="title-and-switch">
+                      <p style={{ margin: 0, fontSize:"14px", fontWeight:"bold" }}>{filter}</p>
+                      <CustomSwitch task = {handleUniFilter}/>
                     </div>
                   ))}
 
