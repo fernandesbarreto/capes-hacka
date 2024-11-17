@@ -5,8 +5,8 @@ const WorkcapesTabViewer = () => {
         <div>
                   <div style={{ display: "flex", alignItems: "baseline", marginBottom: "24px", marginTop: "24px" }}>
         <h1 style={{ fontWeight: "600", fontSize: "29px", color: "#1351B4", margin: "0", paddingRight: "5px" }}>Meu Espaço</h1>
-        <p style={{ margin: "0", paddingRight: "5px" }}>Você tem acesso ao conteúdo exclusivo através do acesso</p>
-        <p style={{ margin: "0", color: "#1351B4" }}>CAFe</p>
+        <p style={{ margin: "0", paddingRight: "5px" }}>Você tem acesso ao conteúdo exclusivo através do </p>
+        <p style={{ margin: "0", color: "#1351B4" }}>Acesso CAFe</p>
         <br-button circle icon="caret-down"></br-button>
       </div>
 

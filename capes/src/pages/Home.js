@@ -12,8 +12,8 @@ const TelaPortalCAPES = () => {
         <section style={styles.container}>
           <div style={styles.header}>
             <p style={{ margin: 0 }}>
-              <i>Você tem acesso ao conteúdo gratuito do Portal através do </i>
-              <span style={styles.link}>Acesso CAFe</span>
+              <i>Você tem acesso ao conteúdo exclusivo através do </i>
+              <span style={styles.link}>Acesso CAFe</span> <br-button circle icon="caret-down" />
             </p>
           </div>
           <img

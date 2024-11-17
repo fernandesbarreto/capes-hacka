@@ -119,7 +119,7 @@ const SearchArea = () => {
             <div className="acervo-left">
               <h3 style={{ color: "#1351b4", margin: 0 }}>Acervo</h3>
               <i style={{ margin: "4px" }}>
-                Você tem acesso ao conteúdo gratuito do Portal através do
+                Você tem acesso ao conteúdo exclusivo através do
               </i>
               <p style={{ color: "#1351b4", margin: "2px" }}>
                 Acesso CAFe <i class="fas fa-caret-down"></i>

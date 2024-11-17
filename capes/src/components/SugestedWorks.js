@@ -1,4 +1,5 @@
 import React from "react";
+import magicicon from "../assets/magicicon.png";
 
 const SugestedWorks = () => {
   const works = [
@@ -12,9 +13,10 @@ const SugestedWorks = () => {
         <div style = {{ marginBottom: "100px"}}>
 
             <h2 style={{ fontSize: 24, fontWeight: 800 }}>Trabalhos relacionados</h2>
+            
 
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", background: "#F0F0F0", paddingBottom: "16px",  paddingTop: "16px", paddingRight: "12px", paddingLeft: "12px"}}>
-                <p style={{ margin: 0, color: "#1351B4"}}> Trabalhos Relacionados Presentes no Portal de Periódicos </p>
+                <p style={{ margin: 0, color: "#1351B4"}}> <img src={magicicon} alt="Magic Icon" style={{width:"20", height:"20px"}}/> Trabalhos Relacionados Presentes no Portal de Periódicos</p>
 
         <div
           style={{

@@ -23,10 +23,10 @@ const ResearchGroup = () => {
   const colors = ["#FFCE00", "#7ECC06", "#FF6600", "#01CD9A"];
 
   const persons = [
-    { id: 1, name: "Pedro Montes", image: person1 },
-    { id: 2, name: "Caroleta Costa", image: person2 },
-    { id: 3, name: "João Lima", image: person3 },
-    { id: 4, name: "Rodrigo Pereira", image: person4 },
+    { id: 1, name: "João Monte", image: person1 },
+    { id: 2, name: "Lucas Paiva", image: person2 },
+    { id: 3, name: "Maria Lima", image: person3 },
+    { id: 4, name: "Alice Lins", image: person4 },
   ];
 
   const [works, setWorks] = useState([
@@ -35,7 +35,7 @@ const ResearchGroup = () => {
       title: "6G e IoT: Conectando um Mundo Inteligente",
       link: "https://example.com/6g-iot", // Adicionando o link
       mainComment: {
-        person: persons[0],
+        person: persons[3],
         content:
           "O 6G promete integrar dispositivos inteligentes em larga escala, revolucionando cidades, saúde e indústrias com maior eficiência e baixa latência.",
       },
@@ -52,7 +52,7 @@ const ResearchGroup = () => {
       id: 2,
       title: "Reciclagem de E-lixo: Um Desafio Urbano",
       link: "https://example.com/reciclagem-e-lixo", // Adicionando o link
-      mainComment: { person: persons[3], content: "Muito bom, pessoal!" },
+      mainComment: { person: persons[1], content: "Muito bom, pessoal!" },
       comments: [
         {
           person: persons[0],
@@ -113,7 +113,7 @@ const ResearchGroup = () => {
         const updatedComments = [
           ...work.comments,
           { person: persons[0], content: newComment },
-        ]; // Aqui 'persons[0]' é apenas um exemplo. Você pode ajustar para o usuário correto.
+        ]; 
         return { ...work, comments: updatedComments };
       }
       return work;
