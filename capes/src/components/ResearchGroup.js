@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import "../style/ResearchGroup.css";
 import commentIcon from "../assets/commenticon.png";
 import heartIcon from "../assets/hearticon.png";
+import heartFillIcon from "../assets/heartfillicon.png";
 import SugestedWorks from "./SugestedWorks";
 import workStatus from "../assets/workstatus.png";
 import person1 from "../assets/person1.jpg"
@@ -21,7 +22,7 @@ const ResearchGroup = () => {
   const colors = ["#FFCE00", "#7ECC06", "#FF6600", "#01CD9A"];
 
   const persons = [
-    { id: 1, name: "Pedro Montes", image: person1 },
+    { id: 1, name: "Pedro Sá", image: person1 },
     { id: 2, name: "Caroleta Costa", image: person2 },
     { id: 3, name: "João Lima", image: person3 },
     { id: 4, name: "Rodrigo Pereira", image: person4 },
@@ -37,7 +38,12 @@ const ResearchGroup = () => {
           "O 6G promete integrar dispositivos inteligentes em larga escala, revolucionando cidades, saúde e indústrias com maior eficiência e baixa latência.",
       },
       comments: [
-        { person: persons[0], content: "Gostei muito do parágrafo que aborda como o 6G vai transformar o ecossistema da Internet das Coisas (IoT). A conexão massiva e a latência ultrabaixa mencionadas são exatamente os pontos que podem embasar nossa pesquisa em Redes 6G: O Futuro da Conectividade, já que destacam o potencial dessa tecnologia para suportar dispositivos em larga escala e aplicações críticas, como cidades inteligentes e saúde conectada. Acho que vale explorar mais essa relação entre IoT e 6G no nosso trabalho!" },
+        {
+          person: persons[0],
+          content:
+            "Gostei muito do parágrafo que aborda como o 6G vai transformar o ecossistema da Internet das Coisas (IoT). A conexão massiva e a latência ultrabaixa mencionadas são exatamente os pontos que podem embasar nossa pesquisa em Redes 6G: O Futuro da Conectividade, já que destacam o potencial dessa tecnologia para suportar dispositivos em larga escala e aplicações críticas, como cidades inteligentes e saúde conectada. Acho que vale explorar mais essa relação entre IoT e 6G no nosso trabalho!",
+          liked: false,
+        },
       ],
     },
     {
@@ -48,10 +54,12 @@ const ResearchGroup = () => {
         {
           person: persons[0],
           content: "Importante reflexão sobre o impacto ambiental",
+          liked: false,
         },
         {
           person: persons[2],
           content: "Gostei do enfoque nas soluções tecnológicas",
+          liked: false,
         },
       ],
     },
@@ -63,14 +71,34 @@ const ResearchGroup = () => {
         {
           person: persons[1],
           content: "Análise abrangente do futuro da conectividade",
+          liked: false,
         },
         {
           person: persons[2],
           content: "Perspectiva interessante sobre os desafios",
+          liked: false,
         },
       ],
     },
   ]);
+
+
+  const toggleLike = (workId, commentIndex) => {
+    const updatedWorks = works.map((work) => {
+      if (work.id === workId) {
+        const updatedComments = work.comments.map((comment, index) => {
+          if (index === commentIndex) {
+            return { ...comment, liked: !comment.liked };
+          }
+          return comment;
+        });
+        return { ...work, comments: updatedComments };
+      }
+      return work;
+    });
+    setWorks(updatedWorks);
+  };
+
 
   const addComment = (workId) => {
     // Procura o trabalho correto e adiciona o comentário
@@ -106,8 +134,8 @@ const ResearchGroup = () => {
 
       <div>
         <div style={{ borderLeft: "8px solid #01CD9A", paddingLeft: "10px" }}>
-          <h1>{title}</h1>
-          <h1>{description}</h1>
+          <h1 style={{ fontSize: "35px", fontWeight: "bold" }}>{title}</h1>
+          <h1 style={{ fontSize: "29px", fontWeight: "normal" }}>{description}</h1>
         </div>
 
         <div className="tags-container">
@@ -124,7 +152,7 @@ const ResearchGroup = () => {
         </div>
       </div>
 
-      <h2>Status da pesquisa</h2>
+      <h2 className="section-title">Status da pesquisa</h2>
       <img
         src={workStatus}
         alt="Status do trabalho"
@@ -133,7 +161,7 @@ const ResearchGroup = () => {
 
       <SugestedWorks />
 
-      <h2>Salvos pelo Grupo</h2>
+      <h2 className="section-title">Conteúdos Salvos</h2>
       <div className="saved-works-container">
         {works.map((work) => (
           <div key={work.id} className="saved-work">
@@ -146,7 +174,7 @@ const ResearchGroup = () => {
               }}
             >
               <div>
-                <h3>{work.title}</h3>
+                <h3 style={{ fontSize: "20px", fontWeight: "bold" }}>{work.title}</h3>
                 <p style={{ marginRight: "auto" }}>
                   {work.mainComment.content}
                 </p>
@@ -186,7 +214,6 @@ const ResearchGroup = () => {
                   </div>
 
                   <div className="iconAndCount">
-                    <p>{work.comments.length}</p>
                     <img
                       src={heartIcon}
                       alt="Icone de coração"
@@ -203,9 +230,8 @@ const ResearchGroup = () => {
 
             {selectedWorkId === work.id && (
               <div
-                className={`comments ${
-                  selectedWorkId === work.id ? "open" : ""
-                }`}
+                className={`comments ${selectedWorkId === work.id ? "open" : ""
+                  }`}
               >
                 <h4>Comentários:</h4>
                 {work.comments.map((comment, index) => (
@@ -219,11 +245,42 @@ const ResearchGroup = () => {
 
                     <p className="comment-content">{comment.content}</p>
 
-                    <img
-                      src={heartIcon}
-                      alt="Icone de coração"
-                      style={{ alignSelf: "flex-end", cursor: "pointer", width: "22px", height: "22px", margin: "16px" }}
-                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        alignSelf: 'flex-end',
+                        margin:"12px",
+                      }}
+                    >
+                      <p style={{ margin: "0 8px 0 0" }}>
+                        {comment.liked ? 3 : 2}
+                      </p>
+                      <button
+                        style={{
+                          background: "none",
+                          border: "none",
+                          color: "inherit",
+                          font: "inherit",
+                          cursor: "pointer",
+                          padding: "0",
+                          outline: "none",
+                        }}
+                        onClick={() => toggleLike(work.id, index)}
+                      >
+                        <img
+                          src={comment.liked ? heartFillIcon : heartIcon}
+                          alt="Icone de coração"
+                          style={{
+                            cursor: "pointer",
+                            width: "22px",
+                            height: "22px",
+                          }}
+                        />
+                      </button>
+                    </div>
+
+
                   </div>
                 ))}
 

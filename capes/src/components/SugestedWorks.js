@@ -12,9 +12,9 @@ const SugestedWorks = () => {
     return (
         <div >
 
-            <h2>Trabalhos relacionados</h2>
+            <h2 style={{ fontSize: 24, fontWeight: 800 }}>Trabalhos relacionados</h2>
 
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", background: "#F0F0F0", paddingBottom: "16px",  paddingTop: "16px" }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", background: "#F0F0F0", paddingBottom: "16px",  paddingTop: "16px", paddingRight: "12px", paddingLeft: "12px"}}>
                 <p style={{ margin: 0, color: "#1351B4"}}> Trabalhos Relacionados Presentes no Portal de Periódicos </p>
 
                 <div style={{ width: "100px", display: "flex", justifyContent: "space-between" }}>
@@ -25,7 +25,7 @@ const SugestedWorks = () => {
 
             {works.map((work) => (
                 <div key={work.id}>
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", paddingRight: "12px", paddingLeft: "12px"}}>
                         <p style={{ margin: 0, color:"#1C1C5E" }}>{work.title}</p>
 
                         <div style={{ width: "160px", display: "flex", justifyContent: "space-between" }}>
