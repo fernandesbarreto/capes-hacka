@@ -1,3 +1,4 @@
+// SearchArea
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
@@ -12,6 +13,8 @@ const SearchArea = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const [query, setQuery] = useState("");
+
+  const [showSimpleSearch, setShowSimpleSearch] = useState(true);
 
   const perPage = 10;
 
@@ -41,48 +44,16 @@ const SearchArea = () => {
       });
 
       setWorks(response.data.results);
-
       const totalResults = response.data.meta.count;
       setTotalPages(Math.ceil(totalResults / perPage));
       setCurrentPage(page);
       setQuery(trimmedQuery);
     } catch (err) {
-      if (err.response) {
-        if (err.response.status === 429) {
-          setError("Rate limit exceeded. Please try again later.");
-        } else {
-          setError(`Error: ${err.response.status} ${err.response.statusText}`);
-        }
-      } else if (err.request) {
-        setError("No response from server. Please check your network.");
-      } else {
-        setError("An unexpected error occurred.");
-      }
+      setError("Error occurred while fetching data.");
     } finally {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (query) {
-      handleSearch(currentPage, query);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage]);
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
-  };
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-  };
-
-  const [showSimpleSearch, setShowSimpleSearch] = useState(true);
 
   const toggleComponent = () => {
     setShowSimpleSearch((prevShowSimpleSearch) => !prevShowSimpleSearch);
@@ -90,6 +61,7 @@ const SearchArea = () => {
 
   return (
     <div style={styles.container}>
+
       <h2>Periódicos CAPES</h2>
 
       <div>
@@ -98,151 +70,15 @@ const SearchArea = () => {
         </button>
 
         {showSimpleSearch ? (
-          <SearchBar
-            handleSearch={handleSearch}
-            query={query}
-            setQuery={setQuery}
-          />
+          <SearchBar handleSearch={handleSearch} query={query} setQuery={setQuery} />
         ) : (
           <ChaGPT handleSearch={handleSearch} />
         )}
       </div>
 
       {works.length > 0 && <NetWorkViewer />}
-
       {isLoading && <p>Loading...</p>}
       {error && <p style={styles.error}>{error}</p>}
-      <ul style={styles.list}>
-        {works.map((work, index) => {
-          // Calculate the global index based on the current page and items per page
-          const globalIndex = (currentPage - 1) * perPage + index + 1;
-
-          !isLoading && works.length === 0 && !error && (
-            <p>No results found.</p>
-          );
-          return (
-            <li key={work.id} style={styles.card}>
-              <div style={styles.header}>
-                <div>
-                  <span style={{ ...styles.badge, backgroundColor: "#FF9A00" }}>
-                    Artigo
-                  </span>
-                  <span
-                    style={{
-                      ...styles.badge,
-                      ...styles.openAccess,
-                      marginLeft: "8px",
-                    }}
-                  >
-                    Acesso aberto
-                  </span>
-                </div>
-              </div>
-              <h2 style={styles.title}>
-                <span style={styles.index}>{globalIndex}.</span> {work.title}
-              </h2>
-              <p style={styles.authors}>
-                {work.authorships
-                  .map((authorship) => authorship.author.display_name)
-                  .join(", ")}
-              </p>
-              {work.abstract_inverted_index && (
-                <p style={styles.abstract}>
-                  {Object.entries(work.abstract_inverted_index)
-                    .sort((a, b) => a[1][0] - b[1][0])
-                    .map(([word]) => word)
-                    .join(" ")}
-                </p>
-              )}
-              <p style={styles.publicationYear}>
-                {work.publication_year || "N/A"} |{" "}
-                {work.authorships
-                  ?.flatMap((authorship) => authorship.institutions || [])
-                  .find((institution) => institution.display_name)
-                  ?.display_name || "N/A"}
-              </p>
-              <p>
-                <img
-                  style={styles.icons}
-                  src={require("../assets/brasil.png")}
-                  alt="Bandeira do Brasil"
-                />{" "}
-                |{" "}
-                <img
-                  style={styles.icons}
-                  src={require("../assets/book.png")}
-                  alt="Estudante abrindo livro"
-                />{" "}
-                Revisado por pares |{" "}
-                <select style={styles.select}>
-                  <option>Disponibilidade</option>
-                  <option>Teste</option>
-                  <option>Teste</option>
-                </select>{" "}
-                | PlumX Metrics
-              </p>
-              {work.abstract_inverted_index && (
-                <GPTSummarize
-                  abstract={JSON.stringify(work.abstract_inverted_index)}
-                />
-              )}
-              <div style={styles.footer}>
-                <span>{work.publisher}</span>
-                {work.doi && (
-                  <a
-                    style={styles.link}
-                    href={`https://doi.org/${work.doi}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img
-                      style={styles.smallIcon}
-                      src={require("../assets/door.png")}
-                      alt="Acessar"
-                    />{" "}
-                    Acessar
-                  </a>
-                )}
-              </div>
-            </li>
-          );
-        })}
-      </ul>
-
-      {!isLoading && works.length === 0 && query && !error && (
-        <p>No results found.</p>
-      )}
-      {totalPages && totalPages > 1 && (
-        <div style={styles.pagination}>
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1 || isLoading}
-            style={{
-              ...styles.paginationButton,
-              ...(currentPage === 1 || isLoading ? styles.disabledButton : {}),
-            }}
-            aria-label="Página anterior"
-          >
-            Anterior
-          </button>
-          <span style={styles.pageInfo}>
-            Página {currentPage} de {totalPages}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages || isLoading}
-            style={{
-              ...styles.paginationButton,
-              ...(currentPage === totalPages || isLoading
-                ? styles.disabledButton
-                : {}),
-            }}
-            aria-label="Próxima página"
-          >
-            Próxima
-          </button>
-        </div>
-      )}
     </div>
   );
 };

@@ -3,12 +3,22 @@
 import React, { useState } from "react";
 import axios from "axios";
 import AdvancedSearch from "./AdvancedSearch";
+import SmartModal from "./SmartModal.js";
 
-const GPTSearch = ({ handleSearch }) => {
-  const [query, setQuery] = useState("");
+const GPTSearch = ({ handleSearch, input }) => {
+  const [query, setQuery] = useState(input);
   const [advancedSearch, setAdvancedSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [popupIsOpen, SetPopupIsOpen] = useState(false);
+
+  const handleSearchFromModal = (text) => {
+    setQuery(text);  // Atualiza o estado do ChatGPT com o texto vindo do modal
+  };
+
+  const handlePopup = () => {
+    SetPopupIsOpen(popupIsOpen => !popupIsOpen);
+  }
 
   const handleConvert = async (e) => {
     e.preventDefault();
@@ -96,7 +106,13 @@ ${query}
 
   return (
     <div>
+
+      <SmartModal onSearch={handleSearchFromModal} open = {popupIsOpen} />
+
       <h2>Conversor de Pesquisa Avançada</h2>
+
+      <button onClick={() => handlePopup()}>Abrir Modal</button>
+
       <form onSubmit={handleConvert} style={styles.form}>
         <textarea
           value={query}
@@ -108,6 +124,7 @@ ${query}
         <button type="submit" style={styles.button} disabled={isLoading}>
           {isLoading ? "Convertendo..." : "Converter"}
         </button>
+        
       </form>
       {error && <p style={styles.error}>{error}</p>}
       {advancedSearch && (
