@@ -180,6 +180,8 @@ select {
 
   .filter {
     width: 220px;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   
