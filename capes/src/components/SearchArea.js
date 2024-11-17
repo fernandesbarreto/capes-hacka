@@ -5,7 +5,6 @@ import SearchBar from "./SearchBar";
 import ChaGPT from "./ChatGPT";
 import FilterBar from "./FilterBar";
 import "./searchBar.css";
-
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
 import GPTSummarize from "./SummarizeAI";
 
