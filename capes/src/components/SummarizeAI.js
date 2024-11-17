@@ -142,13 +142,8 @@ ${query}
 
   return (
     <div>
-      {!summary && (
-        <br-button onClick={summarize}>
-          Resumir Abstract
-        </br-button>
-      )}
+      {!summary && <br-button onClick={summarize}>Resumir Abstract</br-button>}
 
-      {isLoading && <p>Carregando...</p>}
       {summary && (
         <p>
           <i>{summary}</i>

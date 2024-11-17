@@ -1,0 +1,16 @@
+.group-name {
+    padding: 4px 8px;
+    cursor: pointer;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.group-name:hover {
+    background-color: #f5f5f5;
+}
+
+.name-with-divisor{
+    border-bottom: 2px solid #CCCCCC;
+}

@@ -8,6 +8,7 @@ import FilterBar from "./FilterBar";
 import "./searchBar.css";
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
 import GPTSummarize from "./SummarizeAI";
+import "../style/SearchArea.css";
 
 const SearchArea = () => {
   const [works, setWorks] = useState([]);
@@ -19,6 +20,9 @@ const SearchArea = () => {
   const [isShowingFilters, setIsShowingFilters] = useState(false);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [networkMode, setNetworkMode] = useState(false);
+  const [isMessageVisible, setIsMessageVisible] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [menuIndex, setMenuIndex] = useState(0);
 
   const [showSimpleSearch, setShowSimpleSearch] = useState(true);
   const [perPage, setPerPage] = useState(10);
@@ -27,8 +31,27 @@ const SearchArea = () => {
     setWorks(filteredWorks);
   };
 
+  const handleGroupClick = () => {
+    setIsMessageVisible(true);
+    setTimeout(() => {
+      setIsMessageVisible(false); // Oculta a mensagem após um tempo (exemplo: 3 segundos)
+    }, 3000);
+  };
+
+  const toggleMenu = (index) => {
+    // Se o menu está aberto e o índice clicado for o mesmo, fecha o menu
+    if (isMenuOpen && menuIndex === index) {
+      setIsMenuOpen(false);
+    } else {
+      setMenuIndex(index); // Caso contrário, abre o menu correspondente ao índice clicado
+      setIsMenuOpen(true);
+    }
+  };
+
   useEffect(() => {
-    handleSearch(currentPage);
+    if (query) {
+      handleSearch(currentPage, query);
+    }
   }, [currentPage]);
 
   const handlePreviousPage = () => {
@@ -183,9 +206,6 @@ const SearchArea = () => {
                 // Calculate the global index based on the current page and items per page
                 const globalIndex = (currentPage - 1) * perPage + index + 1;
 
-                !isLoading && works.length === 0 && !error && (
-                  <p>No results found.</p>
-                );
                 return (
                   <li key={work.id} style={styles.card}>
                     <div style={styles.header}>
@@ -217,11 +237,59 @@ const SearchArea = () => {
                           Revisado por Pares
                         </span>
                       </div>
-                      <div style={{ display: "flex" }}>
+                      {isMessageVisible && (
+                        <br-message
+                          state="success"
+                          show-icon="true"
+                          style={{
+                            position: "absolute",
+                            top: "200px",
+                            right: "60px",
+                            zIndex: "10",
+                          }}
+                        >
+                          Salvo com sucesso ao grupo{" "}
+                          <i> Redes 6G: O Futuro da Conectividade </i>
+                        </br-message>
+                      )}
+
+                      <div style={{ display: "flex", position: "relative" }}>
                         <br-button icon="link" />
                         <br-button icon="share" />
                         <br-button icon="download" />
-                        <br-button icon="bookmark" />
+                        <br-button
+                          icon="folder"
+                          onClick={() => toggleMenu(index)}
+                        />
+                        {isMenuOpen && menuIndex === index && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: "100%",
+                              right: 0,
+                              backgroundColor: "#fff",
+                              boxShadow: "0 2px 10px rgba(0, 0, 0, 0.15)",
+                              borderRadius: "8px",
+                              zIndex: 10,
+                            }}
+                          >
+                            <div className="group-name name-with-divisor">
+                              Meus salvos
+                            </div>
+                            <div
+                              className="group-name name-with-divisor"
+                              onClick={handleGroupClick}
+                            >
+                              Redes 6G: O Futuro da Conectividade
+                            </div>
+                            <div className="group-name name-with-divisor">
+                              Reciclagem de E-lixo: Um Desafio Urbano
+                            </div>
+                            <div className="group-name">
+                              6G e IoT: Conectando um Mundo Inteligente
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                     <h2 style={styles.title}>
@@ -270,7 +338,7 @@ const SearchArea = () => {
                             href={`https://doi.org/${work.doi}`}
                             icon="sign-in-alt"
                             label="Acessar"
-                            type="secondary"
+                            type="primary"
                           ></br-button>
                         </a>
                       )}
@@ -279,10 +347,6 @@ const SearchArea = () => {
                 );
               })}
             </ul>
-          )}
-
-          {!isLoading && works.length === 0 && query && !error && (
-            <p>No results found.</p>
           )}
 
           {works.length > 0 && networkMode && <NetWorkViewer />}
