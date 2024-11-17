@@ -9,7 +9,7 @@ const SugestedWorks = () => {
   ];
 
     return (
-        <div >
+        <div style = {{ marginBottom: "100px"}}>
 
             <h2 style={{ fontSize: 24, fontWeight: 800 }}>Trabalhos relacionados</h2>
 
@@ -31,7 +31,7 @@ const SugestedWorks = () => {
             {works.map((work) => (
                 <div key={work.id}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", paddingRight: "12px", paddingLeft: "12px"}}>
-                        <p style={{ margin: 0, color:"#1C1C5E" }}>{work.title}</p>
+                        <p style={{ margin: 0}}>{work.title}</p>
 
             <div
               style={{

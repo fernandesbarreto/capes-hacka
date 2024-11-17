@@ -5,6 +5,7 @@ import commentIcon from "../assets/commenticon.png";
 import heartIcon from "../assets/hearticon.png";
 import heartFillIcon from "../assets/heartfillicon.png";
 import SugestedWorks from "./SugestedWorks";
+import WorkcapesTabViewer from "./WorkcapesTabViwer";
 import workStatus from "../assets/workstatus.png";
 import person1 from "../assets/person1.jpg"
 import person2 from "../assets/person2.jpg"
@@ -22,7 +23,7 @@ const ResearchGroup = () => {
   const colors = ["#FFCE00", "#7ECC06", "#FF6600", "#01CD9A"];
 
   const persons = [
-    { id: 1, name: "Pedro Sá", image: person1 },
+    { id: 1, name: "Pedro Montes", image: person1 },
     { id: 2, name: "Caroleta Costa", image: person2 },
     { id: 3, name: "João Lima", image: person3 },
     { id: 4, name: "Rodrigo Pereira", image: person4 },
@@ -32,6 +33,7 @@ const ResearchGroup = () => {
     {
       id: 1,
       title: "6G e IoT: Conectando um Mundo Inteligente",
+      link: "https://example.com/6g-iot", // Adicionando o link
       mainComment: {
         person: persons[0],
         content:
@@ -39,9 +41,9 @@ const ResearchGroup = () => {
       },
       comments: [
         {
-          person: persons[0],
+          person: persons[2],
           content:
-            "Gostei muito do parágrafo que aborda como o 6G vai transformar o ecossistema da Internet das Coisas (IoT). A conexão massiva e a latência ultrabaixa mencionadas são exatamente os pontos que podem embasar nossa pesquisa em Redes 6G: O Futuro da Conectividade, já que destacam o potencial dessa tecnologia para suportar dispositivos em larga escala e aplicações críticas, como cidades inteligentes e saúde conectada. Acho que vale explorar mais essa relação entre IoT e 6G no nosso trabalho!",
+            "Gostei muito do parágrafo que aborda como o 6G vai transformar o ecossistema da Internet das Coisas (IoT). A conexão massiva e a latência ultrabaixa mencionadas são exatamente os pontos que podem embasar nossa pesquisa em Redes 6G: O Futuro da Conectividade, já que destacam o potencial dessa tecnologia para suportar dispositivos em larga escala e aplicações críticas, como cidades inteligentes e saúde conectada. Acho que vale explorar mais essa relação entre IoT e 6G no nosso trabalho!",
           liked: false,
         },
       ],
@@ -49,6 +51,7 @@ const ResearchGroup = () => {
     {
       id: 2,
       title: "Reciclagem de E-lixo: Um Desafio Urbano",
+      link: "https://example.com/reciclagem-e-lixo", // Adicionando o link
       mainComment: { person: persons[3], content: "Muito bom, pessoal!" },
       comments: [
         {
@@ -66,6 +69,7 @@ const ResearchGroup = () => {
     {
       id: 3,
       title: "Redes 6G: O Futuro da Conectividade",
+      link: "https://example.com/redes-6g", // Adicionando o link
       mainComment: { person: persons[2], content: "Muito bom, pessoal!" },
       comments: [
         {
@@ -81,6 +85,7 @@ const ResearchGroup = () => {
       ],
     },
   ]);
+
 
 
   const toggleLike = (workId, commentIndex) => {
@@ -122,15 +127,9 @@ const ResearchGroup = () => {
   };
 
   return (
-    <div className="margin-lateral">
-      <h1>Workcapes</h1>
-      <hr
-        style={{
-          margin: "16px 0",
-          border: "none",
-          borderTop: "1px solid #ccc",
-        }}
-      />
+    <div className="margin-lateral group-container">
+
+      <WorkcapesTabViewer />
 
       <div>
         <div style={{ borderLeft: "8px solid #01CD9A", paddingLeft: "10px" }}>
@@ -146,7 +145,7 @@ const ResearchGroup = () => {
               style={{ backgroundColor: colors[person.id % 4] }}
             >
               <br-avatar image={person.image}></br-avatar>
-              <p>{person.name}</p>
+              <p style={{ fontWeight: "600", fontSize: "14px" }}>{person.name}</p>
             </div>
           ))}
         </div>
@@ -156,10 +155,8 @@ const ResearchGroup = () => {
       <img
         src={workStatus}
         alt="Status do trabalho"
-        style={{ width: "100%", height: "auto" }}
+        style={{ width: "100%", height: "auto", marginBottom: "50px" }}
       />
-
-      <SugestedWorks />
 
       <h2 className="section-title">Conteúdos Salvos</h2>
       <div className="saved-works-container">
@@ -174,11 +171,24 @@ const ResearchGroup = () => {
               }}
             >
               <div>
-                <h3 style={{ fontSize: "20px", fontWeight: "bold" }}>{work.title}</h3>
-                <p style={{ marginRight: "auto" }}>
+                <a
+                  href={work.link}
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    color: "#1C1C5E",
+                    textDecoration: "none"
+                  }}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {work.title}
+                </a>
+                <p style={{ marginRight: "auto", maxWidth: "900px" }}>
                   {work.mainComment.content}
                 </p>
               </div>
+
 
               <div
                 style={{
@@ -196,7 +206,7 @@ const ResearchGroup = () => {
                     alignItems: "center",
                   }}
                 >
-                  <p style={{ marginRight: "10px" }}>
+                  <p style={{ marginRight: "10px", fontWeight: "600", fontSize: "14px" }}>
                     {work.mainComment.person.name}
                   </p>
                   <br-avatar image={work.mainComment.person.image}></br-avatar>
@@ -243,14 +253,14 @@ const ResearchGroup = () => {
                       </p>
                     </div>
 
-                    <p className="comment-content">{comment.content}</p>
+                    <p className="comment-content" style={{ marginLeft: "16px" }}>{comment.content}</p>
 
                     <div
                       style={{
                         display: "flex",
                         alignItems: "center",
                         alignSelf: 'flex-end',
-                        margin:"12px",
+                        margin: "12px",
                       }}
                     >
                       <p style={{ margin: "0 8px 0 0" }}>
@@ -308,6 +318,9 @@ const ResearchGroup = () => {
           </div>
         ))}
       </div>
+
+      <SugestedWorks />
+
     </div>
   );
 };

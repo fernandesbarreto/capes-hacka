@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import WorkcapesTabViewer from "./WorkcapesTabViwer";
 
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
 
@@ -32,14 +33,9 @@ const Workcapes = () => {
 
   return (
     <div style={{ padding: "20px" }} className="margin-lateral">
-      <h1>Workcapes</h1>
-      <hr
-        style={{
-          margin: "16px 0",
-          border: "none",
-          borderTop: "1px solid #ccc",
-        }}
-      />
+
+      <WorkcapesTabViewer />
+
       <h3>Olá, Pedro, aqui estão os seus grupos de pesquisa</h3>
 
       <div
