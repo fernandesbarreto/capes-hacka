@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
 
@@ -76,7 +75,15 @@ const Workcapes = () => {
               <br-card-footer slot="footer">
                 <div className="d-flex" style={styles.footer}>
                   <div>
-                    <br-button label="Entrar"></br-button>
+                    <br-button label="Entrar" onClick={ () => {
+                        navigate("/researchgroup", {
+                            state: {
+                                title: card.title,
+                                description: card.description,
+                            },
+                            })
+                        }
+                    }></br-button>
                   </div>
                   <div className="ml-auto">
                     <br-button circle icon="share-alt"></br-button>
