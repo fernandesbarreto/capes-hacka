@@ -1,4 +1,4 @@
-// SmartModal
+// SmartModal.js
 import React, { useState, useEffect, useRef } from "react";
 import magicIcon from "../assets/magicicon.png";
 
@@ -7,7 +7,6 @@ const SmartModal = ({ onSearch, open, convert, setQuery }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [text, setText] = useState("");
 
-  const maybeLaterButtonRef = useRef(null);
   const yesButtonRef = useRef(null);
 
   useEffect(() => {
@@ -23,13 +22,12 @@ const SmartModal = ({ onSearch, open, convert, setQuery }) => {
     console.log("Texto da textarea:", text); // Captura o texto da textarea
     if (onSearch) {
       onSearch(text); // Passa o texto para o componente pai
-      setQuery(text);
-      convert();
+      // setQuery(text); // Não é mais necessário, pois handleConvert já recebe o texto
+      // convert(); // Removido para evitar chamada com query desatualizada
     }
   };
 
   useEffect(() => {
-    const maybeLaterButton = maybeLaterButtonRef.current;
     const yesButton = yesButtonRef.current;
 
     const handleMaybeLaterClick = () => {
@@ -37,18 +35,11 @@ const SmartModal = ({ onSearch, open, convert, setQuery }) => {
       console.log("User chose to close the modal.");
     };
 
-    if (maybeLaterButton) {
-      maybeLaterButton.addEventListener("click", handleMaybeLaterClick);
-    }
-
     if (yesButton) {
       yesButton.addEventListener("click", handleYesClick);
     }
 
     return () => {
-      if (maybeLaterButton) {
-        maybeLaterButton.removeEventListener("click", handleMaybeLaterClick);
-      }
       if (yesButton) {
         yesButton.removeEventListener("click", handleYesClick);
       }

@@ -13,7 +13,8 @@ const GPTSearch = ({ handleSearch, input }) => {
 
   const handleSearchFromModal = (text) => {
     setQuery(text); // Atualiza o estado do ChatGPT com o texto vindo do modal
-    setPopupIsOpen(false); // Close the modal after receiving the search text
+    setPopupIsOpen(false); // Fecha o modal após receber o texto
+    handleConvert(null, text); // Passa o texto diretamente para handleConvert
   };
 
   const handlePopup = () => {
@@ -24,12 +25,15 @@ const GPTSearch = ({ handleSearch, input }) => {
     setPopupIsOpen(false);
   };
 
-  const handleConvert = async (e) => {
+  // Modificada para aceitar um parâmetro opcional newQuery
+  const handleConvert = async (e, newQuery = null) => {
     if (e) {
       e.preventDefault();
     }
 
-    if (!query || !query.trim()) {
+    const effectiveQuery = newQuery !== null ? newQuery : query;
+
+    if (!effectiveQuery || !effectiveQuery.trim()) {
       setError("Por favor, insira uma pergunta de pesquisa.");
       return;
     }
@@ -73,7 +77,7 @@ title: "Artificial Inteligence" OR title: "AI" OR title: "Machine Learning" AND 
 ---
 
 **Entrada:**
-${query}
+${effectiveQuery}
 
 **Saída:`;
 
@@ -143,13 +147,17 @@ ${query}
             advancedString={advancedSearch}
             handleConvert={handleConvert}
           />
-          {/* <button
+          {/* Botão de Converter */}
+          {/* Se desejar manter o botão de conversão no formulário, descomente-o */}
+          {/* 
+          <button
             type="submit"
             style={styles.convertButton}
             disabled={isLoading}
           >
             {isLoading ? "Convertendo..." : "Converter"}
-          </button> */}
+          </button> 
+          */}
         </div>
       </form>
     </div>
