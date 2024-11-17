@@ -471,6 +471,7 @@ const styles = {
   },
   select: {
     appearance: "none",
+    width: "120px",
     border: "1px solid #1C1C5E",
     backgroundColor: "white",
     borderRadius: "4px",
