@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ufpe from "../assets/ufpe.jpg";
 
 const LocalModal = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const maybeLaterButtonRef = useRef(null);
+  const yesButtonRef = useRef(null);
 
   useEffect(() => {
     setIsOpen(true);
@@ -11,6 +14,36 @@ const LocalModal = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    const maybeLaterButton = maybeLaterButtonRef.current;
+    const yesButton = yesButtonRef.current;
+
+    const handleMaybeLaterClick = () => {
+      setIsOpen(false);
+    };
+
+    const handleYesClick = () => {
+      setIsOpen(false);
+    };
+
+    if (maybeLaterButton) {
+      maybeLaterButton.addEventListener("click", handleMaybeLaterClick);
+    }
+
+    if (yesButton) {
+      yesButton.addEventListener("click", handleYesClick);
+    }
+
+    return () => {
+      if (maybeLaterButton) {
+        maybeLaterButton.removeEventListener("click", handleMaybeLaterClick);
+      }
+      if (yesButton) {
+        yesButton.removeEventListener("click", handleYesClick);
+      }
+    };
+  }, [isOpen]);
 
   return (
     <>
@@ -39,15 +72,11 @@ const LocalModal = () => {
               <br-button
                 type="secondary"
                 className="m-1"
-                onClick={() => console.log("opa")}
+                ref={maybeLaterButtonRef}
               >
                 Talvez depois
               </br-button>
-              <br-button
-                type="primary"
-                className="m-1"
-                onClick={() => setIsOpen(false)}
-              >
+              <br-button type="primary" className="m-1" ref={yesButtonRef}>
                 Sim
               </br-button>
             </div>
