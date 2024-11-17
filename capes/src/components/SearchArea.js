@@ -12,6 +12,7 @@ import "../style/SearchArea.css";
 
 const SearchArea = () => {
   const [works, setWorks] = useState([]);
+  const [searched, setSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,6 +88,7 @@ const SearchArea = () => {
       });
 
       setWorks(response.data.results);
+      setSearched(true);
       const totalResults = response.data.meta.count;
       setTotalPages(Math.ceil(totalResults / perPage));
       setCurrentPage(page);
@@ -132,7 +134,6 @@ const SearchArea = () => {
               label={showSimpleSearch ? "Busca Avançada" : "Busca Simples"}
             ></br-button>
           </div>
-
           <div className="search-bar">
             <select id="dropdown" name="page" className="styled-select">
               <option value="Assuntos">Assuntos</option>
@@ -152,53 +153,53 @@ const SearchArea = () => {
               )}
             </div>
           </div>
-
-          <div className="results">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <h3>Resultados</h3>
-              <br-button
-                onClick={() => setNetworkMode(false)}
-                icon="list"
-              ></br-button>
-              <br-button
-                onClick={() => setNetworkMode(true)}
-                icon="project-diagram"
-              ></br-button>
-            </div>
-            <div className="search-quantity">
-              <div
-                style={{
-                  display: "flex",
-                  borderRight: "2px solid #ccc",
-                  gap: "16px",
-                  alignItems: "center",
-                }}
-              >
-                <h4>Exibir</h4>
-                <h4>10</h4>
-                <br-button circle icon="caret-down" />
+          {searched && (
+            <div className="results">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <h3>Resultados</h3>
+                <br-button
+                  onClick={() => setNetworkMode(false)}
+                  icon="list"
+                ></br-button>
+                <br-button
+                  onClick={() => setNetworkMode(true)}
+                  icon="project-diagram"
+                ></br-button>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  borderRight: "2px solid #ccc",
-                  gap: "16px",
-                  alignItems: "center",
-                }}
-              >
-                <h4>
-                  {totalPages > 0 ? 1 + (currentPage - 1) * perPage : 0} de{" "}
-                  {totalPages * perPage} itens
-                </h4>
-                <h4>Página</h4>
-                <h4>1</h4>
-                <br-button circle icon="caret-down" />
+              <div className="search-quantity">
+                <div
+                  style={{
+                    display: "flex",
+                    borderRight: "2px solid #ccc",
+                    gap: "16px",
+                    alignItems: "center",
+                  }}
+                >
+                  <h4>Exibir</h4>
+                  <h4>10</h4>
+                  <br-button circle icon="caret-down" />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    borderRight: "2px solid #ccc",
+                    gap: "16px",
+                    alignItems: "center",
+                  }}
+                >
+                  <h4>
+                    {totalPages > 0 ? 1 + (currentPage - 1) * perPage : 0} de{" "}
+                    {totalPages * perPage} itens
+                  </h4>
+                  <h4>Página</h4>
+                  <h4>1</h4>
+                  <br-button circle icon="caret-down" />
+                </div>
+                <br-button icon="angle-left" onClick={handlePreviousPage} />
+                <br-button icon="angle-right" onClick={handleNextPage} />
               </div>
-              <br-button icon="angle-left" onClick={handlePreviousPage} />
-              <br-button icon="angle-right" onClick={handleNextPage} />
             </div>
-          </div>
-
+          )}
           {error && <p style={styles.error}>{error}</p>}
           {!networkMode && (
             <ul style={styles.list}>
@@ -348,7 +349,6 @@ const SearchArea = () => {
               })}
             </ul>
           )}
-
           {works.length > 0 && networkMode && <NetWorkViewer />}
         </div>
       </div>
