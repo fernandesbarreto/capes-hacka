@@ -95,7 +95,8 @@ select {
 .search-container {
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  background: #f8f8f8;
   border-radius: 8px;
   overflow: hidden;
   min-width: 640px;
@@ -104,6 +105,8 @@ select {
 .search-container input {
   border: none;
   outline: none;
+  background-color: #f8f8f8;
+  background: #f8f8f8;
   padding: 8px;
   flex: 1;
 }
