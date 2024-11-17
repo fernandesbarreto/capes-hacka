@@ -4,9 +4,9 @@ import NetWorkViewer from "./NetworkViewer";
 import SearchBar from "./SearchBar";
 import ChaGPT from "./ChatGPT";
 import FilterBar from "./FilterBar";
-import './searchBar.css'
-
-import '@govbr-ds/webcomponents/dist/webcomponents.umd.min.js';
+import "./searchBar.css";
+import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
+import GPTSummarize from "./SummarizeAI";
 
 const SearchArea = () => {
   const [works, setWorks] = useState([]);
@@ -21,17 +21,21 @@ const SearchArea = () => {
   const [perPage, setPerPage] = useState(10);
 
   const applyFilters = (filteredWorks) => {
-    setWorks(filteredWorks)
-  }
+    setWorks(filteredWorks);
+  };
 
-  const handleSearch = async (page = 1, newQuery = query) => {
-    const trimmedQuery = newQuery.trim();
-    if (trimmedQuery === "") {
+  useEffect(() => {
+    handleSearch(currentPage);
+  }, [currentPage]);
+
+  const handleSearch = async (page = 1, query) => {
+    if (query === "" || !query) {
       setWorks([]);
       setTotalPages(null);
       setCurrentPage(1);
       return;
     }
+    const trimmedQuery = query.trim();
 
     setIsLoading(true);
     setError(null);
@@ -51,9 +55,8 @@ const SearchArea = () => {
       setTotalPages(Math.ceil(totalResults / perPage));
       setCurrentPage(page);
       setQuery(trimmedQuery);
-      setSearchPerformed(true)
-      setIsShowingFilters(true)
-
+      setSearchPerformed(true);
+      setIsShowingFilters(true);
     } catch (err) {
       if (err.response) {
         if (err.response.status === 429) {
@@ -101,20 +104,25 @@ const SearchArea = () => {
     <div style={styles.container}>
       <div class="search-area">
         {
-          <FilterBar worksData={works} applyFilters={applyFilters} searchPerformed={searchPerformed} isShowingFilters={isShowingFilters} />
+          <FilterBar
+            worksData={works}
+            applyFilters={applyFilters}
+            searchPerformed={searchPerformed}
+            isShowingFilters={isShowingFilters}
+          />
         }
         <div>
           <div className="acervo">
             <div className="acervo-left">
-              <h3>
-                Acervo
-              </h3>
+              <h3>Acervo</h3>
               <h5>Você tem acesso ao conteúdo gratuito do Portal através do</h5>
               <br-button>Acesso CAFe</br-button>
             </div>
-            <br-button onClick={toggleComponent} label={showSimpleSearch ? "Busca Avançada" : "Busca Simples"}></br-button>
+            <br-button
+              onClick={toggleComponent}
+              label={showSimpleSearch ? "Busca Avançada" : "Busca Simples"}
+            ></br-button>
           </div>
-
 
           <div className="search-bar">
             <div className="search-bar-input">
@@ -128,7 +136,6 @@ const SearchArea = () => {
                 <ChaGPT handleSearch={handleSearch} />
               )}
             </div>
-
           </div>
 
           <div className="results">
@@ -141,7 +148,9 @@ const SearchArea = () => {
                 <option value="option3">30</option>
               </select>
               <br-divider size vertical class="mx-3"></br-divider>
-              <h4>{1 + (currentPage - 1) * perPage} de {totalPages * perPage}</h4>
+              <h4>
+                {1 + (currentPage - 1) * perPage} de {totalPages * perPage}
+              </h4>
               <label id="page">Página</label>
               <select id="dropdown" name="page">
                 <option value="option1">10</option>
@@ -154,7 +163,8 @@ const SearchArea = () => {
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1 || isLoading}
               />
-              <br-button icon="angle-right"
+              <br-button
+                icon="angle-right"
                 onClick={handleNextPage}
                 disabled={currentPage === totalPages || isLoading}
               />
@@ -172,7 +182,9 @@ const SearchArea = () => {
                 <li key={work.id} style={styles.card}>
                   <div style={styles.header}>
                     <div>
-                      <span style={{ ...styles.badge, backgroundColor: "#FF9A00" }}>
+                      <span
+                        style={{ ...styles.badge, backgroundColor: "#FF9A00" }}
+                      >
                         Artigo
                       </span>
                       <span
@@ -187,7 +199,8 @@ const SearchArea = () => {
                     </div>
                   </div>
                   <h2 style={styles.title}>
-                    <span style={styles.index}>{globalIndex}.</span> {work.title}
+                    <span style={styles.index}>{globalIndex}.</span>{" "}
+                    {work.title}
                   </h2>
                   <p style={styles.authors}>
                     {work.authorships
@@ -233,6 +246,11 @@ const SearchArea = () => {
                     </select>{" "}
                     | PlumX Metrics
                   </p>
+                  {work.abstract_inverted_index && (
+                    <GPTSummarize
+                      abstract={JSON.stringify(work.abstract_inverted_index)}
+                    />
+                  )}
                   <div style={styles.footer}>
                     <span>{work.publisher}</span>
                     {work.doi && (
@@ -259,21 +277,8 @@ const SearchArea = () => {
           {!isLoading && works.length === 0 && query && !error && (
             <p>No results found.</p>
           )}
-
-
-
-
-
-
-
         </div>
-
-
-
-
       </div>
-
-
 
       {works.length > 0 && <NetWorkViewer />}
 
@@ -364,7 +369,6 @@ const styles = {
     fontWeight: "bold",
     display: "flex",
     alignItems: "center",
-    borderLeft: "4px solid #1C1C5E",
     paddingLeft: "8px",
   },
   index: {
@@ -435,6 +439,11 @@ const styles = {
     backgroundColor: "#008765",
   },
   abstract: {
+    display: "-webkit-box",
+    WebkitLineClamp: 6,
+    WebkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
     fontSize: "14px",
     lineHeight: "1.5",
     marginBottom: "16px",
@@ -477,7 +486,7 @@ const styles = {
   },
   hiperlinks: {
     padding: "16px",
-    color: "#1351B4"
+    color: "#1351B4",
   },
 };
 
