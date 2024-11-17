@@ -31,7 +31,7 @@ const Workcapes = () => {
   };
 
   return (
-    <div style={{ padding: "20px", width: "90%" }}>
+    <div style={{ padding: "20px" }} className="margin-lateral">
       <h1>Workcapes</h1>
       <hr
         style={{
@@ -75,15 +75,17 @@ const Workcapes = () => {
               <br-card-footer slot="footer">
                 <div className="d-flex" style={styles.footer}>
                   <div>
-                    <br-button label="Entrar" onClick={ () => {
+                    <br-button
+                      label="Entrar"
+                      onClick={() => {
                         navigate("/researchgroup", {
-                            state: {
-                                title: card.title,
-                                description: card.description,
-                            },
-                            })
-                        }
-                    }></br-button>
+                          state: {
+                            title: card.title,
+                            description: card.description,
+                          },
+                        });
+                      }}
+                    ></br-button>
                   </div>
                   <div className="ml-auto">
                     <br-button circle icon="share-alt"></br-button>

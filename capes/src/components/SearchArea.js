@@ -82,26 +82,19 @@ const SearchArea = () => {
 
   return (
     <div style={styles.container}>
-      
       <h2>Periódicos CAPES</h2>
 
       <div>
-      <button onClick={toggleComponent}>
-        {showSimpleSearch ? "Ir para ChatGPT" : "Voltar para SimpleSearch"}
-      </button>
+        <button onClick={toggleComponent}>
+          {showSimpleSearch ? "Ir para ChatGPT" : "Voltar para SimpleSearch"}
+        </button>
 
-      {showSimpleSearch ? 
-      <SearchBar
-        handleSearch = {handleSearch}
-      />
-
-      : 
-      
-      <ChaGPT 
-        handleSearch = {handleSearch}
-      />}
-
-    </div>
+        {showSimpleSearch ? (
+          <SearchBar handleSearch={handleSearch} />
+        ) : (
+          <ChaGPT handleSearch={handleSearch} />
+        )}
+      </div>
 
       {works.length > 0 && <NetWorkViewer />}
 
@@ -109,9 +102,7 @@ const SearchArea = () => {
       {error && <p style={styles.error}>{error}</p>}
       <ResultsList works={works} />
 
-      {!isLoading && works.length === 0 && !error && (
-        <p>No results found.</p>
-      )}
+      {!isLoading && works.length === 0 && !error && <p>No results found.</p>}
       {totalPages && totalPages > 1 && (
         <div style={styles.pagination}>
           <button
