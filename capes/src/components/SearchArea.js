@@ -20,13 +20,13 @@ const SearchArea = () => {
   }, [currentPage]);
 
   const handleSearch = async (page = 1, query) => {
-    const trimmedQuery = query.trim();
-    if (trimmedQuery === "") {
+    if (query === "" || !query) {
       setWorks([]);
       setTotalPages(null);
       setCurrentPage(1);
       return;
     }
+    const trimmedQuery = query.trim();
 
     setIsLoading(true);
     setError(null);

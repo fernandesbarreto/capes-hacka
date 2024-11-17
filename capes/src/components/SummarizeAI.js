@@ -15,7 +15,7 @@ const GPTSummarize = ({ abstract = "" }) => {
   }, [abstract]);
 
   const summarize = async () => {
-    if (!query.trim()) {
+    if (!query || !query.trim()) {
       setError("Por favor, insira um texto para resumir.");
       return;
     }
@@ -74,11 +74,7 @@ ${query}
   return (
     <div>
       {summary === "" && (
-        <button
-          type="button"
-          onClick={summarize}
-          disabled={isLoading}
-        >
+        <button type="button" onClick={summarize} disabled={isLoading}>
           Descrever
         </button>
       )}
