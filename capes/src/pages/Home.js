@@ -8,15 +8,14 @@ import AcervoSection from "../components/collection";
 const TelaPortalCAPES = () => {
   return (
     <div style={styles.container}>
-      <div style={styles.header}>
-        <p style={{ margin: 0 }}>
-          Você tem acesso ao conteúdo gratuito do Portal através do{" "}
-          <span style={styles.link}>Acesso CAFe</span>
-        </p>
-      </div>
-
       <div style={styles.main}>
         <section style={styles.container}>
+          <div style={styles.header}>
+            <p style={{ margin: 0 }}>
+              <i>Você tem acesso ao conteúdo gratuito do Portal através do </i>
+              <span style={styles.link}>Acesso CAFe</span>
+            </p>
+          </div>
           <img
             src={woman}
             alt="Mulher trabalhando em um computador"
@@ -68,9 +67,8 @@ export default TelaPortalCAPES;
 
 const styles = {
   header: {
-    backgroundColor: "#f5f5f5",
     padding: "20px",
-    textAlign: "center",
+    textAlign: "left",
   },
   link: {
     color: "#1351B4",
