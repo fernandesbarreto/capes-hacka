@@ -120,24 +120,52 @@ function FilterBar({ worksData, applyFilters, searchPerformed, isShowingFilters 
             {isShowingFilters && (
 
                 <div className="filter">
-                    <br-list title="Lista vertical" data-toggle="true" density="small">
-                        <br-item title="Definições" tooltip-text="Lorem ipsum">
-                            <br-list>
-                                <br-switch label="Simples" id label-checked="" label-not-checked=""></br-switch>
-                                <br-item hover tooltip-text="Lorem ipsum">Subitem 1.1</br-item >
-                                <br-item hover>Subitem 1.2</br-item>
-                                <br-item hover>Subitem 1.3</br-item></br-list
-                            ></br-item
-                        ><br-divider></br-divider
-                        ><br-item title="Item 2" tooltip-text="Lorem ipsum"
-                        ><br-list
-                        ><br-item hover tooltip-text="Lorem ipsum">Subitem 2.1</br-item
-                        ><br-item hover>Subitem 2.2</br-item
-                        ><br-item hover>Subitem 2.3</br-item></br-list
-                            ></br-item
-                        ></br-list
-                    >
+                    <br-list title="" data-toggle="true" density="small">
+                        <br-item title="Definições" style={{background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px'}}>
+                        
+                            <br-list style={{background: "#F8F8F8", padding: '12px'}}>
+                                <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}} label="Acesso Aberto" id label-checked="" label-not-checked=""></br-switch>
+                                <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}}label="Produção Nacional" id label-checked="" label-not-checked=""></br-switch>
+                                <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}}label="Revisão por Pares" id label-checked="" label-not-checked=""></br-switch>
+                            </br-list>
+                            
+                        </br-item>
+                       
+                        <br-item title="Ano de Publicação" style={{background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px'}}>
+                            <br-list style={{background: "#F8F8F8", padding: '12px'}}>
+                                <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}}label="Acesso Aberto" id label-checked="" label-not-checked=""></br-switch>
+                                <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}}label="Produção Nacional" id label-checked="" label-not-checked=""></br-switch>
+                                <br-switch style={{background: "#F8F8F8", paddingTop: '8px'}}label="Revisão por Pares" id label-checked="" label-not-checked=""></br-switch>
+                            </br-list>
+                        </br-item>
+                        
+                        <br-item title="Áreas" style={{background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px'}}>
+                            <br-list style={{background: "#F8F8F8", padding: '12px'}}>
+                                <br-input icon-sign="search" label="Label / Rótulo" placeholder="Busca"></br-input>
+                                <br-checkbox style={{background: "#F8F8F8", paddingTop: '8px'}}
+                                    label="Ciências Humanas"
+                                    name="base"
+                                    aria-label=""
+                                    model="check1"
+                                ></br-checkbox>
+                                <br-checkbox style={{background: "#F8F8F8", paddingTop: '8px'}}
+                                    label="Ciências Exatas"
+                                    name="base"
+                                    aria-label=""
+                                    model="check1"
+                                ></br-checkbox>
+                                <br-checkbox style={{background: "#F8F8F8", paddingTop: '8px'}}
+                                    label="Ciências Biológicas"
+                                    name="base"
+                                    aria-label=""
+                                    model="check1"
+                                ></br-checkbox>
 
+                            </br-list>
+                        </br-item>
+                    </br-list>
+                    {/*
+                    
                     <div>
                         <strong>Acesso Aberto</strong>
                     </div>
@@ -219,8 +247,6 @@ function FilterBar({ worksData, applyFilters, searchPerformed, isShowingFilters 
                                 ))}
                             </div>
                         </div>
-
-                        {/* Editors Filter */}
                         <div>
                             <h4>Editors</h4>
                             <div className="multi-select">
@@ -247,6 +273,7 @@ function FilterBar({ worksData, applyFilters, searchPerformed, isShowingFilters 
                             <button onClick={applySelectedFilters} >Filtrar</button>
                         </div>
                     </div>
+                    */}
                 </div>
             )}
         </div>

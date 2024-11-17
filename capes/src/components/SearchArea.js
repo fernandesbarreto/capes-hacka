@@ -19,6 +19,7 @@ const SearchArea = () => {
   const [searchPerformed, setSearchPerformed] = useState(false);
 
   const [perPage, setPerPage] = useState(10);
+  
 
   const applyFilters = (filteredWorks) => {
     setWorks(filteredWorks)
@@ -117,6 +118,12 @@ const SearchArea = () => {
 
 
           <div className="search-bar">
+            <select id="dropdown" name="page" className="styled-select">
+                <option value="Assuntos">Assuntos</option>
+                <option value="Bases e Coleções">Bases e Coleções</option>
+                <option value="Livros">Livro</option>
+                <option value="Periódicos">Periódicos</option>
+              </select>
             <div className="search-bar-input">
               {showSimpleSearch ? (
                 <SearchBar
@@ -132,23 +139,23 @@ const SearchArea = () => {
           </div>
 
           <div className="results">
-            <h2>Resultados</h2>
+            <h3>Resultados</h3>
             <div className="search-quantity">
               <h4>Exibir</h4>
-              <select id="dropdown" name="options">
+              <select id="dropdown" name="options" class="custom-dropdown">
                 <option value="option1">10</option>
                 <option value="option2">20</option>
                 <option value="option3">30</option>
               </select>
-              <br-divider size vertical class="mx-3"></br-divider>
-              <h4>{1 + (currentPage - 1) * perPage} de {totalPages * perPage}</h4>
+              <br-divider></br-divider>
+              <h4>{totalPages > 0 ? 1 + (currentPage - 1) * perPage : 0} de {totalPages * perPage} itens</h4>
               <label id="page">Página</label>
-              <select id="dropdown" name="page">
-                <option value="option1">10</option>
-                <option value="option2">20</option>
-                <option value="option3">30</option>
+              <select id="dropdown" name="page" class="custom-dropdown">
+                <option value="option1">1</option>
+                <option value="option2">2</option>
+                <option value="option3">3</option>
               </select>
-              <br-divider size vertical class="mx-3"></br-divider>
+              <br-divider></br-divider>
               <br-button
                 icon="angle-left"
                 onClick={handlePreviousPage}
