@@ -1,3 +1,17 @@
+@import url("https://fonts.cdnfonts.com/css/rawline");
+
+body {
+  margin: 0;
+  font-family: "Rawline", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
 .App {
   text-align: center;
 }
@@ -26,6 +40,24 @@
 
 .App-link {
   color: #61dafb;
+}
+
+body,
+#root,
+.App {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.margin-lateral {
+  margin: 0 10% 0 10%;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 150px;
 }
 
 @keyframes App-logo-spin {
