@@ -36,7 +36,7 @@ const Workcapes = () => {
 
       <WorkcapesTabViewer />
 
-      <h3>Olá, Pedro, aqui estão os seus grupos de pesquisa</h3>
+      <h3 style={{ fontSize: "34px" }}>Olá, <b>Pedro!</b> Aqui estão os seus grupos de pesquisa</h3>
 
       <div
         style={{
