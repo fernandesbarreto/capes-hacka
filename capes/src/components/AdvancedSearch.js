@@ -15,7 +15,8 @@ const Menu = ({ itemList, selectedValue, onSelect }) => {
   return (
     <div style={styles.menuContainer}>
       <button onClick={toggleMenu} style={styles.button}>
-        {selectedValue}
+        <>{selectedValue}</>
+        <i class="fas fa-caret-down" style={{ color: "#1351B4" }}></i>
       </button>
       {isOpen && (
         <ul style={styles.menuList}>
@@ -66,12 +67,12 @@ const AdvancedSearchLine = ({
         selectedValue="Contém" // Fixado como "Contém" para este exemplo
         onSelect={() => {}} // Sem atualização, pois é fixo
       />
-      <input
+      <textarea
         value={textValue}
         onChange={(e) => setTextValue(e.target.value)}
         type="text"
         style={isFirst ? styles.textFieldFirst : styles.textField}
-        placeholder="Digite aqui..."
+        placeholder="Digite os termos da busca"
       />
     </div>
   );
@@ -180,7 +181,13 @@ const AdvancedSearch = ({ advancedString = "", handleConvert }) => {
         />
       ))}
 
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          marginTop: "16px",
+        }}
+      >
         <div>
           <br-button
             onClick={addLine}
@@ -190,13 +197,7 @@ const AdvancedSearch = ({ advancedString = "", handleConvert }) => {
           <br-button onClick={addLine} icon="undo" label="Limpar"></br-button>
         </div>
 
-        <button
-          style={styles.convertButton}
-          disabled={isLoading}
-          onClick={handleConvert}
-        >
-          {isLoading ? "Convertendo..." : "Converter"}
-        </button>
+        <br-button icon="search" label="Buscar" type="primary"></br-button>
       </div>
     </div>
   );
@@ -212,10 +213,14 @@ const styles = {
   button: {
     width: "150px",
     padding: "8px",
-    textAlign: "left",
-    border: "1px solid #ccc",
+    textAlign: "center",
+    border: "1px solid #888888",
+    borderRadius: "4px",
     backgroundColor: "#fff",
-    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: "38px",
   },
   menuList: {
     listStyleType: "none",
@@ -236,19 +241,16 @@ const styles = {
   textField: {
     width: "200px",
     padding: "8px",
-    marginLeft: "10px",
-    border: "none",
-    borderBottom: "2px solid #ccc",
-    borderRadius: "0",
-    outline: "none",
+    border: "1px solid #888",
+    borderRadius: "4px",
+    height: "38px",
   },
   textFieldFirst: {
     width: "360px",
+    height: "38px",
     padding: "8px",
-    marginLeft: "10px",
-    border: "none",
-    borderBottom: "2px solid #ccc",
-    borderRadius: "0",
+    border: "1px solid #888",
+    borderRadius: "4px",
     outline: "none",
   },
   removeButton: {

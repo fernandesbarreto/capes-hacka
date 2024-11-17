@@ -63,7 +63,7 @@ const SmartModal = ({ onSearch, open, convert, setQuery }) => {
                 }}
               />
               <p style={{ fontWeight: "600", fontSize: "20px" }}>
-                Busca Inteligente
+                Assistente Inteligente
               </p>
             </div>
 

@@ -323,13 +323,11 @@ const SearchArea = () => {
 
 const styles = {
   container: {
-    maxWidth: "1200px",
+    width: "90%",
     marginTop: "300px",
     margin: "50px auto",
     padding: "20px",
-    border: "1px solid #ddd",
     borderRadius: "8px",
-    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
     fontFamily: "Arial, sans-serif",
   },
   toggleButton: {

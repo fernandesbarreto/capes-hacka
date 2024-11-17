@@ -33,7 +33,7 @@ const GPTSearch = ({ handleSearch, input }) => {
     const effectiveQuery = newQuery !== null ? newQuery : query;
 
     if (!effectiveQuery || !effectiveQuery.trim()) {
-      setError("Por favor, insira uma pergunta de pesquisa.");
+      //setError("Por favor, insira uma pergunta de pesquisa.");
       return;
     }
 
@@ -119,7 +119,6 @@ ${effectiveQuery}
         onSearch={handleSearchFromModal}
         open={popupIsOpen}
         onClose={handleCloseModal}
-        convert={handleConvert}
         setQuery={setQuery}
       />
 
@@ -128,7 +127,7 @@ ${effectiveQuery}
           className="fa-solid fa-wand-magic-sparkles"
           style={{ paddingRight: "8px" }}
         ></i>
-        Busca Inteligente
+        Assistente Inteligente
       </button>
 
       <form onSubmit={handleConvert} style={styles.form}>
