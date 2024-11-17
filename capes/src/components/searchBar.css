@@ -1,6 +1,4 @@
-body {
-    padding-top: 100px; /* Aplica um espaço de 20px no topo da página */
-}
+
 
 .top-bar {
     display: flex;
@@ -178,6 +176,10 @@ select {
   /* Estilo opcional para melhorar a aparência do texto */
   .custom-dropdown option {
     font-size: 16px;
+  }
+
+  .filter {
+    width: 220px;
   }
   
   

@@ -4,17 +4,16 @@ import React, { useState } from "react";
 import axios from "axios";
 import AdvancedSearch from "./AdvancedSearch";
 
-const GPTSearch = ({handleSearch}) => {
+const GPTSearch = ({ handleSearch }) => {
   const [query, setQuery] = useState("");
   const [advancedSearch, setAdvancedSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-
   const handleConvert = async (e) => {
     e.preventDefault();
 
-    if (!query.trim()) {
+    if (!query || !query.trim()) {
       setError("Por favor, insira uma pergunta de pesquisa.");
       return;
     }
@@ -118,8 +117,7 @@ ${query}
         </div>
       )}
 
-      <AdvancedSearch advancedString={advancedSearch}/>
-
+      <AdvancedSearch advancedString={advancedSearch} />
     </div>
   );
 };
