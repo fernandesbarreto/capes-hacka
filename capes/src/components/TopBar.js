@@ -19,7 +19,7 @@ const TopBar = () => {
         <br-header-action
           slot="headerAction"
           has-login="true"
-          label-login="Entrar no Meu Espaço"
+          label-login="João Monte"
           image-avatar-login="https://picsum.photos/id/823/400"
           title-links="Acesso Rápido"
           title-functions="Funcionalidades do Sistema"
@@ -43,6 +43,10 @@ const TopBar = () => {
     {
       name: 'Ajuda',
       href: '#'
+    },
+    {
+      name: 'WORKCAPES',
+      href: 'workcapes'
     }
   ]"
           list-functions="[
