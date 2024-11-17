@@ -142,7 +142,16 @@ ${query}
 
   return (
     <div>
-      {!summary && <br-button onClick={summarize}>Resumir Abstract</br-button>}
+      {!summary && (
+        <br-button onClick={summarize}>
+          {" "}
+          <i
+            class="fa-solid fa-wand-magic-sparkles"
+            style={{ marginRight: "4px" }}
+          ></i>{" "}
+          Resumir Abstract
+        </br-button>
+      )}
 
       {summary && (
         <p>
