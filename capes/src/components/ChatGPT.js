@@ -139,14 +139,17 @@ ${query}
         )}
 
         <div style={styles.buttons}>
-          <AdvancedSearch advancedString={advancedSearch} />
-          <button
+          <AdvancedSearch
+            advancedString={advancedSearch}
+            handleConvert={handleConvert}
+          />
+          {/* <button
             type="submit"
             style={styles.convertButton}
             disabled={isLoading}
           >
             {isLoading ? "Convertendo..." : "Converter"}
-          </button>
+          </button> */}
         </div>
       </form>
     </div>
@@ -200,6 +203,7 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     marginTop: "20px",
   },
   smart: {

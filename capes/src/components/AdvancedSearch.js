@@ -46,6 +46,9 @@ const AdvancedSearchLine = ({
 }) => {
   return (
     <div style={{ display: "flex", alignItems: "center", marginTop: "10px" }}>
+      <button onClick={onRemove} style={styles.removeButton}>
+        <i class="fas fa-times-circle"></i>
+      </button>
       {!isFirst && (
         <Menu
           itemList={["E", "OU"]}
@@ -70,16 +73,13 @@ const AdvancedSearchLine = ({
         style={isFirst ? styles.textFieldFirst : styles.textField}
         placeholder="Digite aqui..."
       />
-      {!isFirst && (
-        <button onClick={onRemove} style={styles.removeButton}>
-          X
-        </button>
-      )}
     </div>
   );
 };
 
-const AdvancedSearch = ({ advancedString = "" }) => {
+const AdvancedSearch = ({ advancedString = "", handleConvert }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     console.log("advancedString:", advancedString);
     stringToList(advancedString);
@@ -180,13 +180,23 @@ const AdvancedSearch = ({ advancedString = "" }) => {
         />
       ))}
 
-      <div>
-        <br-button
-          onClick={addLine}
-          icon="plus"
-          label="Adicionar novo campo"
-        ></br-button>
-        <br-button onClick={addLine} icon="undo" label="Limpar"></br-button>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div>
+          <br-button
+            onClick={addLine}
+            icon="plus"
+            label="Adicionar novo campo"
+          ></br-button>
+          <br-button onClick={addLine} icon="undo" label="Limpar"></br-button>
+        </div>
+
+        <button
+          style={styles.convertButton}
+          disabled={isLoading}
+          onClick={handleConvert}
+        >
+          {isLoading ? "Convertendo..." : "Converter"}
+        </button>
       </div>
     </div>
   );
@@ -242,11 +252,11 @@ const styles = {
     outline: "none",
   },
   removeButton: {
-    marginLeft: "10px",
+    margin: "4px",
     padding: "5px 10px",
     border: "none",
-    backgroundColor: "#ff4d4f",
-    color: "#fff",
+    backgroundColor: "white",
+    color: "#333",
     cursor: "pointer",
     borderRadius: "4px",
   },
