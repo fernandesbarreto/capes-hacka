@@ -8,10 +8,11 @@ import FilterBar from "./FilterBar";
 import "./searchBar.css";
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
 import GPTSummarize from "./SummarizeAI";
-import "../style/SearchArea.css"
+import "../style/SearchArea.css";
 
 const SearchArea = () => {
   const [works, setWorks] = useState([]);
+  const [searched, setSearched] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,7 +50,9 @@ const SearchArea = () => {
   };
 
   useEffect(() => {
-    handleSearch(currentPage);
+    if (query) {
+      handleSearch(currentPage, query);
+    }
   }, [currentPage]);
 
   const handlePreviousPage = () => {
@@ -85,6 +88,7 @@ const SearchArea = () => {
       });
 
       setWorks(response.data.results);
+      setSearched(true);
       const totalResults = response.data.meta.count;
       setTotalPages(Math.ceil(totalResults / perPage));
       setCurrentPage(page);
@@ -130,7 +134,6 @@ const SearchArea = () => {
               label={showSimpleSearch ? "Busca Avançada" : "Busca Simples"}
             ></br-button>
           </div>
-
           <div className="search-bar">
             <select id="dropdown" name="page" className="styled-select">
               <option value="Assuntos">Assuntos</option>
@@ -150,53 +153,53 @@ const SearchArea = () => {
               )}
             </div>
           </div>
-
-          <div className="results">
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <h3>Resultados</h3>
-              <br-button
-                onClick={() => setNetworkMode(false)}
-                icon="list"
-              ></br-button>
-              <br-button
-                onClick={() => setNetworkMode(true)}
-                icon="project-diagram"
-              ></br-button>
-            </div>
-            <div className="search-quantity">
-              <div
-                style={{
-                  display: "flex",
-                  borderRight: "2px solid #ccc",
-                  gap: "16px",
-                  alignItems: "center",
-                }}
-              >
-                <h4>Exibir</h4>
-                <h4>10</h4>
-                <br-button circle icon="caret-down" />
+          {searched && (
+            <div className="results">
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <h3>Resultados</h3>
+                <br-button
+                  onClick={() => setNetworkMode(false)}
+                  icon="list"
+                ></br-button>
+                <br-button
+                  onClick={() => setNetworkMode(true)}
+                  icon="project-diagram"
+                ></br-button>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  borderRight: "2px solid #ccc",
-                  gap: "16px",
-                  alignItems: "center",
-                }}
-              >
-                <h4>
-                  {totalPages > 0 ? 1 + (currentPage - 1) * perPage : 0} de{" "}
-                  {totalPages * perPage} itens
-                </h4>
-                <h4>Página</h4>
-                <h4>1</h4>
-                <br-button circle icon="caret-down" />
+              <div className="search-quantity">
+                <div
+                  style={{
+                    display: "flex",
+                    borderRight: "2px solid #ccc",
+                    gap: "16px",
+                    alignItems: "center",
+                  }}
+                >
+                  <h4>Exibir</h4>
+                  <h4>10</h4>
+                  <br-button circle icon="caret-down" />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    borderRight: "2px solid #ccc",
+                    gap: "16px",
+                    alignItems: "center",
+                  }}
+                >
+                  <h4>
+                    {totalPages > 0 ? 1 + (currentPage - 1) * perPage : 0} de{" "}
+                    {totalPages * perPage} itens
+                  </h4>
+                  <h4>Página</h4>
+                  <h4>1</h4>
+                  <br-button circle icon="caret-down" />
+                </div>
+                <br-button icon="angle-left" onClick={handlePreviousPage} />
+                <br-button icon="angle-right" onClick={handleNextPage} />
               </div>
-              <br-button icon="angle-left" onClick={handlePreviousPage} />
-              <br-button icon="angle-right" onClick={handleNextPage} />
             </div>
-          </div>
-
+          )}
           {error && <p style={styles.error}>{error}</p>}
           {!networkMode && (
             <ul style={styles.list}>
@@ -204,9 +207,6 @@ const SearchArea = () => {
                 // Calculate the global index based on the current page and items per page
                 const globalIndex = (currentPage - 1) * perPage + index + 1;
 
-                !isLoading && works.length === 0 && !error && (
-                  <p>No results found.</p>
-                );
                 return (
                   <li key={work.id} style={styles.card}>
                     <div style={styles.header}>
@@ -239,44 +239,59 @@ const SearchArea = () => {
                         </span>
                       </div>
                       {isMessageVisible && (
-                        <br-message state="success" show-icon="true" style ={{position: "absolute", top: "200px", right: "60px", zIndex: "10" }}>
-                          Salvo com sucesso ao grupo <i> Redes 6G: O Futuro da Conectividade </i>
+                        <br-message
+                          state="success"
+                          show-icon="true"
+                          style={{
+                            position: "absolute",
+                            top: "200px",
+                            right: "60px",
+                            zIndex: "10",
+                          }}
+                        >
+                          Salvo com sucesso ao grupo{" "}
+                          <i> Redes 6G: O Futuro da Conectividade </i>
                         </br-message>
                       )}
 
-<div style={{ display: "flex", position: "relative" }}>
-  <br-button icon="link" />
-  <br-button icon="share" />
-  <br-button icon="download" />
-  <br-button icon="folder" onClick={() => toggleMenu(index)} />
-  {isMenuOpen && menuIndex === index && (
-    <div
-      style={{
-        position: "absolute",
-        top: "100%",
-        right: 0,
-        backgroundColor: "#fff",
-        boxShadow: "0 2px 10px rgba(0, 0, 0, 0.15)",
-        borderRadius: "8px",
-        zIndex: 10,
-      }}
-    >
-      <div className="group-name name-with-divisor">
-        Meus salvos
-      </div>
-      <div className="group-name name-with-divisor" onClick={handleGroupClick}>
-        Redes 6G: O Futuro da Conectividade
-      </div>
-      <div className="group-name name-with-divisor">
-        Reciclagem de E-lixo: Um Desafio Urbano
-      </div>
-      <div className="group-name">
-        6G e IoT: Conectando um Mundo Inteligente
-      </div>
-    </div>
-  )}
-</div>
-
+                      <div style={{ display: "flex", position: "relative" }}>
+                        <br-button icon="link" />
+                        <br-button icon="share" />
+                        <br-button icon="download" />
+                        <br-button
+                          icon="folder"
+                          onClick={() => toggleMenu(index)}
+                        />
+                        {isMenuOpen && menuIndex === index && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: "100%",
+                              right: 0,
+                              backgroundColor: "#fff",
+                              boxShadow: "0 2px 10px rgba(0, 0, 0, 0.15)",
+                              borderRadius: "8px",
+                              zIndex: 10,
+                            }}
+                          >
+                            <div className="group-name name-with-divisor">
+                              Meus salvos
+                            </div>
+                            <div
+                              className="group-name name-with-divisor"
+                              onClick={handleGroupClick}
+                            >
+                              Redes 6G: O Futuro da Conectividade
+                            </div>
+                            <div className="group-name name-with-divisor">
+                              Reciclagem de E-lixo: Um Desafio Urbano
+                            </div>
+                            <div className="group-name">
+                              6G e IoT: Conectando um Mundo Inteligente
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                     <h2 style={styles.title}>
                       <span style={styles.index}></span> {work.title}
@@ -334,11 +349,6 @@ const SearchArea = () => {
               })}
             </ul>
           )}
-
-          {!isLoading && works.length === 0 && query && !error && (
-            <p>No results found.</p>
-          )}
-
           {works.length > 0 && networkMode && <NetWorkViewer />}
         </div>
       </div>
