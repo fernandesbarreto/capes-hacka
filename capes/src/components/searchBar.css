@@ -99,7 +99,7 @@ select {
   background: #f8f8f8;
   border-radius: 8px;
   overflow: hidden;
-  min-width: 640px;
+  min-width: 800px;
 }
 
 .search-container input {
