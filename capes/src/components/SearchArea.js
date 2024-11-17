@@ -30,6 +30,17 @@ const SearchArea = () => {
     handleSearch(currentPage);
   }, [currentPage]);
 
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
   const handleSearch = async (page = 1, query) => {
     if (query === "" || !query) {
       setWorks([]);
