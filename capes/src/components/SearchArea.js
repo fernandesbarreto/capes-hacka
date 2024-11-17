@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NetWorkViewer from "./NetworkViewer";
 import SearchBar from "./SearchBar";
@@ -117,11 +117,9 @@ const SearchArea = () => {
           // Calculate the global index based on the current page and items per page
           const globalIndex = (currentPage - 1) * perPage + index + 1;
 
-          {
-            !isLoading && works.length === 0 && !error && (
-              <p>No results found.</p>
-            );
-          }
+          !isLoading && works.length === 0 && !error && (
+            <p>No results found.</p>
+          );
           return (
             <li key={work.id} style={styles.card}>
               <div style={styles.header}>
