@@ -43,7 +43,7 @@ const SearchArea = () => {
     }
   };
 
-  const handleSearch = async (page = 1) => {
+  const handleSearch = async (page = 1, query="") => {
     if (query === "" || !query) {
       setWorks([]);
       setTotalPages(null);
