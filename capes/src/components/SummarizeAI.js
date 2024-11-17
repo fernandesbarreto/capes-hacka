@@ -23,7 +23,7 @@ const GPTSummarize = ({ abstract = "" }) => {
 
   const summarize = async () => {
     if (!query || !query.trim()) {
-      setError("Por favor, insira um texto para resumir.");
+      //setError("Por favor, insira um texto para resumir.");
       return;
     }
 
