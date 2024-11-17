@@ -186,7 +186,7 @@ function FilterBar({
   ];
 
   return (
-    <div class="retangulo">
+    <div className="retangulo">
       {isShowingFilters && (
         <div className="filter">
           <br-list title="" data-toggle="true" density="small">
@@ -199,8 +199,8 @@ function FilterBar({
               }}
             >
               <br-list style={{ background: "#F8F8F8", padding: "12px" }}>
-                {filters.map((filter) => (
-                  <div className="title-and-switch">
+                {filters.map((filter, index) => (
+                  <div className="title-and-switch" key={index}>
                     <p
                       style={{
                         margin: 0,
