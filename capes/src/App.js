@@ -17,7 +17,7 @@ function App() {
       <TopBar />
       <div className="main-content">
         <Routes>
-          <Route path="/" element={<SearchArea />} />
+          <Route path="/collection" element={<SearchArea />} />
           <Route path="/home" element={<TelaPortalCAPES />} />
           <Route path="/workcapes" element={<Workcapes />} />
           <Route path="/researchgroup" element={<ResearchGroup />} />

@@ -8,25 +8,13 @@ const SugestedWorks = () => {
     { id: 4, title: "Reciclagem de E-lixo: Um Desafio Urbano" },
   ];
 
-  return (
-    <div>
-      <h2>Trabalhos relacionados</h2>
+    return (
+        <div style = {{ marginBottom: "100px"}}>
 
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          width: "100%",
-          background: "#F0F0F0",
-          paddingBottom: "16px",
-          paddingTop: "16px",
-        }}
-      >
-        <p style={{ margin: 0 }}>
-          {" "}
-          Trabalhos Relacionados Presentes no Portal de Periódicos{" "}
-        </p>
+            <h2 style={{ fontSize: 24, fontWeight: 800 }}>Trabalhos relacionados</h2>
+
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", background: "#F0F0F0", paddingBottom: "16px",  paddingTop: "16px", paddingRight: "12px", paddingLeft: "12px"}}>
+                <p style={{ margin: 0, color: "#1351B4"}}> Trabalhos Relacionados Presentes no Portal de Periódicos </p>
 
         <div
           style={{
@@ -40,17 +28,10 @@ const SugestedWorks = () => {
         </div>
       </div>
 
-      {works.map((work) => (
-        <div key={work.id}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "100%",
-            }}
-          >
-            <p style={{ margin: 0 }}>{work.title}</p>
+            {works.map((work) => (
+                <div key={work.id}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", paddingRight: "12px", paddingLeft: "12px"}}>
+                        <p style={{ margin: 0}}>{work.title}</p>
 
             <div
               style={{

@@ -30,7 +30,7 @@ const TopBar = () => {
     },
     {
       name: 'Acervo',
-      href: '#'
+      href: 'collection'
     },
     {
       name: 'Treinamentos',

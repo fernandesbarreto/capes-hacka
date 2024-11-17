@@ -1,11 +1,60 @@
 import React, { useState, useEffect } from "react";
+import "../style/FilterBar.css";
 import "@govbr-ds/webcomponents/dist/webcomponents.umd.min.js";
+
+const CustomSwitch = ({ task }) => {
+    const [isChecked, setIsChecked] = useState(false);
+
+    const handleToggle = () => {
+        const newChecked = !isChecked;
+        setIsChecked(newChecked);
+
+        if (newChecked) {
+            task();
+        }
+
+        console.log("Switch está:", newChecked ? "ON" : "OFF");
+    };
+
+    return (
+        <div
+            className="custom-switch"
+            onClick={handleToggle}
+            style={{
+                backgroundColor: isChecked ? "#5992ED" : "#ccc", // Muda a cor de fundo para azul
+                padding: "5px",
+                borderRadius: "15px",
+                cursor: "pointer",
+                display: "inline-block",
+                width: "50px",
+                height: "25px",
+                position: "relative",
+            }}
+        >
+            <div
+                className="switch-knob"
+                style={{
+                    backgroundColor: "#fff",
+                    borderRadius: "50%",
+                    height: "20px",
+                    width: "20px",
+                    position: "absolute",
+                    top: "50%",
+                    left: isChecked ? "25px" : "5px",
+                    transform: "translateY(-50%)",
+                    transition: "left 0.2s",
+                }}
+            ></div>
+        </div>
+    );
+};
 
 function FilterBar({
     worksData,
     applyFilters,
     searchPerformed,
     isShowingFilters,
+    handleSearch,
 }) {
     const [availableTypes, setAvailableTypes] = useState({});
     const [availableEditors, setAvailableEditors] = useState({});
@@ -99,6 +148,11 @@ function FilterBar({
         setOA(isOACount);
     };
 
+    const handleUniFilter = () => {
+        console.log("teste");
+        handleSearch(2);
+    };
+
     const applySelectedFilters = () => {
         let filteredWorks = [...worksData];
 
@@ -124,21 +178,43 @@ function FilterBar({
         applyFilters(filteredWorks);
     };
 
+    const filters = [
+        "Disponível na UFPE",
+        "Acesso Aberto",
+        "Produção Nacional",
+        "Revisão por Pares",
+    ];
     return (
         <div class="retangulo">
-                <div className="filter">
-                    <br-list title="" data-toggle="true" density="small">
-                        <br-item title="Definições" style={{ background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px' }}>
+            <div className="filter">
+                <br-list title="" data-toggle="true" density="small">
+                    <br-item
+                        title="Definições"
+                        style={{
+                            background: "#F8F8F8",
+                            borderRadius: "8px",
+                            marginBottom: "8px",
+                        }}
+                    >
+                        <br-list style={{ background: "#F8F8F8", padding: "12px" }}>
+                            {filters.map((filter) => (
+                                <div className="title-and-switch">
+                                    <p
+                                        style={{
+                                            margin: 0,
+                                            fontSize: "14px",
+                                            fontWeight: "bold",
+                                        }}
+                                    >
+                                        {filter}
+                                    </p>
+                                    <CustomSwitch task={handleUniFilter} />
+                                </div>
+                            ))}
+                        </br-list>
+                    </br-item>
 
-                            <br-list style={{ background: "#F8F8F8", marginLeft: '12px', marginBottom: '12px', marginRight: '12px'}}>
-                                <br-switch style={{ background: "#F8F8F8"}} label="Acesso Aberto" id label-checked="" label-not-checked=""></br-switch>
-                                <br-switch style={{ background: "#F8F8F8"}} label="Produção Nacional" id label-checked="" label-not-checked=""></br-switch>
-                                <br-switch style={{ background: "#F8F8F8"}} label="Revisão por Pares" id label-checked="" label-not-checked=""></br-switch>
-                            </br-list>
-
-                        </br-item>
-
-                        <br-item title="Ano de Publicação" style={{ background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px' }}>
+                    <br-item title="Ano de Publicação" style={{ background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px' }}>
                             <br-list style={{ background: "#F8F8F8", marginLeft: '12px', marginBottom: '12px', marginRight: '12px'}}>
                                 <br-input
                                 icon="calendar"
@@ -156,35 +232,51 @@ function FilterBar({
                             </br-list>
                         </br-item>
 
-                        <br-item title="Áreas" style={{ background: "#F8F8F8", borderRadius: '8px', marginBottom: '8px' }}>
-                            <br-list style={{ background: "#F8F8F8", marginLeft: '12px', marginBottom: '12px', marginRight: '12px'}}>
-                                <br-input icon-sign="search" label="" placeholder="Busca"></br-input>
-                                <br-checkbox style={{ background: "#F8F8F8", paddingTop: '8px'}}
-                                    label="Ciências Humanas"
-                                    name="base"
-                                    aria-label=""
-                                    model="check1"
-                                ></br-checkbox>
-                                <br-checkbox style={{ background: "#F8F8F8", paddingTop: '8px' }}
-                                    label="Ciências Exatas"
-                                    name="base"
-                                    aria-label=""
-                                    model="check1"
-                                ></br-checkbox>
-                                <br-checkbox style={{ background: "#F8F8F8", paddingTop: '8px' }}
-                                    label="Ciências Biológicas"
-                                    name="base"
-                                    aria-label=""
-                                    model="check1"
-                                ></br-checkbox>
-                                <br-button>Mostrar mais</br-button>
-                            </br-list>
-                        </br-item>
-                    </br-list>
+                    <br-item
+                        title="Áreas"
+                        style={{
+                            background: "#F8F8F8",
+                            borderRadius: "8px",
+                            marginBottom: "8px",
+                        }}
+                    >
+                        <br-list style={{ background: "#F8F8F8", marginLeft: '12px', marginBottom: '12px', marginRight: '12px'}}>
+                            <br-input
+                                icon-sign="search"
+                                label=""
+                                placeholder="Busca"
+                            ></br-input>
+                            <br-checkbox
+                                style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                                label="Ciências Humanas"
+                                name="base"
+                                aria-label=""
+                                model="check1"
+                            ></br-checkbox>
+                            <br-checkbox
+                                style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                                label="Ciências Exatas"
+                                name="base"
+                                aria-label=""
+                                model="check1"
+                            ></br-checkbox>
+                            <br-checkbox
+                                style={{ background: "#F8F8F8", paddingTop: "8px" }}
+                                label="Ciências Biológicas"
+                                name="base"
+                                aria-label=""
+                                model="check1"
+                            ></br-checkbox>
+                            <br-button>Mostrar mais</br-button>
+                        </br-list>
+                    </br-item>
+                </br-list>
+                <br-button style={{width: "220px"}} type="primary">Filtrar</br-button>
+            </div>
+        </div>
+    )
 
-                    <br-button style={{width: "220px"}} type="primary">Filtrar</br-button>
-
-                    {/*
+    {/*
           <div>
             <strong>Acesso Aberto</strong>
           </div>
@@ -348,10 +440,9 @@ function FilterBar({
               <button onClick={applySelectedFilters}>Filtrar</button>
             </div>
           </div>
-           */}
-                </div>
-        </div>
-    );
+           
+            </div>
+            */}
 }
 
 export default FilterBar;

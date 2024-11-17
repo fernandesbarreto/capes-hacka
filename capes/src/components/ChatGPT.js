@@ -1,20 +1,39 @@
-// src/AdvancedSearch.js
-
 import React, { useState } from "react";
 import axios from "axios";
 import AdvancedSearch from "./AdvancedSearch";
+import SmartModal from "./SmartModal.js";
 
-const GPTSearch = ({ handleSearch }) => {
-  const [query, setQuery] = useState("");
+const GPTSearch = ({ handleSearch, input }) => {
+  const [query, setQuery] = useState(input);
   const [advancedSearch, setAdvancedSearch] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [popupIsOpen, setPopupIsOpen] = useState(false); // Renamed to follow camelCase
 
-  const handleConvert = async (e) => {
-    e.preventDefault();
+  const handleSearchFromModal = (text) => {
+    setQuery(text); // Atualiza o estado do ChatGPT com o texto vindo do modal
+    setPopupIsOpen(false); // Fecha o modal após receber o texto
+    handleConvert(null, text); // Passa o texto diretamente para handleConvert
+  };
 
-    if (!query || !query.trim()) {
-      setError("Por favor, insira uma pergunta de pesquisa.");
+  const handlePopup = () => {
+    setPopupIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setPopupIsOpen(false);
+  };
+
+  // Modificada para aceitar um parâmetro opcional newQuery
+  const handleConvert = async (e, newQuery = null) => {
+    if (e) {
+      e.preventDefault();
+    }
+
+    const effectiveQuery = newQuery !== null ? newQuery : query;
+
+    if (!effectiveQuery || !effectiveQuery.trim()) {
+      //setError("Por favor, insira uma pergunta de pesquisa.");
       return;
     }
 
@@ -30,7 +49,7 @@ Você é um assistente especializado em transformar perguntas de pesquisa em bus
 1. Utilize os campos específicos conforme necessário (por exemplo, title: e author:).
 2. Use operadores booleanos em maiúsculas: AND, OR.
 3. Utilize aspas para delimitar termos de busca específicos.
-4. Combine os termos com termos semlhantes com OR (por exemplo, se o texto tem Information Technology use "Information Technology" OR "IT").
+4. Combine os termos com termos semelhantes com OR (por exemplo, se o texto tem Information Technology use "Information Technology" OR "IT").
 5. Combine o assunto do texto com AND usando topics : (por exemplo, topics: "Machine Learning" OR topics: "Artificial Intelligence").
 4. Deixe os campos fora das aspas, exemplo: title: "machine learning".
 
@@ -46,25 +65,25 @@ title: "dog" AND "2001" OR title: "cat" AND "2009" AND topics: "Animals" OR topi
 Estou fazendo uma pesquisa sobre terremotos e vulcões do Chile e da Argentina
 
 **Saída:**
-title: "argentina" OR title: "chile" AND title: "earthquakes" OR title: "volcanoes"  AND topics: "Geology" OR topics: "Natural Disasters"
+title: "argentina" OR title: "chile" AND title: "earthquakes" OR title: "volcanoes" AND topics: "Geology" OR topics: "Natural Disasters"
 
 **Entrada:**
 Queria ler trabalhos sobre inteligência artificial e machine learning escritos por John Bolton
 
 **Saída:**
-title: "Artificial Inteligence" OR title: "AI" OR title: "Machine Learning" AND authors: "John Bolton"  AND topics: "Artificial Intelligence" OR topics: "Machine Learning"
+title: "Artificial Intelligence" OR title: "AI" OR title: "Machine Learning" AND authors: "John Bolton" AND topics: "Artificial Intelligence" OR topics: "Machine Learning"
 
 ---
 
 **Entrada:**
-${query}
+${effectiveQuery}
 
 **Saída:`;
 
       const response = await axios.post(
         "https://api.openai.com/v1/chat/completions",
         {
-          model: "gpt-4o",
+          model: "gpt-4",
           messages: [{ role: "user", content: prompt }],
           max_tokens: 150,
           temperature: 0.2,
@@ -96,28 +115,33 @@ ${query}
 
   return (
     <div>
-      <h2>Conversor de Pesquisa Avançada</h2>
-      <form onSubmit={handleConvert} style={styles.form}>
-        <textarea
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Digite sua pergunta de pesquisa aqui..."
-          style={styles.textarea}
-          rows="4"
-        />
-        <button type="submit" style={styles.button} disabled={isLoading}>
-          {isLoading ? "Convertendo..." : "Converter"}
-        </button>
-      </form>
-      {error && <p style={styles.error}>{error}</p>}
-      {advancedSearch && (
-        <div style={styles.result}>
-          <h3>Busca Avançada:</h3>
-          <p>{advancedSearch}</p>
-        </div>
-      )}
+      <SmartModal
+        onSearch={handleSearchFromModal}
+        open={popupIsOpen}
+        onClose={handleCloseModal}
+        setQuery={setQuery}
+      />
 
-      <AdvancedSearch advancedString={advancedSearch} />
+      <div style={styles.buttonContainer}>
+        <button onClick={handlePopup} style={styles.smart}>
+          <i
+            className="fa-solid fa-wand-magic-sparkles"
+            style={{ paddingRight: "8px" }}
+          ></i>
+          Assistente Inteligente
+        </button>
+      </div>
+
+      <form onSubmit={handleConvert} style={styles.form}>
+        {error && <p style={styles.error}>{error}</p>}
+
+        <div style={styles.buttons}>
+          <AdvancedSearch
+            advancedString={advancedSearch}
+            handleConvert={handleConvert}
+          />
+        </div>
+      </form>
     </div>
   );
 };
@@ -135,6 +159,16 @@ const styles = {
     borderRadius: "4px",
     border: "1px solid #ccc",
     resize: "vertical",
+  },
+  convertButton: {
+    padding: "10px 20px",
+    fontSize: "16px",
+    borderRadius: "4px",
+    border: "none",
+    backgroundColor: "#28a745",
+    color: "#fff",
+    cursor: "pointer",
+    alignSelf: "flex-start",
   },
   button: {
     padding: "10px 20px",
@@ -154,6 +188,30 @@ const styles = {
     padding: "10px",
     backgroundColor: "#f8f9fa",
     borderRadius: "4px",
+  },
+  buttons: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: "20px",
+  },
+  smart: {
+    padding: "10px 24px",
+    alignItems: "center",
+    color: "#1351B4",
+    border: "1px solid #1351B4",
+    backgroundColor: "white",
+    borderRadius: "32px",
+    fontSize: "16px",
+    fontWeight: "500",
+    display: "flex",
+    marginRight: "40px",
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "flex-end",
+    marginTop: "20px",
   },
 };
 

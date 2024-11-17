@@ -46,43 +46,26 @@ const SearchBar = ({ handleSearch, query, setQuery }) => {
     */
 
     <div class="search-container">
-      <input type="text"
+      <input
+        type="text"
         placeholder="Procure por títulos, palavras-chave e autores"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         onKeyPress={handleKeyPress}
-        aria-label="Search scholarly works"/>
-        <br-button icon="microphone">
-        </br-button>
-        <br-button icon="search" onClick={onSearchClick} class="search-button">
-        </br-button>
+        aria-label="Search scholarly works"
+      />
+      <br-button
+        icon="microphone"
+        style={{ padding: "8px", margin: "0" }}
+      ></br-button>
+      <br-button
+        icon="search"
+        onClick={onSearchClick}
+        style={{ padding: "8px", margin: "0" }}
+        class="search-button"
+      ></br-button>
     </div>
-
   );
-};
-
-const styles = {
-  searchContainer: {
-    display: "flex",
-    gap: "10px",
-    marginBottom: "20px",
-  },
-  input: {
-    flex: 1,
-    padding: "10px",
-    fontSize: "16px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-  },
-  button: {
-    padding: "10px 20px",
-    fontSize: "16px",
-    borderRadius: "4px",
-    border: "none",
-    backgroundColor: "#007bff",
-    color: "#fff",
-    cursor: "pointer",
-  },
 };
 
 export default SearchBar;
