@@ -4,6 +4,7 @@ import "../style/ResearchGroup.css";
 import commentIcon from "../assets/commenticon.png";
 import heartIcon from "../assets/hearticon.png";
 import SugestedWorks from "./SugestedWorks";
+import workStatus from "../assets/workstatus.png";
 
 const ResearchGroup = () => {
   const location = useLocation();
@@ -84,6 +85,7 @@ const ResearchGroup = () => {
           <h1>{description}</h1>
         </div>
 
+
         <div className="tags-container">
           {persons.map((person) => (
             <div key={person.id} className="tag" style={{ backgroundColor: colors[person.id % 4] }}>
@@ -93,6 +95,9 @@ const ResearchGroup = () => {
           ))}
         </div>
       </div>
+
+      <h2>Status da pesquisa</h2>
+      <img src={workStatus} alt="Status do trabalho" style={{ width: "100%", height: "auto" }} />
 
       <SugestedWorks />
 
