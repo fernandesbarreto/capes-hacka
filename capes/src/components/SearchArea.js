@@ -218,6 +218,7 @@ const SearchArea = () => {
                         >
                           Artigo
                         </span>
+                       
                         <span
                           style={{
                             ...styles.badge,
@@ -225,6 +226,7 @@ const SearchArea = () => {
                             marginLeft: "16px",
                           }}
                         >
+                           <i class="fas fa-unlock"></i>
                           Acesso aberto
                         </span>
                         <span
@@ -234,6 +236,7 @@ const SearchArea = () => {
                             marginLeft: "16px",
                           }}
                         >
+                           <i class="fas fa-book-reader"></i>
                           Revisado por Pares
                         </span>
                       </div>
