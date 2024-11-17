@@ -32,8 +32,26 @@ const ResearchGroup = () => {
   const [works, setWorks] = useState([
     {
       id: 1,
-      title: "6G e IoT: Conectando um Mundo Inteligente",
-      link: "https://example.com/6g-iot", // Adicionando o link
+      title: "From 5G to 6G Technology: Meets Energy, Internet-of-Things and Machine Learning: A Survey",
+      link: "https://www.mdpi.com/2076-3417/11/17/8117", // Adicionando o link
+      mainComment: {
+        person: persons[3],
+        content:
+          "O 6G promete integrar dispositivos inteligentes em larga escala, revolucionando cidades, saúde e indústrias com maior eficiência e baixa latência.",
+      },
+      comments: [
+        {
+          person: persons[2],
+          content:
+            "Gostei muito do parágrafo que aborda como o 6G vai transformar o ecossistema da Internet das Coisas (IoT). A conexão massiva e a latência ultrabaixa mencionadas são exatamente os pontos que podem embasar nossa pesquisa em Redes 6G: O Futuro da Conectividade, já que destacam o potencial dessa tecnologia para suportar dispositivos em larga escala e aplicações críticas, como cidades inteligentes e saúde conectada. Acho que vale explorar mais essa relação entre IoT e 6G no nosso trabalho!",
+          liked: false,
+        },
+      ],
+    },
+    {
+      id: 1,
+      title: "From 5G to 6G Technology: Meets Energy, Internet-of-Things and Machine Learning: A Survey",
+      link: "https://www.mdpi.com/2076-3417/11/17/8117", // Adicionando o link
       mainComment: {
         person: persons[3],
         content:
