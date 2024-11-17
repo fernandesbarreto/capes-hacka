@@ -23,7 +23,6 @@ const SearchArea = () => {
   const [showSimpleSearch, setShowSimpleSearch] = useState(true);
   const [perPage, setPerPage] = useState(10);
 
-
   const applyFilters = (filteredWorks) => {
     setWorks(filteredWorks);
   };
@@ -43,7 +42,7 @@ const SearchArea = () => {
     }
   };
 
-  const handleSearch = async (page = 1, query) => {
+  const handleSearch = async (page = 1) => {
     if (query === "" || !query) {
       setWorks([]);
       setTotalPages(null);
@@ -128,39 +127,48 @@ const SearchArea = () => {
           </div>
 
           <div className="results">
-            <div style={{display: "flex", alignItems: "center"}}>
+            <div style={{ display: "flex", alignItems: "center" }}>
               <h3>Resultados</h3>
-              <br-button onClick={() => setNetworkMode(false)}
-                icon="list"></br-button>
-              <br-button onClick={() => setNetworkMode(true)}
-                icon="project-diagram"></br-button>
+              <br-button
+                onClick={() => setNetworkMode(false)}
+                icon="list"
+              ></br-button>
+              <br-button
+                onClick={() => setNetworkMode(true)}
+                icon="project-diagram"
+              ></br-button>
             </div>
             <div className="search-quantity">
-              <div style={{
-                display: "flex", borderRight: "2px solid #ccc",
-                gap: "16px",
-                alignItems: "center"
-              }}>
+              <div
+                style={{
+                  display: "flex",
+                  borderRight: "2px solid #ccc",
+                  gap: "16px",
+                  alignItems: "center",
+                }}
+              >
                 <h4>Exibir</h4>
                 <h4>10</h4>
                 <br-button circle icon="caret-down" />
               </div>
-              <div style={{
-                display: "flex", borderRight: "2px solid #ccc",
-                gap: "16px",
-                alignItems: "center"
-              }}>
-                <h4>{totalPages > 0 ? 1 + (currentPage - 1) * perPage : 0} de {totalPages * perPage} itens</h4>
+              <div
+                style={{
+                  display: "flex",
+                  borderRight: "2px solid #ccc",
+                  gap: "16px",
+                  alignItems: "center",
+                }}
+              >
+                <h4>
+                  {totalPages > 0 ? 1 + (currentPage - 1) * perPage : 0} de{" "}
+                  {totalPages * perPage} itens
+                </h4>
                 <h4>Página</h4>
                 <h4>1</h4>
                 <br-button circle icon="caret-down" />
               </div>
-              <br-button
-                icon="angle-left"
-                onClick={handlePreviousPage}/>
-              <br-button icon="angle-right"
-                onClick={handleNextPage}
-              />
+              <br-button icon="angle-left" onClick={handlePreviousPage} />
+              <br-button icon="angle-right" onClick={handleNextPage} />
             </div>
           </div>
 
@@ -179,7 +187,12 @@ const SearchArea = () => {
                   <li key={work.id} style={styles.card}>
                     <div style={styles.header}>
                       <div>
-                        <span style={{ ...styles.badge, backgroundColor: "#1351B4" }}>
+                        <span
+                          style={{
+                            ...styles.badge,
+                            backgroundColor: "#1351B4",
+                          }}
+                        >
                           Artigo
                         </span>
                         <span
@@ -235,26 +248,27 @@ const SearchArea = () => {
                         src={require("../assets/brasil.png")}
                         alt="Bandeira do Brasil"
                       />{" "}
-                      |{" "}
-                      {work.publication_year || "N/A"} |{" "}
+                      | {work.publication_year || "N/A"} |{" "}
                       {work.authorships
                         ?.flatMap((authorship) => authorship.institutions || [])
                         .find((institution) => institution.display_name)
-                        ?.display_name || "N/A"} {" "}
-                        | {" "} <u>
-                        {work.cited_by_count} citações
-                          </u>
+                        ?.display_name || "N/A"}{" "}
+                      | <u>{work.cited_by_count} citações</u>
                     </p>
                     <div style={styles.footer}>
                       <span>{work.publisher}</span>
                       {work.doi && (
-                        
                         <a
                           href={`https://doi.org/${work.doi}`}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
-                          <br-button href={`https://doi.org/${work.doi}`} icon="sign-in-alt" label="Acessar" type="secondary"></br-button>
+                          <br-button
+                            href={`https://doi.org/${work.doi}`}
+                            icon="sign-in-alt"
+                            label="Acessar"
+                            type="secondary"
+                          ></br-button>
                         </a>
                       )}
                     </div>
@@ -269,17 +283,8 @@ const SearchArea = () => {
           )}
 
           {works.length > 0 && networkMode && <NetWorkViewer />}
-
-
-
-
-
         </div>
       </div>
-
-
-
-
 
       {totalPages && totalPages > 1 && (
         <div style={styles.pagination}>
@@ -379,7 +384,7 @@ const styles = {
   authors: {
     margin: "5px 0",
     fontWeight: "300",
-    color: "#757575"
+    color: "#757575",
   },
   publicationYear: {
     margin: "5px 0",
@@ -434,10 +439,10 @@ const styles = {
     color: "#fff",
   },
   openAccess: {
-    color: "#168821"
+    color: "#168821",
   },
   peerReviewed: {
-    color: "#F16421"
+    color: "#F16421",
   },
   abstract: {
     border: "1px solid #ddd",
@@ -451,7 +456,7 @@ const styles = {
     lineHeight: "1.5",
     margin: "16px 0",
     padding: "16px",
-    color: "#333333"
+    color: "#333333",
   },
   footer: {
     display: "flex",
