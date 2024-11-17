@@ -39,7 +39,7 @@ body,
 
 .main-content {
   flex: 1;
-  padding-top: 80px;
+  padding-top: 150px;
 }
 
 @keyframes App-logo-spin {
