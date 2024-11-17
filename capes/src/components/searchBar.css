@@ -122,9 +122,11 @@ select {
   padding-left: 30px; /* Espaço para o ícone à esquerda */
   padding-right: 30px; /* Espaço para a seta */
   border-radius: 8px; /* Borda com cantos arredondados */
-  border: 2px solid #007bff; /* Borda azul */
+  border: 1.25px solid #1351b4; /* Borda azul */
   font-size: 16px; /* Tamanho da fonte */
   background-color: white; /* Cor de fundo */
+  color: #1351b4;
+  font-weight: 600;
   appearance: none; /* Remove a seta padrão do select */
   -webkit-appearance: none; /* Para o Safari */
   -moz-appearance: none; /* Para o Firefox */
