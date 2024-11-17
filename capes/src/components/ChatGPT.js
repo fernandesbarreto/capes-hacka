@@ -13,12 +13,12 @@ const GPTSearch = ({ handleSearch, input }) => {
   const [popupIsOpen, SetPopupIsOpen] = useState(false);
 
   const handleSearchFromModal = (text) => {
-    setQuery(text);  // Atualiza o estado do ChatGPT com o texto vindo do modal
+    setQuery(text); // Atualiza o estado do ChatGPT com o texto vindo do modal
   };
 
   const handlePopup = () => {
-    SetPopupIsOpen(popupIsOpen => !popupIsOpen);
-  }
+    SetPopupIsOpen(true);
+  };
 
   const handleConvert = async (e) => {
     e.preventDefault();
@@ -106,12 +106,9 @@ ${query}
 
   return (
     <div>
-
-      <SmartModal onSearch={handleSearchFromModal} open = {popupIsOpen} />
+      <SmartModal onSearch={handleSearchFromModal} open={popupIsOpen} />
 
       <h2>Conversor de Pesquisa Avançada</h2>
-
-      <button onClick={() => handlePopup()}>Abrir Modal</button>
 
       <form onSubmit={handleConvert} style={styles.form}>
         <textarea
@@ -121,10 +118,6 @@ ${query}
           style={styles.textarea}
           rows="4"
         />
-        <button type="submit" style={styles.button} disabled={isLoading}>
-          {isLoading ? "Convertendo..." : "Converter"}
-        </button>
-        
       </form>
       {error && <p style={styles.error}>{error}</p>}
       {advancedSearch && (
@@ -133,8 +126,16 @@ ${query}
           <p>{advancedSearch}</p>
         </div>
       )}
-
-      <AdvancedSearch advancedString={advancedSearch} />
+      <div style={styles.buttons}>
+        <AdvancedSearch advancedString={advancedSearch} />
+        <button onClick={() => handlePopup()} style={styles.smart}>
+          <i
+            class="fa-solid fa-wand-magic-sparkles"
+            style={{ paddingRight: "8px" }}
+          ></i>
+          Busca Inteligente
+        </button>
+      </div>
     </div>
   );
 };
@@ -171,6 +172,23 @@ const styles = {
     padding: "10px",
     backgroundColor: "#f8f9fa",
     borderRadius: "4px",
+  },
+  buttons: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  smart: {
+    padding: "-16px 24px -16px 24px",
+    textAlign: "center",
+    color: "#1351B4",
+    border: "1px solid #ccc",
+    backgroundColor: "white",
+    cursor: "pointer",
+    borderRadius: "32px",
+    marginTop: "10px",
+    fontSize: "16px",
+    fontWeight: "500",
   },
 };
 
