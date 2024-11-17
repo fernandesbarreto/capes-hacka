@@ -49,8 +49,10 @@ const SearchArea = () => {
   };
 
   useEffect(() => {
-    handleSearch(currentPage);
-  }, [currentPage]);
+    if (query) {
+      handleSearch(currentPage, query);
+    }
+  }, [currentPage, query]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -204,9 +206,6 @@ const SearchArea = () => {
                 // Calculate the global index based on the current page and items per page
                 const globalIndex = (currentPage - 1) * perPage + index + 1;
 
-                !isLoading && works.length === 0 && !error && (
-                  <p>No results found.</p>
-                );
                 return (
                   <li key={work.id} style={styles.card}>
                     <div style={styles.header}>
@@ -333,10 +332,6 @@ const SearchArea = () => {
                 );
               })}
             </ul>
-          )}
-
-          {!isLoading && works.length === 0 && query && !error && (
-            <p>No results found.</p>
           )}
 
           {works.length > 0 && networkMode && <NetWorkViewer />}
