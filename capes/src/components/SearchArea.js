@@ -140,6 +140,8 @@ const SearchArea = () => {
 
           <div className="results">
             <h3>Resultados</h3>
+            <br-button icon="list"></br-button>
+            <br-button icon="project-diagram"></br-button>
             <div className="search-quantity">
               <h4>Exibir</h4>
               <select id="dropdown" name="options" class="custom-dropdown">
